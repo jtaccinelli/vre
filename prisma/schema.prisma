@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model ContributorVote {
+  id           Int            @id @default(autoincrement())
+  submission   VoteSubmission @relation(fields: [submissionId], references: [id])
+  submissionId Int            @unique
+  value        String
+
+  @@index([submissionId])
+}
+
+model SongVote {
+  id           Int            @id @default(autoincrement())
+  submission   VoteSubmission @relation(fields: [submissionId], references: [id])
+  submissionId Int
+  value        String
+
+  @@index([submissionId])
+}
+
+model VoteSubmission {
+  id          Int              @id @default(autoincrement())
+  playlist    Playlist         @relation(fields: [playlistId], references: [id])
+  playlistId  Int
+  submitter   String
+  songs       SongVote[]
+  contributor ContributorVote?
+
+  @@index([playlistId])
+}
+
+model Playlist {
+  id          Int              @id @default(autoincrement())
+  url         String           @unique
+  submissions VoteSubmission[]
+  isComplete  Boolean
+}
