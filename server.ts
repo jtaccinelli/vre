@@ -17,7 +17,13 @@ export const onRequest = createPagesFunctionHandler({
     const prisma = await createPrismaHandler();
     const spotify = await createSpotifyHandler(request, session);
 
-    return { env };
+    return {
+      env,
+      session,
+      commitSession,
+      prisma,
+      spotify,
+    };
   },
   mode: build.mode,
 });
