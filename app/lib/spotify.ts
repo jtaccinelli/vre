@@ -1,4 +1,4 @@
-import { Session } from "@remix-run/node";
+import { Session } from "@remix-run/cloudflare";
 
 import { SESSION_KEYS } from "~/lib/session";
 
@@ -9,11 +9,14 @@ export const SPOTIFY_ENDPOINTS = {
 
 // Function for handling fetching the access token for Spotify
 
-export async function generateSpotifyToken(session: Session) {
+export async function generateSpotifyToken(
+  context: AppContext,
+  session: Session
+) {
   const body = new URLSearchParams({
     grant_type: "client_credentials",
-    client_id: process.env.SPOTIFY_CLIENT_ID,
-    client_secret: process.env.SPOTIFY_CLIENT_SECRET,
+    client_id: context.env.SPOTIFY_CLIENT_ID,
+    client_secret: context.env.SPOTIFY_CLIENT_SECRET,
   });
 
   const headers = new Headers({
@@ -25,7 +28,9 @@ export async function generateSpotifyToken(session: Session) {
     body: body.toString(),
   });
 
-  const data = await response.json();
+  const data = await response.json<{
+    access_token: string;
+  }>();
 
   if (!data.access_token) return null; //TODO: handle this
 
@@ -33,10 +38,14 @@ export async function generateSpotifyToken(session: Session) {
   return data.access_token;
 }
 
-export async function createSpotifyHandler(request: Request, session: Session) {
+export async function createSpotifyHandler(
+  context: AppContext,
+  session: Session
+) {
   async function fetchWithBearer(endpoint: string, options?: RequestInit) {
     let accessToken = await session.get(SESSION_KEYS.SPOTIFY_ACCESS_TOKEN);
-    if (!accessToken) accessToken = await generateSpotifyToken(session);
+    if (!accessToken)
+      accessToken = await generateSpotifyToken(context, session);
 
     const headers = new Headers(options?.headers);
     headers.set("Authorization", `Bearer ${accessToken}`);

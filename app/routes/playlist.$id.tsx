@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs, json } from "@remix-run/node";
+import { LoaderFunctionArgs, json } from "@remix-run/cloudflare";
 import { SPOTIFY_ENDPOINTS } from "~/lib/spotify";
 
 export async function loader({ params, context }: LoaderFunctionArgs) {

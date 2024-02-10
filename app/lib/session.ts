@@ -1,16 +1,15 @@
-import { createCookieSessionStorage } from "@remix-run/node";
+import { createCookieSessionStorage } from "@remix-run/cloudflare";
 
-// Create Cookie Session Storage
-export const cookieStorage = createCookieSessionStorage({
-  cookie: {
-    name: "__session",
-    secrets: [process.env.COOKIE_SECRET],
-    sameSite: "lax",
-  },
-});
+export async function createSessionHandler(context: AppContext) {
+  const cookieStorage = createCookieSessionStorage({
+    cookie: {
+      name: "__session",
+      secrets: [context.env.COOKIE_SECRET],
+      sameSite: "lax",
+    },
+  });
 
-export async function createSessionHandler(request: Request) {
-  const cookie = request.headers.get("Cookie");
+  const cookie = context.request.headers.get("Cookie");
   const session = await cookieStorage.getSession(cookie);
 
   const commitSession = async () => {
