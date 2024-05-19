@@ -8,6 +8,8 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import { Navigation } from "~/components/navigation";
+
 export function meta() {
   return [
     { title: "Virtual Record Exchange" },
@@ -32,16 +34,14 @@ export default function App() {
         <div className="clamp flex h-full flex-col">
           <header className="flex items-center justify-between p-8">
             <p className="font-semibold">📀 VRE</p>
-            <p className="text-xs text-gray-500">
-              Facilitating The Trading Of Tunes
-            </p>
+            <Navigation />
           </header>
           <main className="flex-grow overflow-y-scroll p-8">
             <Outlet />
           </main>
-          <footer className="flex justify-between p-8 text-xs text-gray-400">
+          <footer className="flex justify-between p-8 text-xs text-gray-500">
+            <p>💃 Trading tunes since &apos;24</p>
             <p>Made with 🎧 by Jordan Accinelli</p>
-            <p>💃 2024</p>
           </footer>
         </div>
         <ScrollRestoration />
