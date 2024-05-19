@@ -1,17 +1,29 @@
 import { type PlatformProxy } from "wrangler";
 
-// When using `wrangler.toml` to configure bindings,
-// `wrangler types` will generate types for those bindings
-// into the global `Env` interface.
-// Need this empty interface so that typechecking passes
-// even if no `wrangler.toml` exists.
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Env {}
+import { KVSession } from "./app/lib/session";
 
 type Cloudflare = Omit<PlatformProxy<Env>, "dispose">;
 
+export interface BaseAppLoadContext {
+  cloudflare: Cloudflare;
+}
+
+type GetLoadContextArgs = {
+  request: Request;
+  context: BaseAppLoadContext;
+};
+
 declare module "@remix-run/cloudflare" {
-  interface AppLoadContext {
+  interface AppLoadContext extends BaseAppLoadContext {
     cloudflare: Cloudflare;
+    session: KVSession 
+  }
+}
+
+export async function getLoadContext({ request, context }: GetLoadContextArgs) {
+  const session = await KVSession.init(request, context);
+
+  return {
+    session
   }
 }
