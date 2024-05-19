@@ -7,3 +7,17 @@
     @apply mx-auto w-full max-w-screen-md;
   }
 }
+
+@layer components {
+  .btn {
+    @apply rounded-sm px-4 py-2 font-semibold;
+  }
+
+  .btn-primary {
+    @apply bg-emerald-400;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-800;
+  }
+}
