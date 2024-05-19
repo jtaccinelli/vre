@@ -1,9 +1,18 @@
 import type { Config } from "tailwindcss";
+import colors from 'tailwindcss/colors'
 
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./app/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Inter var', 'Arial', 'sans-serif'],
+      },
+      colors: {
+        gray: colors.neutral,
+        brand: colors.amber
+      }
+    },
   },
   plugins: [],
 } satisfies Config;

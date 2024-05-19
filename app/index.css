@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .clamp {
+    @apply mx-auto w-full max-w-screen-md;
+  }
+}
