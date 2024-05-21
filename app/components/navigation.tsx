@@ -15,10 +15,10 @@ export function Navigation({ isLoggedIn }: Props) {
       </Link>
       {isLoggedIn ? (
         <Link to="/account" className="p-2">
-          Acccount
+          Account
         </Link>
       ) : (
-        <Link to="/account" className="p-2">
+        <Link to="/api/login" className="p-2">
           Sign in
         </Link>
       )}
