@@ -2,9 +2,11 @@ import { json, LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import { useMemo } from "react";
 
+import { config } from "~/config";
+
 export async function loader({ context, params }: LoaderFunctionArgs) {
   // Check if the user is logged in
-  const authToken = await context.session.get("authToken");
+  const authToken = await context.session.get(config.keys.session.authToken);
   const isLoggedIn = new Boolean(authToken);
 
   // Check Playlist ID
@@ -13,20 +15,20 @@ export async function loader({ context, params }: LoaderFunctionArgs) {
 
   // Get Playlist Data
   const response = await context.spotify.fetch(`/playlists/${playlistId}`);
-  const data = await response.json<SpotifyApi.PlaylistBaseObject>();
+  const playlist = await response.json<SpotifyApi.PlaylistBaseObject>();
 
   return json({
     isLoggedIn,
-    data,
+    playlist,
   });
 }
 
 export default function Page() {
-  const { data, isLoggedIn } = useLoaderData<typeof loader>();
+  const { playlist } = useLoaderData<typeof loader>();
 
   const image = useMemo(() => {
-    return data.images[0];
-  }, [data.name]);
+    return playlist.images[0];
+  }, [playlist.name]);
 
   return (
     <div>
@@ -34,12 +36,12 @@ export default function Page() {
         <img
           className="h-32 w-32 rounded-sm"
           src={image.url}
-          alt={data.name}
+          alt={playlist.name}
           height={image.height}
           width={image.width}
         />
         <div className="flex flex-col gap-1 py-2">
-          <p className="text-xl font-semibold">{data.name}</p>
+          <p className="text-xl font-semibold">{playlist.name}</p>
           <p className="mb-2 text-gray-500">Playlist</p>
           <p className="text-sm">10 Tracks - 12 Contributors</p>
         </div>
