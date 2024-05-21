@@ -1,25 +1,13 @@
-import { ActionFunctionArgs } from "@remix-run/cloudflare";
 import { Form } from "@remix-run/react";
-import { redirect } from "react-router";
-
-export async function action({ request }: ActionFunctionArgs) {
-  const form = await request.formData();
-  const playlist = form.get("playlist");
-
-  if (!playlist || typeof playlist !== "string") {
-    throw new Error("Playlist URL was not submitted in the right format.");
-  }
-
-  const playlistUrl = new URL(playlist);
-  const playlistId = playlistUrl.pathname.split("/").pop();
-
-  return redirect(`/preview/${playlistId}`);
-}
 
 export default function Page() {
   return (
     <div className="flex h-full w-full flex-col justify-center gap-8">
-      <Form className="flex w-full flex-col items-start gap-4" method="post">
+      <Form
+        method="post"
+        action="/api/fetch-preview"
+        className="flex w-full flex-col items-start gap-4"
+      >
         <p>Enter A Playlist URL</p>
         <input
           className="w-full bg-gray-900 px-4 py-3"
