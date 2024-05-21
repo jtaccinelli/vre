@@ -88,17 +88,20 @@ export class Spotify {
     this.authToken = authToken;
   }
 
-  static async init(session: KVSession) {
-    const sessionToken = session.get("authToken");
-    if (sessionToken) return new this(sessionToken);
-
+  static async fetchAuthToken(code?: string) {
     const { clientId, clientSecret, authTokenEndpoint } = config.spotify;
 
     const authToken = `${clientId}:${clientSecret}`;
     const buffer = Buffer.from(authToken).toString("base64");
 
     const body = new URLSearchParams();
-    body.set("grant_type", "client_credentials");
+    if (code) {
+      body.set("grant_type", "authorization_code");
+      body.set("redirect_uri", config.spotify.redirectUri);
+      body.set("code", code);
+    } else {
+      body.set("grant_type", "client_credentials");
+    }
 
     const headers = new Headers();
     headers.set("Authorization", `Basic ${buffer}`);
@@ -110,15 +113,21 @@ export class Spotify {
       body: body.toString(),
     });
 
-    if (response.status !== 200) throw new Error(response.statusText);
-
     const data = await response.json<{
       expires_in: string;
       access_token: string;
       token_type: string;
     }>();
 
-    return new this(data.access_token);
+    return data?.access_token;
+  }
+
+  static async init(session: KVSession) {
+    const sessionToken = session.get("authToken");
+    if (sessionToken) return new this(sessionToken);
+
+    const accessToken = await this.fetchAuthToken();
+    return new this(accessToken);
   }
 
   async fetch(endpoint: string, options: RequestInit = {}) {
@@ -130,6 +139,10 @@ export class Spotify {
     const url = `${apiEndpoint}${endpoint}`;
 
     return await fetch(url, { ...options, headers });
+  }
+
+  async fetchAuthToken(code?: string) {
+    return await Spotify.fetchAuthToken(code);
   }
 }
 
@@ -147,7 +160,11 @@ export async function getLoadContext({ request, context }: GetLoadContextArgs) {
   const session = await KVSession.init(request, context);
   const spotify = await Spotify.init(session);
 
-  console.log("token", spotify.authToken);
+  console.log("authToken vvvv");
+  console.log(session.get("authToken"));
+  console.log("----");
+  console.log("sessionToken vvvv");
+  console.log(spotify.authToken);
 
   return {
     session,
