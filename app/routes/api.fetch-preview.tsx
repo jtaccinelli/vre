@@ -1,3 +1,8 @@
+/**
+ * This endpoint handles taking a playlist URL and
+ * redirecting users to the preview page for that playlist
+ */
+
 import { ActionFunctionArgs, redirect } from "@remix-run/cloudflare";
 
 export async function action({ request }: ActionFunctionArgs) {
