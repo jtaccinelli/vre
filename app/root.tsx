@@ -1,5 +1,6 @@
 import "~/index.css";
 
+import { json, LoaderFunctionArgs } from "@remix-run/cloudflare";
 import {
   Links,
   Meta,
@@ -19,6 +20,15 @@ export function meta() {
 
 export function links() {
   return [{ rel: "stylesheet", href: "https://rsms.me/inter/inter.css" }];
+}
+
+export function loader({ context }: LoaderFunctionArgs) {
+  const authToken = context.session.get("authToken");
+  const isLoggedIn = new Boolean(authToken);
+
+  return json({
+    isLoggedIn,
+  });
 }
 
 export default function App() {

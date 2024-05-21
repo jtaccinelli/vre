@@ -1,6 +1,10 @@
 import { Link } from "@remix-run/react";
 
-export function Navigation() {
+type Props = {
+  isLoggedIn: boolean;
+};
+
+export function Navigation({ isLoggedIn }: Props) {
   return (
     <nav className="flex gap-2">
       <Link to="/" className="p-2">
@@ -9,9 +13,15 @@ export function Navigation() {
       <Link to="/rules" className="p-2">
         Rules
       </Link>
-      <Link to="/account" className="p-2">
-        Account
-      </Link>
+      {isLoggedIn ? (
+        <Link to="/account" className="p-2">
+          Acccount
+        </Link>
+      ) : (
+        <Link to="/account" className="p-2">
+          Sign in
+        </Link>
+      )}
     </nav>
   );
 }
