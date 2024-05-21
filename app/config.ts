@@ -3,8 +3,15 @@ export const config = {
     // Endpoints
     authTokenEndpoint: "https://accounts.spotify.com/api/token",
     apiEndpoint: "https://api.spotify.com/v1",
+    loginEndpoint: "https://accounts.spotify.com/authorize",
     // Auth Details
     clientId: "ebe9c3147cae485cbc84fe018fb6281b",
     clientSecret: "f2624dfb706547ab96a8283e584168f2",
+    redirectUri: "http://localhost:5173/api/login/callback",
+  },
+  keys: {
+    session: {
+      authToken: "authToken",
+    },
   },
 };

@@ -7,9 +7,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 
 import { Navigation } from "~/components/navigation";
+import { config } from "~/config";
 
 export function meta() {
   return [
@@ -23,7 +25,7 @@ export function links() {
 }
 
 export function loader({ context }: LoaderFunctionArgs) {
-  const authToken = context.session.get("authToken");
+  const authToken = context.session.get(config.keys.session.authToken);
   const isLoggedIn = new Boolean(authToken);
 
   return json({
@@ -32,6 +34,8 @@ export function loader({ context }: LoaderFunctionArgs) {
 }
 
 export default function App() {
+  const { isLoggedIn } = useLoaderData<typeof loader>();
+
   return (
     <html lang="en" className="relative min-h-full">
       <head>
@@ -44,7 +48,7 @@ export default function App() {
         <div className="clamp flex h-full flex-col">
           <header className="flex items-center justify-between p-8">
             <p className="font-semibold">📀 VRE</p>
-            <Navigation />
+            <Navigation isLoggedIn={isLoggedIn} />
           </header>
           <main className="flex-grow overflow-y-scroll p-8">
             <Outlet />
