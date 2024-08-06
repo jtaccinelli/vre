@@ -82,14 +82,32 @@ class KVSession {
 // -- SPOTIFY HANDLER
 
 export class Spotify {
-  authToken;
+  accessToken;
+  refreshToken;
 
-  constructor(authToken: string) {
-    this.authToken = authToken;
+  constructor(accessToken: string, refreshToken: string) {
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
   }
 
-  static async fetchAuthToken(code?: string) {
-    const { clientId, clientSecret, authTokenEndpoint } = config.spotify;
+  static async init(session: KVSession) {
+    const storedAccessToken = session.get(config.keys.session.accessToken);
+    const storedRefreshToken = session.get(config.keys.session.refreshToken);
+    const storedFetchedOn = session.get(config.keys.session.fetchedOn);
+
+    const fetchedOn = new Date(storedFetchedOn);
+    const hasExpired = Date.now() - 3600 > fetchedOn.getTime();
+
+    if (hasExpired || !storedAccessToken || !storedRefreshToken) {
+      const { accessToken, refreshToken } = await this.fetchAccessToken();
+      return new this(accessToken, refreshToken);
+    }
+
+    return new this(storedAccessToken, storedRefreshToken);
+  }
+
+  static async fetchAccessToken(code?: string) {
+    const { clientId, clientSecret, accessTokenEndpoint } = config.spotify;
 
     const authToken = `${clientId}:${clientSecret}`;
     const buffer = Buffer.from(authToken).toString("base64");
@@ -107,7 +125,7 @@ export class Spotify {
     headers.set("Authorization", `Basic ${buffer}`);
     headers.set("Content-Type", "application/x-www-form-urlencoded");
 
-    const response = await fetch(authTokenEndpoint, {
+    const response = await fetch(accessTokenEndpoint, {
       method: "POST",
       headers,
       body: body.toString(),
@@ -116,33 +134,29 @@ export class Spotify {
     const data = await response.json<{
       expires_in: string;
       access_token: string;
+      refresh_token: string;
       token_type: string;
     }>();
 
-    return data?.access_token;
+    return {
+      accessToken: data?.access_token,
+      refreshToken: data?.refresh_token,
+    };
   }
 
-  static async init(session: KVSession) {
-    const sessionToken = session.get("authToken");
-    if (sessionToken) return new this(sessionToken);
-
-    const accessToken = await this.fetchAuthToken();
-    return new this(accessToken);
+  async fetchAccessToken(code?: string) {
+    return await Spotify.fetchAccessToken(code);
   }
 
   async fetch(endpoint: string, options: RequestInit = {}) {
     const { apiEndpoint } = config.spotify;
 
     const headers = new Headers(options.headers);
-    headers.set("Authorization", `Bearer ${this.authToken}`);
+    headers.set("Authorization", `Bearer ${this.accessToken}`);
 
     const url = `${apiEndpoint}${endpoint}`;
 
     return await fetch(url, { ...options, headers });
-  }
-
-  async fetchAuthToken(code?: string) {
-    return await Spotify.fetchAuthToken(code);
   }
 }
 

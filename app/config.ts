@@ -11,8 +11,9 @@ export const config = {
   },
   keys: {
     session: {
-      accessToken: "accessToken",
-      refreshToken: "refreshToken",
+      accessToken: "spotify-accessToken",
+      refreshToken: "spotify-refreshToken",
+      fetchedOn: "spotify-fetchedOn",
     },
   },
 };
