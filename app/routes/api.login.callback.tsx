@@ -10,9 +10,12 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
   const url = new URL(request.url);
 
   const code = url.searchParams.get("code") ?? undefined;
-  const authToken = await context.spotify.fetchAuthToken(code);
 
-  await context.session.set(config.keys.session.authToken, authToken);
+  const { accessToken, refreshToken } =
+    await context.spotify.fetchAccessToken(code);
+
+  await context.session.set(config.keys.session.accessToken, accessToken);
+  await context.session.set(config.keys.session.refreshToken, refreshToken);
 
   const headers = new Headers();
   headers.set("Set-Cookie", await context.session.commit());

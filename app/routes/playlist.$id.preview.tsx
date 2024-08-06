@@ -6,8 +6,11 @@ import { config } from "~/config";
 
 export async function loader({ context, params }: LoaderFunctionArgs) {
   // Check if the user is logged in
-  const authToken = await context.session.get(config.keys.session.authToken);
-  const isLoggedIn = new Boolean(authToken);
+  const accessToken = await context.session.get(
+    config.keys.session.accessToken,
+  );
+
+  const isLoggedIn = new Boolean(accessToken);
 
   // Check Playlist ID
   const playlistId = params.id;

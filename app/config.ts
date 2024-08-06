@@ -1,7 +1,7 @@
 export const config = {
   spotify: {
     // Endpoints
-    authTokenEndpoint: "https://accounts.spotify.com/api/token",
+    accessTokenEndpoint: "https://accounts.spotify.com/api/token",
     apiEndpoint: "https://api.spotify.com/v1",
     loginEndpoint: "https://accounts.spotify.com/authorize",
     // Auth Details
@@ -11,7 +11,8 @@ export const config = {
   },
   keys: {
     session: {
-      authToken: "authToken",
+      accessToken: "accessToken",
+      refreshToken: "refreshToken",
     },
   },
 };

@@ -25,8 +25,8 @@ export function links() {
 }
 
 export function loader({ context }: LoaderFunctionArgs) {
-  const authToken = context.session.get(config.keys.session.authToken);
-  const isLoggedIn = new Boolean(authToken);
+  const accessToken = context.session.get(config.keys.session.accessToken);
+  const isLoggedIn = new Boolean(accessToken);
 
   return json({
     isLoggedIn,
