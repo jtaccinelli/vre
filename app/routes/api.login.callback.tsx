@@ -12,8 +12,6 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
   const code = url.searchParams.get("code") ?? undefined;
   const authToken = await context.spotify.fetchAuthToken(code);
 
-  console.log(authToken);
-
   await context.session.set(config.keys.session.authToken, authToken);
 
   const headers = new Headers();

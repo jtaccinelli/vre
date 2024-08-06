@@ -17,6 +17,8 @@ export async function loader({ context, params }: LoaderFunctionArgs) {
   const response = await context.spotify.fetch(`/playlists/${playlistId}`);
   const playlist = await response.json<SpotifyApi.PlaylistBaseObject>();
 
+  console.log(playlist);
+
   return json({
     isLoggedIn,
     playlist,
