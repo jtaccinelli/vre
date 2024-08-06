@@ -160,12 +160,6 @@ export async function getLoadContext({ request, context }: GetLoadContextArgs) {
   const session = await KVSession.init(request, context);
   const spotify = await Spotify.init(session);
 
-  console.log("authToken vvvv");
-  console.log(session.get("authToken"));
-  console.log("----");
-  console.log("sessionToken vvvv");
-  console.log(spotify.authToken);
-
   return {
     session,
     spotify,
