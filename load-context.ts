@@ -83,27 +83,17 @@ class KVSession {
 
 export class Spotify {
   accessToken;
-  refreshToken;
 
-  constructor(accessToken: string, refreshToken: string) {
+  constructor(accessToken: string) {
     this.accessToken = accessToken;
-    this.refreshToken = refreshToken;
   }
 
   static async init(session: KVSession) {
     const storedAccessToken = session.get(config.keys.session.accessToken);
-    const storedRefreshToken = session.get(config.keys.session.refreshToken);
-    const storedFetchedOn = session.get(config.keys.session.fetchedOn);
+    if (storedAccessToken) return new this(storedAccessToken);
 
-    const fetchedOn = new Date(storedFetchedOn);
-    const hasExpired = Date.now() - 3600 > fetchedOn.getTime();
-
-    if (hasExpired || !storedAccessToken || !storedRefreshToken) {
-      const { accessToken, refreshToken } = await this.fetchAccessToken();
-      return new this(accessToken, refreshToken);
-    }
-
-    return new this(storedAccessToken, storedRefreshToken);
+    const { accessToken } = await this.fetchAccessToken();
+    return new this(accessToken);
   }
 
   static async fetchAccessToken(code?: string) {
@@ -155,8 +145,9 @@ export class Spotify {
     headers.set("Authorization", `Bearer ${this.accessToken}`);
 
     const url = `${apiEndpoint}${endpoint}`;
+    const response = await fetch(url, { ...options, headers });
 
-    return await fetch(url, { ...options, headers });
+    return await response.json();
   }
 }
 

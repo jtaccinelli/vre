@@ -10,17 +10,15 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
   const url = new URL(request.url);
 
   const code = url.searchParams.get("code") ?? undefined;
+  const { accessToken } = await context.spotify.fetchAccessToken(code);
 
-  const { accessToken, refreshToken } =
-    await context.spotify.fetchAccessToken(code);
-
-  await context.session.set(config.keys.session.accessToken, accessToken);
-  await context.session.set(config.keys.session.refreshToken, refreshToken);
+  context.session.set(config.keys.session.accessToken, accessToken);
+  context.session.set(config.keys.session.fetchedOn, Date.now());
 
   const headers = new Headers();
   headers.set("Set-Cookie", await context.session.commit());
 
   return redirect("/account", {
-    headers: headers,
+    headers,
   });
 }

@@ -2,7 +2,10 @@ import { json, LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
 
 export async function loader({ context }: LoaderFunctionArgs) {
-  const profile = await context.spotify.fetch("/me/playlists");
+  const profile = await context.spotify.fetch("/me");
+
+  console.log(profile);
+
   return json({
     profile,
   });

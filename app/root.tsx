@@ -47,7 +47,9 @@ export default function App() {
       <body className="absolute inset-0 bg-gray-950 text-white">
         <div className="clamp flex h-full flex-col">
           <header className="flex items-center justify-between p-8">
-            <p className="font-semibold">📀 VRE</p>
+            <a href="/" className="font-semibold">
+              📀 VRE
+            </a>
             <Navigation isLoggedIn={isLoggedIn} />
           </header>
           <main className="flex-grow overflow-y-scroll p-8">

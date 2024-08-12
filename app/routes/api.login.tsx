@@ -23,6 +23,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   url.searchParams.set("client_id", clientId);
   url.searchParams.set("scope", scope);
   url.searchParams.set("redirect_uri", `${request.url}/callback`);
+  url.searchParams.set("show_dialog", "true");
   url.searchParams.set("state", state);
 
   return redirect(url.toString());
