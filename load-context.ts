@@ -138,7 +138,7 @@ export class Spotify {
     return await Spotify.fetchAccessToken(code);
   }
 
-  async fetch(endpoint: string, options: RequestInit = {}) {
+  async fetch<T>(endpoint: string, options: RequestInit = {}) {
     const { apiEndpoint } = config.spotify;
 
     const headers = new Headers(options.headers);
@@ -147,7 +147,7 @@ export class Spotify {
     const url = `${apiEndpoint}${endpoint}`;
     const response = await fetch(url, { ...options, headers });
 
-    return await response.json();
+    return await response.json<T>();
   }
 }
 

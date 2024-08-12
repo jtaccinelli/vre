@@ -18,7 +18,7 @@ export default function Page() {
 
   return (
     <div>
-      Account Page<Link to="/api/logout">Log Out</Link>
+      Test Account Page<Link to="/api/logout">Log Out</Link>
     </div>
   );
 }

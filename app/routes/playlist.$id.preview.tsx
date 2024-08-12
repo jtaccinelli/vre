@@ -17,9 +17,10 @@ export async function loader({ context, params }: LoaderFunctionArgs) {
   if (!playlistId) throw new Error("No playlist ID");
 
   // Get Playlist Data
-  const playlist = await context.spotify.fetch(`/playlists/${playlistId}`);
-
-  console.log(playlist.tracks.items);
+  const playlist =
+    await context.spotify.fetch<SpotifyApi.SinglePlaylistResponse>(
+      `/playlists/${playlistId}`,
+    );
 
   return json({
     isLoggedIn,

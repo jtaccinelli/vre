@@ -1,8 +1,6 @@
-/**
- * This endpoint handles responses as they come from Spotify
- */
-
-import { LoaderFunctionArgs, redirect } from "@remix-run/cloudflare";
+import { json, LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { useNavigate } from "@remix-run/react";
+import { useEffect } from "react";
 
 import { config } from "~/config";
 
@@ -18,7 +16,23 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
   const headers = new Headers();
   headers.set("Set-Cookie", await context.session.commit());
 
-  return redirect("/account", {
+  return json(null, {
     headers,
   });
+}
+
+export default function Page() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      navigate("/account");
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  return <div>Logging you in...</div>;
 }
