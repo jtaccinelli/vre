@@ -19,7 +19,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   ].join(" ");
 
   const requestUrl = new URL(request.url);
-  const redirectUri = `${requestUrl.origin}/${config.spotify.redirectUri}`;
+  const redirectUri = `${requestUrl.origin}${config.spotify.redirectUri}`;
 
   const url = new URL(loginEndpoint);
   url.searchParams.set("response_type", "code");
