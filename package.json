@@ -2,6 +2,7 @@
   "name": "vre",
   "private": true,
   "sideEffects": false,
+  "packageManager": "yarn@1.22.19",
   "type": "module",
   "scripts": {
     "build": "remix vite:build",
