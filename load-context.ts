@@ -151,6 +151,22 @@ export class Spotify {
   }
 }
 
+// -- AUTH HANDLER
+
+export class Auth {
+  isLoggedIn;
+
+  constructor(isLoggedIn: boolean) {
+    this.isLoggedIn = isLoggedIn;
+  }
+
+  static async init(session: KVSession) {
+    const storedAccessToken = session.get(config.keys.session.accessToken);
+    const isLoggedIn = !!storedAccessToken;
+    return new this(isLoggedIn);
+  }
+}
+
 // -- ACTUAL CONTEXT SET UP
 
 declare module "@remix-run/cloudflare" {
@@ -158,15 +174,18 @@ declare module "@remix-run/cloudflare" {
     cloudflare: Cloudflare;
     session: KVSession;
     spotify: Spotify;
+    auth: Auth;
   }
 }
 
 export async function getLoadContext({ request, context }: GetLoadContextArgs) {
   const session = await KVSession.init(request, context);
   const spotify = await Spotify.init(session);
+  const auth = await Auth.init(session);
 
   return {
     session,
     spotify,
+    auth,
   };
 }

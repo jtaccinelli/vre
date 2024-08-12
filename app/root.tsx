@@ -11,7 +11,6 @@ import {
 } from "@remix-run/react";
 
 import { Navigation } from "~/components/navigation";
-import { config } from "~/config";
 
 export function meta() {
   return [
@@ -25,8 +24,7 @@ export function links() {
 }
 
 export function loader({ context }: LoaderFunctionArgs) {
-  const accessToken = context.session.get(config.keys.session.accessToken);
-  const isLoggedIn = new Boolean(accessToken);
+  const isLoggedIn = context.auth.isLoggedIn;
 
   return json({
     isLoggedIn,

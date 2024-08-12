@@ -12,7 +12,6 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
   const { accessToken } = await context.spotify.fetchAccessToken(code);
 
   context.session.set(config.keys.session.accessToken, accessToken);
-  context.session.set(config.keys.session.fetchedOn, Date.now());
 
   const headers = new Headers();
   headers.set("Set-Cookie", await context.session.commit());
@@ -33,7 +32,7 @@ export default function Page() {
     return () => {
       clearTimeout(timeout);
     };
-  }, []);
+  }, [navigate]);
 
   return <Banner content="Logging you in..." />;
 }
