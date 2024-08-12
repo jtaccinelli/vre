@@ -4,13 +4,13 @@
 
 @layer utilities {
   .clamp {
-    @apply mx-auto w-full max-w-screen-md;
+    @apply mx-auto w-full max-w-screen-sm;
   }
 }
 
 @layer components {
   .btn {
-    @apply rounded-sm px-4 py-3 font-semibold;
+    @apply rounded-sm px-4 py-3 font-semibold hover:opacity-80;
   }
 
   .btn-primary {

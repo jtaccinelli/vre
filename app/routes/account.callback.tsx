@@ -2,6 +2,7 @@ import { json, LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { useNavigate } from "@remix-run/react";
 import { useEffect } from "react";
 
+import { Banner } from "~/components/banner";
 import { config } from "~/config";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
@@ -26,7 +27,7 @@ export default function Page() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      navigate("/account");
+      navigate("/");
     }, 1000);
 
     return () => {
@@ -34,5 +35,5 @@ export default function Page() {
     };
   }, []);
 
-  return <div>Logging you in...</div>;
+  return <Banner content="Logging you in..." />;
 }
