@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 type Props = {
-  playlist: SpotifyApi.SinglePlaylistResponse;
+  playlist: SpotifyApi.PlaylistObjectSimplified;
 };
 
 export function CardPlaylist({ playlist }: Props) {
@@ -23,9 +23,7 @@ export function CardPlaylist({ playlist }: Props) {
         <p className="text-sm text-gray-500">
           Created by {playlist.owner.display_name}
         </p>
-        <p className="text-sm text-gray-500">
-          {playlist.tracks.total} Tracks, {playlist.followers.total} followers
-        </p>
+        <p className="text-sm text-gray-500">{playlist.tracks.total} Tracks</p>
       </div>
     </section>
   );

@@ -55,7 +55,6 @@ export default function App() {
           </main>
           <footer className="flex justify-between p-8 text-xs text-gray-500">
             <p>💃 Trading tunes since &apos;24</p>
-            <p>Made with 🎧 by Jordan Accinelli</p>
           </footer>
         </div>
         <ScrollRestoration />

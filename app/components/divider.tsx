@@ -8,7 +8,7 @@ export function Divider({ content }: Props) {
       <hr className="flex-grow border-gray-700" />
       {!content ? null : (
         <>
-          <p className="text-sm text-gray-700">OR</p>
+          <p className="text-sm text-gray-700">{content}</p>
           <hr className="flex-grow border-gray-700" />
         </>
       )}

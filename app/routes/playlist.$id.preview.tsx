@@ -25,7 +25,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="font-semibold">Found Playlist</p>
+      <p className="font-semibold">Previewing Playlist</p>
       <CardPlaylist playlist={playlist} />
       <section className="flex gap-4">
         {isLoggedIn ? (

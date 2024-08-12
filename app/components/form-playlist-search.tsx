@@ -1,9 +1,13 @@
 import { Form } from "@remix-run/react";
 
-export function FormPlaylistSearch() {
+type Props = {
+  query?: string;
+};
+
+export function FormPlaylistSearch({ query }: Props) {
   return (
     <Form
-      method="post"
+      method="get"
       action="/search"
       className="flex w-full flex-col items-start gap-4"
     >
@@ -13,6 +17,7 @@ export function FormPlaylistSearch() {
         type="text"
         name="query"
         id="query"
+        defaultValue={query}
         required
       />
       <button type="submit" className="btn btn-primary">
