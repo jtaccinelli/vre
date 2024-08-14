@@ -1,3 +1,4 @@
+import { remixPWA } from "@remix-pwa/dev";
 import {
   cloudflareDevProxyVitePlugin as remixCloudflareDevProxy,
   vitePlugin as remix,
@@ -8,5 +9,10 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { getLoadContext } from "./load-context";
 
 export default defineConfig({
-  plugins: [remixCloudflareDevProxy({ getLoadContext }), remix(), tsconfigPaths()],
+  plugins: [
+    remixCloudflareDevProxy({ getLoadContext }),
+    remix(),
+    tsconfigPaths(),
+    remixPWA(),
+  ],
 });
