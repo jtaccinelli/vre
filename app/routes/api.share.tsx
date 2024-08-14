@@ -2,7 +2,7 @@ import { LoaderFunctionArgs, redirect } from "@remix-run/cloudflare";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const requestUrl = new URL(request.url);
-  const playlistData = requestUrl.searchParams.get("url");
+  const playlistData = requestUrl.searchParams.get("link");
 
   if (!playlistData) return redirect("/");
 

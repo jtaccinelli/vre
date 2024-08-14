@@ -13,7 +13,7 @@ export const loader = () => {
         action: "/api/share",
         method: "GET",
         params: {
-          url: "link",
+          link: "link",
         },
       },
       icons: [
