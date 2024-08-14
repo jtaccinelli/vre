@@ -7,10 +7,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
 } from "@remix-run/react";
 
-import { Navigation } from "~/components/navigation";
+import { Favicon } from "~/components/favicon";
 
 export function meta() {
   return [
@@ -23,33 +22,37 @@ export function links() {
   return [{ rel: "stylesheet", href: "https://rsms.me/inter/inter.css" }];
 }
 
-export function loader({ context }: LoaderFunctionArgs) {
+export async function loader({ context }: LoaderFunctionArgs) {
   const isLoggedIn = context.auth.isLoggedIn;
+
+  if (isLoggedIn) {
+    type Response = SpotifyApi.CurrentUsersProfileResponse;
+    const profile = await context.spotify.fetch<Response>("/me");
+
+    return json({
+      isLoggedIn,
+      profile,
+    });
+  }
 
   return json({
     isLoggedIn,
+    profile: null,
   });
 }
 
 export default function App() {
-  const { isLoggedIn } = useLoaderData<typeof loader>();
-
   return (
     <html lang="en" className="relative min-h-full">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Favicon />
         <Meta />
         <Links />
       </head>
       <body className="absolute inset-0 bg-gray-950 text-white">
         <div className="clamp flex h-full flex-col">
-          <header className="flex items-center justify-between p-8">
-            <a href="/" className="font-semibold">
-              📀 VRE
-            </a>
-            <Navigation isLoggedIn={isLoggedIn} />
-          </header>
           <main className="flex-grow overflow-y-scroll p-8">
             <Outlet />
           </main>
