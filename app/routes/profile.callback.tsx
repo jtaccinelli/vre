@@ -25,13 +25,8 @@ export default function Page() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      navigate("/");
-    }, 1000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
+    navigate("/");
+    ``;
   }, [navigate]);
 
   return <Banner content="Logging you in..." />;

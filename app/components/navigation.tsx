@@ -8,8 +8,8 @@ export function Navigation({ isLoggedIn }: Props) {
   return (
     <nav className="flex gap-2">
       {isLoggedIn ? (
-        <Link to="/account" className="p-2">
-          Account
+        <Link to="/profile" className="p-2">
+          Profile
         </Link>
       ) : (
         <Link

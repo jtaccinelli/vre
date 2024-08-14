@@ -16,7 +16,7 @@ export default function Page() {
       {isLoggedIn ? (
         <>
           <CardProfile profile={profile} />
-          <a href="/account" className="btn btn-primary">
+          <a href="/profile" className="btn btn-primary">
             Go to Account
           </a>
         </>

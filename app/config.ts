@@ -7,7 +7,7 @@ export const config = {
     // Auth Details
     clientId: "ebe9c3147cae485cbc84fe018fb6281b",
     clientSecret: "f2624dfb706547ab96a8283e584168f2",
-    redirectUri: "/account/callback",
+    redirectUri: "/profile/callback",
   },
   keys: {
     session: {
