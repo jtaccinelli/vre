@@ -3,12 +3,19 @@ import { json } from "@remix-run/cloudflare";
 export const loader = () => {
   return json(
     {
-      short_name: "PWA",
-      name: "Remix PWA",
+      short_name: "VRE",
+      name: "Virtual Record Exchange",
       start_url: "/",
       display: "standalone",
-      background_color: "#d3d7dd",
-      theme_color: "#c34138",
+      background_color: "#09090b",
+      theme_color: "#09090b",
+      share_target: {
+        action: "/api/share",
+        method: "GET",
+        params: {
+          url: "link",
+        },
+      },
       icons: [
         {
           src: "icons/ios/16.png",
