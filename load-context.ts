@@ -162,6 +162,7 @@ export class Auth {
 
   static async init(session: KVSession) {
     const storedAccessToken = session.get(config.keys.session.accessToken);
+
     const isLoggedIn = !!storedAccessToken;
     return new this(isLoggedIn);
   }
