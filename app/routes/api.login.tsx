@@ -6,7 +6,7 @@ import { LoaderFunctionArgs, redirect } from "@remix-run/cloudflare";
 
 import { config } from "~/config";
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader({ request, context }: LoaderFunctionArgs) {
   const { clientId, loginEndpoint } = config.spotify;
 
   const state = (Math.random() + 1).toString(36).substring(7);
@@ -18,8 +18,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     "user-read-email",
   ].join(" ");
 
-  const requestUrl = new URL(request.url);
-  const redirectUri = `${requestUrl.origin}${config.spotify.redirectUri}`;
+  const redirectUri = context.spotify.generateRedirectUri(request);
 
   const url = new URL(loginEndpoint);
   url.searchParams.set("response_type", "code");

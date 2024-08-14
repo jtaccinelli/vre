@@ -50,6 +50,10 @@ class KVSession {
     return new this(storage, session);
   }
 
+  get id() {
+    return this.session.id;
+  }
+
   get has() {
     return this.session.has;
   }
@@ -88,24 +92,31 @@ export class Spotify {
     this.accessToken = accessToken;
   }
 
-  static async init(session: KVSession) {
+  static async init(request: Request, session: KVSession) {
     const storedAccessToken = session.get(config.keys.session.accessToken);
     if (storedAccessToken) return new this(storedAccessToken);
 
-    const { accessToken } = await this.fetchAccessToken();
+    const { accessToken } = await this.fetchAccessToken(request);
     return new this(accessToken);
   }
 
-  static async fetchAccessToken(code?: string) {
+  static generateRedirectUri(request: Request) {
+    const { redirectUri } = config.spotify;
+    const url = new URL(request.url);
+    return `${url.origin}${redirectUri}`;
+  }
+
+  static async fetchAccessToken(request: Request, code?: string) {
     const { clientId, clientSecret, accessTokenEndpoint } = config.spotify;
 
     const authToken = `${clientId}:${clientSecret}`;
     const buffer = Buffer.from(authToken).toString("base64");
+    const redirectUri = Spotify.generateRedirectUri(request);
 
     const body = new URLSearchParams();
     if (code) {
       body.set("grant_type", "authorization_code");
-      body.set("redirect_uri", config.spotify.redirectUri);
+      body.set("redirect_uri", redirectUri);
       body.set("code", code);
     } else {
       body.set("grant_type", "client_credentials");
@@ -134,8 +145,12 @@ export class Spotify {
     };
   }
 
-  async fetchAccessToken(code?: string) {
-    return await Spotify.fetchAccessToken(code);
+  async fetchAccessToken(request: Request, code?: string) {
+    return await Spotify.fetchAccessToken(request, code);
+  }
+
+  generateRedirectUri(request: Request) {
+    return Spotify.generateRedirectUri(request);
   }
 
   async fetch<T>(endpoint: string, options: RequestInit = {}) {
@@ -181,7 +196,7 @@ declare module "@remix-run/cloudflare" {
 
 export async function getLoadContext({ request, context }: GetLoadContextArgs) {
   const session = await KVSession.init(request, context);
-  const spotify = await Spotify.init(session);
+  const spotify = await Spotify.init(request, session);
   const auth = await Auth.init(session);
 
   return {

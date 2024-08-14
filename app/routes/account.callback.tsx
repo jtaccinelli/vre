@@ -7,9 +7,9 @@ import { config } from "~/config";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
   const url = new URL(request.url);
-
   const code = url.searchParams.get("code") ?? undefined;
-  const { accessToken } = await context.spotify.fetchAccessToken(code);
+
+  const { accessToken } = await context.spotify.fetchAccessToken(request, code);
 
   context.session.set(config.keys.session.accessToken, accessToken);
 
