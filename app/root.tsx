@@ -1,5 +1,6 @@
 import "~/index.css";
 
+import { ManifestLink } from "@remix-pwa/sw";
 import { json, LoaderFunctionArgs } from "@remix-run/cloudflare";
 import {
   Links,
@@ -50,6 +51,7 @@ export default function App() {
         <Favicon />
         <Meta />
         <Links />
+        <ManifestLink />
       </head>
       <body className="absolute inset-0 bg-gray-950 text-white">
         <div className="clamp flex h-full flex-col">
