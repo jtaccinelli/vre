@@ -1,28 +1,27 @@
-import { Form } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 
-type Props = {
-  query?: string;
-};
+import { KEY__ACTION_PLAYLIST_SEARCH } from "~/routes/playlist.search";
 
-export function FormPlaylistSearch({ query }: Props) {
+export function FormPlaylistSearch() {
+  const fetcher = useFetcher({ key: KEY__ACTION_PLAYLIST_SEARCH });
+
   return (
-    <Form
-      method="get"
-      action="/search"
-      className="flex w-full flex-col items-start gap-4"
+    <fetcher.Form
+      method="post"
+      action="/playlist/search"
+      className="flex w-full items-start gap-4"
     >
-      <p className="font-semibold">Search from your playlists</p>
       <input
         className="w-full bg-gray-900 px-4 py-3"
         type="text"
         name="query"
         id="query"
-        defaultValue={query}
+        placeholder="e.g. VRE"
         required
       />
       <button type="submit" className="btn btn-primary">
         Search
       </button>
-    </Form>
+    </fetcher.Form>
   );
 }

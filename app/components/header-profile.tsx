@@ -1,5 +1,6 @@
 import { Link } from "@remix-run/react";
 
+import { Header } from "~/components/header";
 import { SpotifyImage } from "~/components/spotify-image";
 import { useRootLoaderData } from "~/hooks/use-root-loader-data";
 
@@ -10,16 +11,16 @@ export function HeaderProfile() {
   const firstName = profile?.display_name?.split(" ")?.[0] ?? "user";
 
   return (
-    <div className="flex w-full items-center gap-2 rounded bg-gray-900 p-2">
+    <Header>
       <SpotifyImage
         image={image}
         alt="Profile"
-        className="h-8 w-8 rounded-full"
+        className="ml-2 h-8 w-8 rounded-full"
       />
       <p className="flex-grow">Hi, {firstName}!</p>
       <Link to="/api/logout" className="btn btn-secondary">
         Log Out
       </Link>
-    </div>
+    </Header>
   );
 }

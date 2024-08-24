@@ -33,9 +33,9 @@ export default function Page() {
             Open Ballot
           </Link>
         ) : (
-          <a className="btn btn-secondary" href="/api/login">
+          <Link className="btn btn-secondary" to="/api/login">
             Sign In
-          </a>
+          </Link>
         )}
       </section>
     </div>
