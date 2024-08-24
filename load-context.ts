@@ -35,7 +35,7 @@ class KVSession {
   static async init(request: Request, context: BaseAppLoadContext) {
     const cookie = createCookie("__session", {
       secrets: ["r3m1xr0ck5"],
-      sameSite: true,
+      sameSite: "lax",
     });
 
     const storage = createWorkersKVSessionStorage({

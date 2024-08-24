@@ -1,22 +1,20 @@
-import { useMemo } from "react";
+import { SpotifyImage } from "./spotify-image";
 
 type Props = {
   playlist: SpotifyApi.PlaylistObjectSimplified;
 };
 
 export function CardPlaylist({ playlist }: Props) {
-  const image = useMemo(() => {
-    return playlist.images[0];
-  }, [playlist]);
+  const [image] = playlist?.images ?? [];
+
+  if (!playlist) return null;
 
   return (
     <section className="flex items-center gap-4 rounded-sm bg-gray-900 p-2">
-      <img
-        className="h-36 w-36 rounded-sm"
-        src={image.url}
+      <SpotifyImage
+        image={image}
         alt={playlist.name}
-        height={image.height}
-        width={image.width}
+        className="h-36 w-36 rounded-sm"
       />
       <div className="flex flex-col items-start gap-1 py-2">
         <p className="text-lg font-semibold">{playlist.name}</p>

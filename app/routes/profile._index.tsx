@@ -1,5 +1,8 @@
 import { json, LoaderFunctionArgs } from "@remix-run/cloudflare";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link } from "@remix-run/react";
+
+import { HeaderProfile } from "~/components/header-profile";
+import { ListBallots } from "~/components/list-ballots";
 
 type Response = SpotifyApi.CurrentUsersProfileResponse;
 
@@ -12,17 +15,18 @@ export async function loader({ context }: LoaderFunctionArgs) {
 }
 
 export default function Page() {
-  const { profile } = useLoaderData<typeof loader>();
-
   return (
-    <div className="flex h-full flex-col items-start justify-center gap-8">
-      <div className="flex flex-col gap-2">
-        <p className="font-semibold">Your Account</p>
-        <p>{profile.display_name}</p>
+    <div className="flex h-full flex-col justify-center gap-4">
+      <HeaderProfile />
+      <ListBallots ballots={[]} />
+      <div className="flex gap-4">
+        <Link to="/playlist/search" className="btn btn-primary grow">
+          Search Playlists
+        </Link>
+        <Link to="/ballot/create" className="btn btn-primary grow">
+          Create Ballot
+        </Link>
       </div>
-      <Link to="/api/logout" className="btn btn-secondary">
-        Log Out
-      </Link>
     </div>
   );
 }

@@ -17,7 +17,7 @@ export default function Page() {
         <>
           <CardProfile profile={profile} />
           <a href="/profile" className="btn btn-primary">
-            Go to Account
+            Go to Profile
           </a>
         </>
       ) : (

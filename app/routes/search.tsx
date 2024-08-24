@@ -33,8 +33,6 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
 export default function Page() {
   const { results, query } = useLoaderData<typeof loader>();
 
-  console.log(results);
-
   return (
     <div className="flex flex-col gap-8">
       <FormPlaylistSearch query={query} />
@@ -47,7 +45,7 @@ export default function Page() {
       </div>
       <div className="flex flex-col gap-4">
         {results.playlists.items.map((item) => (
-          <a href={`/playlist/${item.id}/preview`} key={item.id}>
+          <a href={`/playlist/${item.id}`} key={item.id}>
             <CardPlaylist playlist={item} />
           </a>
         ))}

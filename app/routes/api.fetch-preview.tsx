@@ -16,5 +16,5 @@ export async function action({ request }: ActionFunctionArgs) {
   const playlistUrl = new URL(playlist);
   const playlistId = playlistUrl.pathname.split("/").pop();
 
-  return redirect(`/playlist/${playlistId}/preview`);
+  return redirect(`/playlist/${playlistId}`);
 }

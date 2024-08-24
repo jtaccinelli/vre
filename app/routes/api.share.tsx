@@ -9,5 +9,5 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const playlistUrl = new URL(playlistData);
   const playlistId = playlistUrl.pathname.split("/").pop();
 
-  return redirect(`/playlist/${playlistId}/preview`);
+  return redirect(`/playlist/${playlistId}`);
 }
