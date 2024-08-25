@@ -1,6 +1,7 @@
 import { json, LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { Link } from "@remix-run/react";
 
+import { Footer } from "~/components/footer";
 import { HeaderProfile } from "~/components/header-profile";
 import { ListBallots } from "~/components/list-ballots";
 
@@ -16,17 +17,17 @@ export async function loader({ context }: LoaderFunctionArgs) {
 
 export default function Page() {
   return (
-    <div className="flex h-full flex-col justify-center gap-4">
+    <>
       <HeaderProfile />
       <ListBallots ballots={[]} />
-      <div className="flex gap-4">
+      <Footer>
         <Link to="/playlist/search" className="btn btn-primary grow">
           Search Playlists
         </Link>
         <Link to="/ballot/create" className="btn btn-primary grow">
           Create Ballot
         </Link>
-      </div>
-    </div>
+      </Footer>
+    </>
   );
 }

@@ -1,7 +1,9 @@
 import { ActionFunctionArgs, json } from "@remix-run/cloudflare";
+import { useFetcher } from "@remix-run/react";
 
+import { Footer } from "~/components/footer";
 import { FormPlaylistSearch } from "~/components/form-playlist-search";
-import { HeaderSearch } from "~/components/header-search";
+import { Header } from "~/components/header";
 import { ListPlaylists } from "~/components/list-playlists";
 
 export const KEY__ACTION_PLAYLIST_SEARCH = "search-playlist";
@@ -24,18 +26,21 @@ export async function action({ context, request }: ActionFunctionArgs) {
   type Response = SpotifyApi.PlaylistSearchResponse;
   const results = await context.spotify.fetch<Response>(endpoint);
 
-  return json({
-    results,
-    query,
-  });
+  return json(results);
 }
 
 export default function Page() {
+  const fetcher = useFetcher<typeof action>({
+    key: KEY__ACTION_PLAYLIST_SEARCH,
+  });
+
   return (
-    <div className="flex h-full flex-col justify-center gap-4">
-      <HeaderSearch />
-      <FormPlaylistSearch />
-      <ListPlaylists />
-    </div>
+    <>
+      <Header text="Search for a playlist" />
+      <ListPlaylists playlists={fetcher.data?.playlists?.items ?? []} />
+      <Footer>
+        <FormPlaylistSearch />
+      </Footer>
+    </>
   );
 }

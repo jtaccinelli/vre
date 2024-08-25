@@ -1,8 +1,14 @@
-import { PropsWithChildren } from "react";
+import { ReactNode } from "react";
 
-export function Header({ children }: PropsWithChildren) {
+type Props = {
+  text?: string;
+  children?: ReactNode;
+};
+
+export function Header({ children, text }: Props) {
   return (
-    <div className="flex w-full items-center gap-2 rounded bg-gray-900 p-2">
+    <div className="sticky top-0 flex w-full items-center gap-2 rounded bg-gray-800 p-2">
+      {!text ? null : <p className="flex-grow px-4 py-3 font-medium">{text}</p>}
       {children}
     </div>
   );

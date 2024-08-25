@@ -58,13 +58,10 @@ export default function App() {
         <ManifestLink />
       </head>
       <body className="absolute inset-0 bg-gray-950 text-white">
-        <div className="clamp flex h-full flex-col">
-          <main className="flex-grow overflow-y-scroll p-8">
+        <div className="clamp flex h-full flex-col gap-4 p-8">
+          <main className="flex flex-grow flex-col gap-2 overflow-y-scroll">
             <Outlet />
           </main>
-          <footer className="flex justify-between p-8 text-xs text-gray-500">
-            <p>💃 Trading tunes since &apos;24</p>
-          </footer>
         </div>
         <ScrollRestoration />
         <Scripts />

@@ -2,6 +2,9 @@ import { json, LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
 
 import { CardPlaylist } from "~/components/card-playlist";
+import { Footer } from "~/components/footer";
+import { Header } from "~/components/header";
+import { ListPlaylistTracks } from "~/components/list-playlist-tracks";
 import { useRootLoaderData } from "~/hooks/use-root-loader-data";
 
 type Response = SpotifyApi.SinglePlaylistResponse;
@@ -24,12 +27,19 @@ export default function Page() {
   const { isLoggedIn } = useRootLoaderData();
 
   return (
-    <div className="flex flex-col gap-4">
-      <p className="font-semibold">Previewing Playlist</p>
+    <>
+      <Header text="Previewing Playlists" />
       <CardPlaylist playlist={playlist} />
-      <section className="flex gap-4">
+      <Header text="Tracks">
+        <p className="pr-4 text-gray-600">{playlist.tracks.total} tracks</p>
+      </Header>
+      <ListPlaylistTracks tracks={playlist.tracks?.items} />
+      <Footer>
         {isLoggedIn ? (
-          <Link className="btn btn-primary" to={`/ballot/${playlist.id}`}>
+          <Link
+            className="btn btn-primary flex-grow"
+            to={`/ballot/${playlist.id}`}
+          >
             Open Ballot
           </Link>
         ) : (
@@ -37,7 +47,7 @@ export default function Page() {
             Sign In
           </Link>
         )}
-      </section>
-    </div>
+      </Footer>
+    </>
   );
 }

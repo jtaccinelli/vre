@@ -26,7 +26,6 @@ export default function Page() {
 
   useEffect(() => {
     navigate("/");
-    ``;
   }, [navigate]);
 
   return <Banner content="Logging you in..." />;
