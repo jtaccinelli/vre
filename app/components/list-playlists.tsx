@@ -10,7 +10,9 @@ export function ListPlaylists() {
     key: KEY__ACTION_PLAYLIST_SEARCH,
   });
 
-  if (!fetcher.data) return <ListEmpty message="No playlists found." />;
+  if (!fetcher.data?.results.playlists?.items) {
+    return <ListEmpty message="No playlists found." />;
+  }
 
   return (
     <div className="flex h-full flex-col gap-4 overflow-y-scroll">

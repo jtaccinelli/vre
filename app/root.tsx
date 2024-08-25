@@ -1,7 +1,7 @@
 import "~/index.css";
 
 import { ManifestLink } from "@remix-pwa/sw";
-import { json, LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { json, LoaderFunctionArgs, redirect } from "@remix-run/cloudflare";
 import {
   Links,
   Meta,
@@ -29,6 +29,10 @@ export async function loader({ context }: LoaderFunctionArgs) {
   if (isLoggedIn) {
     type Response = SpotifyApi.CurrentUsersProfileResponse;
     const profile = await context.spotify.fetch<Response>("/me");
+
+    if (!profile.display_name) {
+      return redirect("/api/logout");
+    }
 
     return json({
       isLoggedIn,

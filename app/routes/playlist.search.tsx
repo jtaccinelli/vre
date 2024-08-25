@@ -24,8 +24,6 @@ export async function action({ context, request }: ActionFunctionArgs) {
   type Response = SpotifyApi.PlaylistSearchResponse;
   const results = await context.spotify.fetch<Response>(endpoint);
 
-  console.log(results.playlists.items);
-
   return json({
     results,
     query,
