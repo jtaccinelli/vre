@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "PT Root UI";
+  src:
+    url("/fonts/pt-root-ui.woff2") format("woff2"),
+    url("/fonts/pt-root-ui.woff") format("woff");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@theme {
+  --font-sans: "PT Root UI", system-ui, sans-serif;
+
+  --color-gray-50: var(--color-stone-50);
+  --color-gray-100: var(--color-stone-100);
+  --color-gray-200: var(--color-stone-200);
+  --color-gray-300: var(--color-stone-300);
+  --color-gray-400: var(--color-stone-400);
+  --color-gray-500: var(--color-stone-500);
+  --color-gray-600: var(--color-stone-600);
+  --color-gray-700: var(--color-stone-700);
+  --color-gray-800: var(--color-stone-800);
+  --color-gray-900: var(--color-stone-900);
+  --color-gray-950: var(--color-stone-950);
+
+  --color-primary-50: var(--color-emerald-50);
+  --color-primary-100: var(--color-emerald-100);
+  --color-primary-200: var(--color-emerald-200);
+  --color-primary-300: var(--color-emerald-300);
+  --color-primary-400: var(--color-emerald-400);
+  --color-primary-500: var(--color-emerald-500);
+  --color-primary-600: var(--color-emerald-600);
+  --color-primary-700: var(--color-emerald-700);
+  --color-primary-800: var(--color-emerald-800);
+  --color-primary-900: var(--color-emerald-900);
+  --color-primary-950: var(--color-emerald-950);
+}
+
+@layer components {
+  .btn {
+    @apply flex h-10 items-center justify-center gap-2 rounded-sm px-4 font-medium transition hover:cursor-pointer;
+  }
+
+  .btn-icon {
+    @apply w-10 px-0;
+  }
+
+  .btn-primary {
+    @apply bg-primary-700 hover:bg-primary-800 text-white;
+  }
+
+  .btn-light {
+    @apply bg-white text-black hover:bg-gray-100;
+  }
+
+  .btn-outline {
+    @apply border border-gray-100 text-black hover:bg-gray-100;
+  }
+
+  .btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700;
+  }
+}

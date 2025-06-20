@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "geogather",
+  "compatibility_date": "2025-04-04",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "./server/app.ts",
+  "observability": {
+    "logs": {
+      "enabled": true,
+    },
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "geogather",
+      "database_id": "4bc7f9aa-412f-467e-84a5-9089eb1a35b5",
+      "migrations_dir": "migrations",
+    },
+  ],
+}
