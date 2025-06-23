@@ -8,7 +8,7 @@ type Props = {
 
 export function CardUser({ user }: Props) {
   return (
-    <div className="group ui-selected:bg-white flex items-center overflow-hidden rounded bg-gray-800 transition-all hover:cursor-pointer hover:bg-gray-700">
+    <div className="group group-ui-selected:bg-white flex items-center overflow-hidden rounded bg-gray-800 transition-all hover:cursor-pointer hover:bg-gray-700">
       <SpotifyImage image={user.images?.[0]} className="size-12 bg-gray-950" />
       <div className="flex min-w-0 grow flex-col px-3 py-2 text-left">
         <p className="label group-ui-selected:text-black">

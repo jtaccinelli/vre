@@ -30,6 +30,7 @@ export class SpotifyHandler {
   }
 
   async fetchUser(id: string) {
+    console.log("id", id, typeof this?.fetch);
     return await this.fetch<User>(this.endpoints.users + `/${id}`);
   }
 
@@ -44,7 +45,7 @@ export class SpotifyHandler {
   async fetchUsersFromPlaylist(playlist: Playlist) {
     const tracks = playlist.tracks.items;
     const [...ids] = new Set(tracks.map((item) => item.added_by.id));
-    const users = await Promise.all(ids.map(this.fetchUser));
+    const users = await Promise.all(ids.map(this.fetchUser.bind(this)));
     return users.filter((user) => !!user);
   }
 }

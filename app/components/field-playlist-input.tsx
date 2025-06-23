@@ -1,7 +1,7 @@
 import { type ChangeEvent, useMemo, useState } from "react";
 import { useFetcher } from "react-router";
 
-import { loader } from "@app/routes/api.playlist.fetch";
+import type { Loader } from "@app/routes/api.playlist.fetch";
 
 import { Alert } from "@app/components/alert";
 import { CardPlaylist } from "@app/components/card-playlist";
@@ -11,7 +11,7 @@ const URL_STARTER = "https://open.spotify.com/playlist/";
 
 export function FieldPlaylistInput() {
   const [value, setValue] = useState<string>("");
-  const fetcher = useFetcher<typeof loader>();
+  const fetcher = useFetcher<Loader>();
 
   const { playlist, contributorIds, hasConfig } = useMemo(() => {
     if (!fetcher.data?.playlist) return {};

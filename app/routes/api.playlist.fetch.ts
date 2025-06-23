@@ -21,3 +21,5 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     hasConfig: config.length > 0,
   };
 }
+
+export type Loader = typeof loader;
