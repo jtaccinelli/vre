@@ -1,27 +1,24 @@
-import { useCallback, useState } from "react";
-
-export type BooleanState = ReturnType<typeof useBoolean>;
+import { useState } from "react";
 
 export function useBoolean(defaultValue: boolean) {
   const [value, setValue] = useState(defaultValue);
 
-  const handleSetTrue = useCallback(() => {
+  function setTrue() {
     setValue(true);
-  }, [setValue]);
+  }
 
-  const handleSetFalse = useCallback(() => {
+  function setFalse() {
     setValue(false);
-  }, [setValue]);
+  }
 
-  const handleToggle = useCallback(() => {
+  function setToggle() {
     setValue((value) => !value);
-  }, [setValue]);
+  }
 
   const actions = {
-    true: handleSetTrue,
-    false: handleSetFalse,
-    toggle: handleToggle,
-    set: setValue,
+    true: setTrue,
+    false: setFalse,
+    toggle: setToggle,
   };
 
   return [value, actions] as [typeof value, typeof actions];

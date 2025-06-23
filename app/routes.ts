@@ -1,79 +1,32 @@
 import {
   type RouteConfig,
   index,
-  layout,
   prefix,
   route,
 } from "@react-router/dev/routes";
 
 export default [
-  route("account", "./routes/account.layout.tsx", [
-    index("./routes/account.index.tsx"),
-    route("login", "./routes/account.login.tsx"),
-    route("logout", "./routes/account.logout.tsx"),
-  ]),
-  route("admin", "./routes/admin.layout.tsx", [
-    index("./routes/admin.index.tsx"),
-    route("settings", "./routes/admin.settings.tsx"),
-    ...prefix("entries", [
-      index("./routes/admin.entries.index.tsx"),
-      route(":id", "./routes/admin.entries.id.tsx"),
-    ]),
-    ...prefix("versions", [
-      index("./routes/admin.versions.index.tsx"),
-      route(":id", "./routes/admin.versions.id.tsx"),
-    ]),
-    ...prefix("categories", [
-      index("./routes/admin.categories.index.tsx"),
-      route(":id", "./routes/admin.categories.id.tsx"),
-    ]),
-    route("groups", "./routes/admin.groups.index.tsx"),
-  ]),
+  index("./routes/index.tsx"),
+  route("vote/:id", "./routes/vote.$id.tsx"),
+  route("results/:id", "./routes/results.$id.tsx"),
   ...prefix("api", [
-    ...prefix("version", [
-      route("activate", "./routes/api.version.activate.ts"),
-      route("delete", "./routes/api.version.delete.ts"),
+    route("playlist/fetch", "./routes/api.playlist.fetch.ts"),
+    ...prefix("auth", [
+      route("callback", "./routes/api.auth.callback.ts"),
+      route("refresh", "./routes/api.auth.refresh.ts"),
+      route("sign-in", "./routes/api.auth.sign-in.ts"),
+      route("sign-out", "./routes/api.auth.sign-out.ts"),
     ]),
-    ...prefix("image", [
-      route("upload", "./routes/api.image.upload.ts"),
-      route("delete", "./routes/api.image.delete.ts"),
+    ...prefix("config", [
+      route("close", "./routes/api.config.close.ts"),
+      route("create", "./routes/api.config.create.ts"),
+      route("delete", "./routes/api.config.delete.ts"),
+      route("open", "./routes/api.config.open.ts"),
     ]),
-    ...prefix("location", [
-      route("address", "./routes/api.location.address.ts"),
-      route("delete", "./routes/api.location.geocode.ts"),
+    ...prefix("vote", [
+      route("create", "./routes/api.vote.create.ts"),
+      route("delete", "./routes/api.vote.delete.ts"),
+      route("tiebreak", "./routes/api.vote.tiebreak.ts"),
     ]),
-    ...prefix("entry", [
-      route("create", "./routes/api.entry.create.ts"),
-      route("delete", "./routes/api.entry.delete.ts"),
-      route("hide", "./routes/api.entry.hide.ts"),
-      route("summary", "./routes/api.entry.summary.ts"),
-      route("update", "./routes/api.entry.update.ts"),
-      route("verify", "./routes/api.entry.verify.ts"),
-    ]),
-    ...prefix("group", [
-      route("create", "./routes/api.group.create.ts"),
-      route("delete", "./routes/api.group.delete.ts"),
-      route("update", "./routes/api.group.update.ts"),
-    ]),
-  ]),
-  route("app", "./routes/app.layout.tsx", [
-    index("./routes/app.index.tsx"),
-    route("search", "./routes/app.search.tsx"),
-    route("create", "./routes/app.create.layout.tsx", [
-      index("./routes/app.create.index.tsx"),
-      route("location", "./routes/app.create.location.tsx"),
-      route("details", "./routes/app.create.details.tsx"),
-      route("image", "./routes/app.create.image.tsx"),
-      route("confirm", "./routes/app.create.confirm.tsx"),
-    ]),
-    route("entry/:id", "./routes/app.entry.id.layout.tsx", [
-      index("./routes/app.entry.id.index.tsx"),
-      route("edit", "./routes/app.entry.id.edit.tsx"),
-    ]),
-  ]),
-  layout("./routes/site.layout.tsx", [
-    index("./routes/site.index.tsx"),
-    route("contact", "./routes/site.contact.tsx"),
-    route("content", "./routes/site.content.layout.tsx", []),
   ]),
 ] satisfies RouteConfig;

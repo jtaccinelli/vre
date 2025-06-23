@@ -1,8 +1,12 @@
 import { drizzle, DrizzleD1Database } from "drizzle-orm/d1";
 import { createRequestHandler } from "react-router";
-import * as schema from "~/schema";
-import { GroupManager } from "./group";
-import { CategoryManager } from "./category";
+import * as schema from "server/schema";
+
+import { SessionHandler } from "./session";
+import { AuthHandler } from "./auth";
+import { VoteHandler } from "./vote";
+import { ConfigHandler } from "./config";
+import { SpotifyHandler } from "./spotify";
 
 declare module "react-router" {
   export interface AppLoadContext {
@@ -11,8 +15,12 @@ declare module "react-router" {
       ctx: ExecutionContext;
     };
     db: DrizzleD1Database<typeof schema>;
-    group: GroupManager;
-    category: CategoryManager;
+    session: SessionHandler;
+    auth: AuthHandler;
+    spotify: SpotifyHandler;
+    vote: VoteHandler;
+    config: ConfigHandler;
+    user?: CurrentUser;
   }
 }
 
@@ -27,14 +35,24 @@ export default {
       schema,
     });
 
-    const group = new GroupManager(db);
-    const category = new CategoryManager(db);
+    const session = await SessionHandler.init(request, env.SESSION);
+    const auth = await AuthHandler.init(request, session);
+
+    const spotify = new SpotifyHandler(auth);
+    const user = await spotify.fetchCurrentUser();
+
+    const vote = new VoteHandler(db, user);
+    const config = new ConfigHandler(db, user);
 
     return requestHandler(request, {
       cloudflare: { env, ctx },
       db,
-      group,
-      category,
+      session,
+      auth,
+      spotify,
+      vote,
+      config,
+      user,
     });
   },
 } satisfies ExportedHandler<Env>;

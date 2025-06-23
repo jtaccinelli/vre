@@ -1,20 +1,26 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "geogather",
+  "name": "vre",
   "compatibility_date": "2025-04-04",
   "compatibility_flags": ["nodejs_compat"],
   "main": "./server/app.ts",
   "observability": {
     "logs": {
-      "enabled": true,
-    },
+      "enabled": true
+    }
   },
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "f5ab5a60780f43628d5d941ed706b431"
+    }
+  ],
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "geogather",
-      "database_id": "4bc7f9aa-412f-467e-84a5-9089eb1a35b5",
-      "migrations_dir": "migrations",
-    },
-  ],
+      "database_name": "vre",
+      "database_id": "b290d26a-83a0-4486-8b40-4bc7e55fdfe0",
+      "migrations_dir": "migrations"
+    }
+  ]
 }
