@@ -59,7 +59,7 @@ export function FieldTracks({ tracks, max = 3 }: Props) {
         <button
           type="button"
           data-ui={isSelected && "selected"}
-          className="group ui-[selected]:bg-white flex items-center overflow-hidden rounded bg-gray-800 transition-all hover:cursor-pointer hover:bg-gray-700"
+          className="group ui-selected:bg-white flex items-center overflow-hidden rounded bg-gray-800 transition-all hover:cursor-pointer hover:bg-gray-700"
           onClick={handleToggleTrack(item)}
         >
           <SpotifyImage
@@ -67,8 +67,8 @@ export function FieldTracks({ tracks, max = 3 }: Props) {
             className="size-16 bg-gray-950"
           />
           <div className="flex min-w-0 grow flex-col px-3 py-2 text-left">
-            <p className="label group-ui-[selected]:text-black">{item.name}</p>
-            <p className="text group-ui-[selected]:text-gray-600 flex min-w-0 gap-1 truncate whitespace-nowrap text-gray-400">
+            <p className="label group-ui-selected:text-black">{item.name}</p>
+            <p className="text group-ui-selected:text-gray-600 flex min-w-0 gap-1 truncate whitespace-nowrap text-gray-400">
               <span>
                 {item.artists.map((artist) => artist.name).join(", ")}
               </span>

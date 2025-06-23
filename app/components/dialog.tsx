@@ -23,7 +23,7 @@ export function Dialog({
   return (
     <div
       data-ui={ui}
-      className="group ui-[closed]:pointer-events-none ui-[closed]:opacity-0 fixed inset-0 z-40 transition-opacity"
+      className="group ui-closed:pointer-events-none ui-closed:opacity-0 fixed inset-0 z-40 transition-opacity"
     >
       <button
         type="button"
@@ -33,7 +33,7 @@ export function Dialog({
       <div className="absolute bottom-0 left-1/2 z-10 w-full max-w-screen-sm -translate-x-1/2 px-2">
         <div
           className={clsx(
-            "group-ui-[closed]:translate-y-1/2 max-h-[75vh] w-full overflow-y-scroll rounded-t-xl bg-gray-900 transition-transform",
+            "group-ui-closed:translate-y-1/2 max-h-[75vh] w-full overflow-y-scroll rounded-t-xl bg-gray-900 transition-transform",
             className,
           )}
         >

@@ -69,7 +69,7 @@ export function DialogTiebreak({
                 <button
                   onClick={handleSetId(item)}
                   data-ui={item.id === selectedId && "selected"}
-                  className="ui-[selected]:bg-white ui-[selected]:text-black flex justify-between border-b border-gray-900 bg-gray-800 p-3 text-left last:border-b-0"
+                  className="ui-selected:bg-white ui-selected:text-black flex justify-between border-b border-gray-900 bg-gray-800 p-3 text-left last:border-b-0"
                 >
                   {item.name}
                 </button>
