@@ -56,6 +56,7 @@ export function FieldUsers({ users, max = 1 }: Props) {
       const isSelected = selectedUsers.some((user) => item.id === user.id);
       return (
         <button
+          key={item.id}
           type="button"
           data-ui={isSelected && "selected"}
           className="group"
@@ -82,7 +83,7 @@ export function FieldUsers({ users, max = 1 }: Props) {
       <div className="flex items-end justify-between">
         <div className="flex grow flex-wrap items-center gap-2">
           {selectedUsers.length === 0 ? (
-            <p className="text flex items-center gap-1 whitespace-nowrap rounded border border-gray-600 px-3 py-1 text-gray-600">
+            <p className="text flex items-center gap-1 rounded border border-gray-600 px-3 py-1 whitespace-nowrap text-gray-600">
               No Users Selected
             </p>
           ) : (

@@ -1,5 +1,5 @@
+import { Info } from "@phosphor-icons/react";
 import { Link } from "react-router";
-// import { InformationCircleIcon } from "@heroicons/react/16/solid";
 
 type Props = {
   message: string;
@@ -10,7 +10,7 @@ type Props = {
 export function Alert({ message, cta, href }: Props) {
   return (
     <div className="flex gap-3 rounded bg-white p-3 text-black md:items-center">
-      {/* <InformationCircleIcon className="h-5 w-5" /> */}
+      <Info size={20} weight="fill" />
       <div className="flex grow flex-col gap-1 md:flex-row">
         <p className="text grow">{message}</p>
         <Link to={href} className="link">

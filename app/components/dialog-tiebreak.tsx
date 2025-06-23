@@ -41,8 +41,6 @@ export function DialogTiebreak({
     setSelectedId(item.id);
   };
 
-  console.log(playlist);
-
   return (
     <>
       <button

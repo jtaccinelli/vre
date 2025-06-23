@@ -30,7 +30,6 @@ export class SpotifyHandler {
   }
 
   async fetchUser(id: string) {
-    console.log("id", id, typeof this?.fetch);
     return await this.fetch<User>(this.endpoints.users + `/${id}`);
   }
 

@@ -57,6 +57,7 @@ export function FieldTracks({ tracks, max = 3 }: Props) {
       const isSelected = selectedTracks.some((track) => item.id === track.id);
       return (
         <button
+          key={item.id}
           type="button"
           data-ui={isSelected && "selected"}
           className="group ui-selected:bg-white flex items-center overflow-hidden rounded bg-gray-800 transition-all hover:cursor-pointer hover:bg-gray-700"

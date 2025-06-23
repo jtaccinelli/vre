@@ -68,7 +68,7 @@ export function FieldPlaylistInput() {
         value={value}
         disabled={!!playlist && !!value}
         onChange={handleChange}
-        className="rounded border-transparent bg-gray-700 text-white placeholder:text-gray-500"
+        className="field-input rounded border-transparent bg-gray-700 text-white placeholder:text-gray-500"
       />
       {!value ? (
         <Placeholder label="No URL has been provided" />

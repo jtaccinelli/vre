@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Link } from "react-router";
-// import { ArrowLeftIcon, CheckIcon } from "@heroicons/react/16/solid";
+import { CaretLeft, Check } from "@phosphor-icons/react";
 
 import type { Vote } from "@server/schema";
 import { DialogRevoteForm } from "@app/components/dialog-revote-form";
@@ -47,7 +47,7 @@ export function HeaderVote({ playlist, users, votes, voter }: Props) {
   return (
     <div className="flex w-full flex-col gap-6 p-6 pt-10">
       <Link to="/" className="flex items-center gap-2">
-        {/* <ArrowLeftIcon className="size-4" /> */}
+        <CaretLeft size={20} />
         <span className="link">Back to home page</span>
       </Link>
       <p className="text -mb-6 text-gray-400">Playlist Voting Form</p>
@@ -72,7 +72,7 @@ export function HeaderVote({ playlist, users, votes, voter }: Props) {
                 className="rounded-full"
               />
               <div className="absolute -right-1 -bottom-1 size-3 rounded-full bg-white">
-                {/* <CheckIcon className="size-3 text-black" /> */}
+                <Check size={12} className="text-black" />
               </div>
             </div>
           );

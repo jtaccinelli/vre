@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-// import { EllipsisVerticalIcon } from "@heroicons/react/16/solid";
+import { DotsThreeVertical } from "@phosphor-icons/react";
 
 import { useBoolean } from "@app/hooks/use-boolean";
 import { useUi } from "@app/hooks/use-ui";
@@ -23,7 +23,7 @@ export function ActionMenu({ items }: Props) {
         className="-m-3 flex size-11 items-center justify-center"
         onClick={setIsOpen.toggle}
       >
-        {/* <EllipsisVerticalIcon className="size-5" /> */}
+        <DotsThreeVertical size={20} />
       </button>
       <div
         data-ui={ui}

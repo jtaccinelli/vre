@@ -5,9 +5,8 @@ import {
   useMemo,
   useState,
 } from "react";
+import { MagnifyingGlass, X } from "@phosphor-icons/react";
 import { useNavigation } from "react-router";
-
-// import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/16/solid";
 
 import { useBoolean } from "@app/hooks/use-boolean";
 
@@ -88,8 +87,11 @@ export function DialogSearch<Item>({
               onClick={handleClear}
               disabled={!query}
             >
-              {/* <MagnifyingGlassIcon className="hidden size-4 group-disabled:block" />
-              <XMarkIcon className="size-4 group-disabled:hidden" /> */}
+              <MagnifyingGlass
+                size={20}
+                className="hidden group-disabled:block"
+              />
+              <X size={20} className="group-disabled:hidden" />
             </button>
           </div>
           {!filteredItems.length ? (

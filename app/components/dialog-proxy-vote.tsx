@@ -36,7 +36,7 @@ export function DialogProxyVote({ users, playlist, votes, className }: Props) {
 
   const renderUser = useCallback((item: User) => {
     return (
-      <button type="button" onClick={handleNavigate(item)}>
+      <button key={item.id} type="button" onClick={handleNavigate(item)}>
         <CardUser user={item} />
       </button>
     );

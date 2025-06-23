@@ -7,7 +7,7 @@ type Props = {
 
 export function Placeholder({ label, loading }: Props) {
   return (
-    <p className="text flex items-center justify-between rounded border border-gray-600 p-4 text-gray-600">
+    <p className="text flex items-center justify-between rounded bg-gray-800 p-4 text-gray-600">
       <span>{label}</span>
       <span
         className={clsx(
