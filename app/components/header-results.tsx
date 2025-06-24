@@ -13,7 +13,7 @@ export function HeaderResults({ playlist }: Props) {
         <span className="link">Back to home page</span>
       </Link>
       <p className="text -mb-6 text-gray-400">Playlist Results</p>
-      <h3 className="heading">{playlist.name}</h3>
+      <h3 className="title">{playlist.name}</h3>
     </div>
   );
 }

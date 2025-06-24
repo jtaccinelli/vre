@@ -4,7 +4,7 @@ import { DialogConfirm } from "@app/components/dialog-confirm";
 
 type Props = {
   playlist: Playlist;
-  className: string;
+  className?: string;
 };
 
 export function DialogDeleteForm({ playlist, className }: Props) {

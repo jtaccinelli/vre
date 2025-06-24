@@ -17,6 +17,7 @@ import { ResultsList } from "@app/components/results-list";
 import { ResultsBar } from "@app/components/results-bar";
 import { ResultsPie } from "@app/components/results-pie";
 import type { Route } from "./+types/results.$id";
+import { HeaderBack } from "@app/components/header-back";
 
 export async function loader({ params, context }: Route.LoaderArgs) {
   const userId = context.user?.id;
@@ -80,19 +81,14 @@ export default function Page() {
   return (
     <PlaylistProvider value={playlist}>
       <div className="flex flex-col gap-3">
+        <HeaderBack />
         <HeaderResults playlist={playlist} />
         {!hasCreated ? null : (
           <ActionBar
             message="You created this form."
             actions={[
-              <DialogReopenVoting
-                playlist={playlist}
-                className="text px-3 py-2 text-left whitespace-nowrap"
-              />,
-              <DialogDeleteForm
-                playlist={playlist}
-                className="text px-3 py-2 text-left whitespace-nowrap"
-              />,
+              <DialogReopenVoting playlist={playlist} />,
+              <DialogDeleteForm playlist={playlist} />,
             ]}
           />
         )}

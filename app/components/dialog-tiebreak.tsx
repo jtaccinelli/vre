@@ -53,7 +53,7 @@ export function DialogTiebreak({
       </button>
       <Dialog open={isOpen} onClose={setIsOpen.false} className="flex flex-col">
         <div className="border-b border-gray-950 p-6">
-          <p className="heading">Tiebreak</p>
+          <p className="title">Tiebreak</p>
         </div>
         <div className="flex h-full flex-col gap-3 p-6 text-white">
           <p className="label text-gray-300">Which one of these won?</p>

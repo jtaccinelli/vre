@@ -30,7 +30,7 @@ export function FieldTabs<Value extends string | number>({
             type="button"
             onClick={handleSelectValue(value)}
             className={clsx(
-              "label h-11 grow rounded transition-all",
+              "label h-11 grow rounded transition-all hover:cursor-pointer",
               value === selectedValue
                 ? "bg-gray-900 text-white"
                 : "border-transparent text-gray-500 hover:bg-gray-800",

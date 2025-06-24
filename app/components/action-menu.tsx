@@ -1,5 +1,12 @@
-import { type ReactNode } from "react";
-import { DotsThreeVertical } from "@phosphor-icons/react";
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  type ComponentProps,
+  type ReactNode,
+} from "react";
+import { Gear } from "@phosphor-icons/react";
+import clsx from "clsx";
 
 import { useBoolean } from "@app/hooks/use-boolean";
 import { useUi } from "@app/hooks/use-ui";
@@ -20,18 +27,28 @@ export function ActionMenu({ items }: Props) {
   return (
     <div className="group relative">
       <button
-        className="-m-3 flex size-11 items-center justify-center"
+        className="-m-3 flex size-11 items-center justify-center rounded-full transition hover:cursor-pointer hover:bg-gray-950/20"
         onClick={setIsOpen.toggle}
       >
-        <DotsThreeVertical size={20} />
+        <Gear weight="fill" size={20} />
       </button>
       <div
         data-ui={ui}
-        className="ui-closed:pointer-events-none ui-closed:mb-0 ui-closed:opacity-0 absolute right-0 bottom-full mb-3 flex min-w-32 flex-col divide-y divide-gray-200 rounded bg-white text-black transition-all"
+        className={clsx(
+          "absolute right-0 bottom-full mb-3 flex min-w-32 flex-col overflow-hidden rounded bg-white text-black transition-all",
+          "ui-closed:pointer-events-none ui-closed:mb-0 ui-closed:opacity-0",
+        )}
       >
-        {items.map((item) => {
-          if (!item) return null;
-          return item;
+        {Children.map(items, (item) => {
+          if (isValidElement<ComponentProps<"div">>(item)) {
+            return cloneElement(item, {
+              className: clsx([
+                "text px-3 py-2 text-left whitespace-nowrap hover:cursor-pointer hover:bg-gray-200 transition-all",
+              ]),
+            });
+          } else {
+            return null;
+          }
         })}
       </div>
     </div>

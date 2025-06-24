@@ -45,22 +45,13 @@ export function ListPlaylists({ filter }: Props) {
       ]}
       actions={[
         !!playlist.hasCreated ? (
-          <DialogDeleteForm
-            playlist={playlist.data}
-            className="text px-3 py-2 text-left whitespace-nowrap"
-          />
+          <DialogDeleteForm playlist={playlist.data} />
         ) : null,
         !!playlist.hasCreated && !!playlist.isOpen ? (
-          <DialogCloseVoting
-            playlist={playlist.data}
-            className="text px-3 py-2 text-left whitespace-nowrap"
-          />
+          <DialogCloseVoting playlist={playlist.data} />
         ) : null,
         !!playlist.hasCreated && !playlist.isOpen ? (
-          <DialogReopenVoting
-            playlist={playlist.data}
-            className="text px-3 py-2 text-left whitespace-nowrap"
-          />
+          <DialogReopenVoting playlist={playlist.data} />
         ) : null,
       ]}
     />

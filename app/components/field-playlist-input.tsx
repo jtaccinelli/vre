@@ -4,8 +4,8 @@ import { useFetcher } from "react-router";
 import type { Loader } from "@app/routes/api.playlist.fetch";
 
 import { Alert } from "@app/components/alert";
-import { CardPlaylist } from "@app/components/card-playlist";
 import { Placeholder } from "@app/components/placeholder";
+import { SpotifyImage } from "@app/components/spotify-image";
 
 const URL_STARTER = "https://open.spotify.com/playlist/";
 
@@ -77,7 +77,18 @@ export function FieldPlaylistInput() {
       ) : !playlist ? (
         <Placeholder label="No playlist found" />
       ) : (
-        <CardPlaylist playlist={playlist} />
+        <div className="flex w-full overflow-hidden rounded bg-gray-800">
+          <SpotifyImage
+            image={playlist?.images[0]}
+            className="aspect-square size-24 shrink-0 bg-gray-950 object-cover"
+          />
+          <div className="flex grow flex-col justify-center px-6">
+            <p className="heading truncate">{playlist.name}</p>
+            <p className="label truncate text-gray-400">
+              {playlist.tracks.total} tracks
+            </p>
+          </div>
+        </div>
       )}
       {!hasConfig || !playlist ? null : (
         <Alert

@@ -1,4 +1,4 @@
-import { useLoaderData, redirect } from "react-router";
+import { useLoaderData, redirect, Link } from "react-router";
 import { eq } from "drizzle-orm";
 
 import { useRootLoaderData } from "@app/hooks/use-root-loader";
@@ -11,6 +11,8 @@ import { DialogProxyVote } from "@app/components/dialog-proxy-vote";
 import { FormVote } from "@app/components/form-vote";
 import { HeaderVote } from "@app/components/header-vote";
 import type { Route } from "./+types/vote.$id";
+import { CaretLeft } from "@phosphor-icons/react";
+import { HeaderBack } from "@app/components/header-back";
 
 export async function loader({ request, params, context }: Route.LoaderArgs) {
   const userId = context.user?.id;
@@ -58,6 +60,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-col">
+      <HeaderBack />
       <HeaderVote
         playlist={playlist}
         users={users}
@@ -68,20 +71,9 @@ export default function Page() {
         <ActionBar
           message="You created this form."
           actions={[
-            <DialogProxyVote
-              playlist={playlist}
-              users={users}
-              votes={votes}
-              className="text px-3 py-2 text-left whitespace-nowrap"
-            />,
-            <DialogCloseVoting
-              playlist={playlist}
-              className="text px-3 py-2 text-left whitespace-nowrap"
-            />,
-            <DialogDeleteForm
-              playlist={playlist}
-              className="text px-3 py-2 text-left whitespace-nowrap"
-            />,
+            <DialogProxyVote playlist={playlist} users={users} votes={votes} />,
+            <DialogCloseVoting playlist={playlist} />,
+            <DialogDeleteForm playlist={playlist} />,
           ]}
         />
       )}

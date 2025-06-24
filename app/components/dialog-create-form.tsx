@@ -13,7 +13,7 @@ export function DialogCreateForm() {
       </button>
       <Dialog open={isOpen} onClose={setIsOpen.false} className="flex flex-col">
         <div className="border-b border-gray-950 p-6">
-          <p className="heading">Create a Form</p>
+          <p className="title">Create a Form</p>
         </div>
         <FormCreate />
       </Dialog>
