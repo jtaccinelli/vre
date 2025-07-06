@@ -1,7 +1,7 @@
 import type { Vote } from "@server/schema";
 import { useMemo } from "react";
 
-import { SpotifyImage } from "./spotify-image";
+import { SpotifyImage } from "@app/components/spotify-image";
 import { Check, CheckCircle } from "@phosphor-icons/react";
 
 type Props = {

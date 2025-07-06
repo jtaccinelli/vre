@@ -1,6 +1,6 @@
 import { Link } from "react-router";
-import { SpotifyImage } from "./spotify-image";
-import { SpotifyLogo } from "./spotify-logo";
+import { SpotifyImage } from "@app/components/spotify-image";
+import { SpotifyLogo } from "@app/components/spotify-logo";
 import { useTrackPreview } from "@app/hooks/use-track-preview";
 import { Pause, Play } from "@phosphor-icons/react";
 

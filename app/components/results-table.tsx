@@ -1,5 +1,5 @@
 import type { ResultValue } from "@app/lib/results";
-import { Placeholder } from "./placeholder";
+import { Placeholder } from "@app/components/placeholder";
 
 type Props = {
   results: ResultValue[];

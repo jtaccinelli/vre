@@ -7,7 +7,7 @@ import { useBoolean } from "@app/hooks/use-boolean";
 import { usePlaylist } from "@app/hooks/use-playlist";
 
 import { Dialog } from "@app/components/dialog";
-import { Placeholder } from "./placeholder";
+import { Placeholder } from "@app/components/placeholder";
 
 type Props = {
   cta: string;

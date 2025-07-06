@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { DialogSearch } from "@app/components/dialog-search";
 import { Pill } from "@app/components/pill";
 import { SpotifyImage } from "@app/components/spotify-image";
-import { CardTrack } from "./card-track";
+import { CardTrack } from "@app/components/card-track";
 
 type Props = {
   tracks: Track[];

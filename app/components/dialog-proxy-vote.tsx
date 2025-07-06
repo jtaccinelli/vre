@@ -3,8 +3,8 @@ import { useNavigate } from "react-router";
 
 import type { Vote } from "@server/schema";
 
-import { CardUser } from "./card-user";
-import { DialogSearch } from "./dialog-search";
+import { CardUser } from "@app/components/card-user";
+import { DialogSearch } from "@app/components/dialog-search";
 
 type Props = {
   users: User[];

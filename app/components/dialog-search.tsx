@@ -11,7 +11,7 @@ import { useNavigation } from "react-router";
 import { useBoolean } from "@app/hooks/use-boolean";
 
 import { Dialog } from "@app/components/dialog";
-import { Placeholder } from "./placeholder";
+import { Placeholder } from "@app/components/placeholder";
 
 type Props<Item> = {
   label: string;

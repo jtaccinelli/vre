@@ -5,7 +5,7 @@ import { type ResultValue } from "@app/lib/results";
 import { useBoolean } from "@app/hooks/use-boolean";
 
 import { Dialog } from "@app/components/dialog";
-import { ResultsTable } from "./results-table";
+import { ResultsTable } from "@app/components/results-table";
 
 type Props = {
   label: string;

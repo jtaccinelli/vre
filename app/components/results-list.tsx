@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import type { Vote } from "@server/schema";
-import { Placeholder } from "./placeholder";
+import { Placeholder } from "@app/components/placeholder";
 
 type Props = {
   label: string;

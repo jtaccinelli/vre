@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 
 import { SpotifyImage } from "@app/components/spotify-image";
-import { SpotifyLogo } from "./spotify-logo";
+import { SpotifyLogo } from "@app/components/spotify-logo";
 
 type Props = {
   user: User;
