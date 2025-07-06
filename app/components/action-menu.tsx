@@ -26,10 +26,7 @@ export function ActionMenu({ items }: Props) {
 
   return (
     <div className="group relative">
-      <button
-        className="-m-3 flex size-11 items-center justify-center rounded-full transition hover:cursor-pointer hover:bg-gray-950/20"
-        onClick={setIsOpen.toggle}
-      >
+      <button className="btn-icon" onClick={setIsOpen.toggle}>
         <Gear weight="fill" size={20} />
       </button>
       <div
