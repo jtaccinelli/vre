@@ -11,6 +11,7 @@ import { useNavigation } from "react-router";
 import { useBoolean } from "@app/hooks/use-boolean";
 
 import { Dialog } from "@app/components/dialog";
+import { Placeholder } from "./placeholder";
 
 type Props<Item> = {
   label: string;
@@ -33,8 +34,8 @@ export function DialogSearch<Item>({
   renderItem,
   className,
 }: Props<Item>) {
-  const [isOpen, setIsOpen] = useBoolean(false);
   const [query, setQuery] = useState("");
+  const [isOpen, setIsOpen] = useBoolean(false);
   const navigation = useNavigation();
 
   const filteredItems = useMemo(() => {
@@ -69,39 +70,39 @@ export function DialogSearch<Item>({
       >
         {cta}
       </button>
-      <Dialog open={isOpen} onClose={setIsOpen.false} className="flex flex-col">
-        <div className="flex h-full flex-col gap-3 p-6 text-white">
-          <label className="label">{label}</label>
-          <div className="sticky top-6 flex h-11 w-full rounded bg-gray-700 text-white">
-            <input
-              name="query"
-              type="text"
-              value={query}
-              onChange={handleSearch}
-              placeholder={placeholder}
-              disabled={disabled}
-              className="grow rounded border-transparent bg-transparent placeholder:text-gray-500"
+      <Dialog
+        open={isOpen}
+        onClose={setIsOpen.false}
+        className="flex h-[75vh] flex-col gap-3 p-6 text-white"
+      >
+        <label className="heading">{label}</label>
+        <div className="sticky top-6 z-10 flex h-11 w-full rounded bg-gray-700 text-white outline-white focus-within:outline-1">
+          <input
+            name="query"
+            type="text"
+            value={query}
+            onChange={handleSearch}
+            placeholder={placeholder}
+            disabled={disabled}
+            className="grow rounded border-transparent bg-transparent px-3 placeholder:text-gray-500 focus:outline-none"
+          />
+          <button
+            className="group flex size-11 items-center justify-center"
+            onClick={handleClear}
+            disabled={!query}
+          >
+            <MagnifyingGlass
+              size={20}
+              className="hidden group-disabled:block"
             />
-            <button
-              className="group flex size-11 items-center justify-center"
-              onClick={handleClear}
-              disabled={!query}
-            >
-              <MagnifyingGlass
-                size={20}
-                className="hidden group-disabled:block"
-              />
-              <X size={20} className="group-disabled:hidden" />
-            </button>
-          </div>
-          {!filteredItems.length ? (
-            <div className="text flex items-center justify-center rounded border border-gray-600 p-4 text-gray-600">
-              No Results Found
-            </div>
-          ) : (
-            filteredItems.map((item) => renderItem(item))
-          )}
+            <X size={20} className="group-disabled:hidden" />
+          </button>
         </div>
+        {!filteredItems.length ? (
+          <Placeholder label="No results found" />
+        ) : (
+          filteredItems.map((item) => renderItem(item))
+        )}
       </Dialog>
     </>
   );

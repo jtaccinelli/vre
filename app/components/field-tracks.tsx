@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import { DialogSearch } from "@app/components/dialog-search";
 import { Pill } from "@app/components/pill";
 import { SpotifyImage } from "@app/components/spotify-image";
+import { CardTrack } from "./card-track";
 
 type Props = {
   tracks: Track[];
@@ -56,39 +57,12 @@ export function FieldTracks({ tracks, max = 3 }: Props) {
     (item: Track) => {
       const isSelected = selectedTracks.some((track) => item.id === track.id);
       return (
-        <button
+        <CardTrack
           key={item.id}
-          type="button"
-          data-ui={isSelected && "selected"}
-          className="group ui-selected:bg-white flex items-center overflow-hidden rounded bg-gray-800 transition-all hover:cursor-pointer hover:bg-gray-700"
+          track={item}
+          isSelected={isSelected}
           onClick={handleToggleTrack(item)}
-        >
-          <SpotifyImage
-            image={item.album?.images?.[0]}
-            className="size-16 bg-gray-950"
-          />
-          <div className="flex min-w-0 grow flex-col px-3 py-2 text-left">
-            <p className="label group-ui-selected:text-black">{item.name}</p>
-            <p className="text group-ui-selected:text-gray-600 flex min-w-0 gap-1 truncate whitespace-nowrap text-gray-400">
-              <span>
-                {item.artists.map((artist) => artist.name).join(", ")}
-              </span>
-              <span>•</span>
-              <span>{item.album.name}</span>
-            </p>
-          </div>
-          <Link
-            to={item.external_urls.spotify}
-            target="_blank"
-            className="flex size-16 shrink-0 items-center justify-center"
-          >
-            <img
-              src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png"
-              className="size-4"
-              alt="Spotify Logo"
-            />
-          </Link>
-        </button>
+        />
       );
     },
     [selectedTracks],

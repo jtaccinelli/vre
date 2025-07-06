@@ -1,4 +1,4 @@
-import type { EventName } from "~/lib/events";
+import type { EventName } from "@app/lib/events";
 
 export {};
 
