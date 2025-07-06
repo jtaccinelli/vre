@@ -27,7 +27,7 @@ export function ResultsList({ label, votes, map }: Props) {
         ) : (
           items.map((item) => (
             <p className="flex justify-between bg-gray-800 p-4 text-left">
-              <span className="label grow truncate text-white">{item}</span>
+              <span className="label grow text-white">{item}</span>
             </p>
           ))
         )}
