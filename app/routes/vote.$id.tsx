@@ -1,5 +1,4 @@
-import { useLoaderData, redirect, Link } from "react-router";
-import { eq } from "drizzle-orm";
+import { useLoaderData, redirect } from "react-router";
 
 import { useRootLoaderData } from "@app/hooks/use-root-loader";
 
@@ -10,8 +9,7 @@ import { DialogCloseVoting } from "@app/components/dialog-close-voting";
 import { DialogProxyVote } from "@app/components/dialog-proxy-vote";
 import { FormVote } from "@app/components/form-vote";
 import { HeaderVote } from "@app/components/header-vote";
-import type { Route } from "./+types/vote.$id";
-import { CaretLeft } from "@phosphor-icons/react";
+
 import { HeaderBack } from "@app/components/header-back";
 
 export async function loader({ request, params, context }: Route.LoaderArgs) {

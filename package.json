@@ -2,7 +2,7 @@
   "name": "vre",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.6.1",
+  "packageManager": "pnpm@10.12.4",
   "scripts": {
     "typegen:wrangler": "wrangler types ./types/cloudflare.d.ts",
     "build": "react-router build",
