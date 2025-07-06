@@ -48,7 +48,7 @@ export function DialogProxyVote({ users, playlist, votes, className }: Props) {
   return (
     <DialogSearch
       cta="Vote on behalf of..."
-      label="Search Users"
+      label="Proxy Vote"
       placeholder="Search for users by name..."
       className={className}
       items={users}

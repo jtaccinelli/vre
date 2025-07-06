@@ -30,7 +30,7 @@ export function ResultsPie({ label, data, canTiebreak, field }: Props) {
               <Pie
                 data={data}
                 dataKey="count"
-                className="overflow-hidden rounded-t fill-gray-400 stroke-gray-800 stroke-2"
+                className="overflow-hidden rounded-t fill-gray-400 stroke-gray-800 stroke-1"
                 activeShape={<Sector className="fill-white stroke-gray-800" />}
               />
               <Tooltip cursor={false} content={<ResultsTooltip />} />

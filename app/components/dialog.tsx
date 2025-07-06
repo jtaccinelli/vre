@@ -5,6 +5,7 @@ import { useUi } from "@app/hooks/use-ui";
 
 type Props = {
   open: boolean;
+  heading?: string;
   onClose?: () => void;
   children?: ReactNode;
   className?: string;
@@ -12,6 +13,7 @@ type Props = {
 
 export function Dialog({
   open,
+  heading,
   className,
   onClose = () => {},
   children,
@@ -31,13 +33,13 @@ export function Dialog({
         onClick={onClose}
       />
       <div className="absolute bottom-0 left-1/2 z-10 w-full max-w-screen-sm -translate-x-1/2 px-2">
-        <div
-          className={clsx(
-            "group-ui-closed:translate-y-1/2 max-h-[75vh] w-full overflow-y-scroll rounded-t-xl bg-gray-900 transition-transform",
-            className,
+        <div className="group-ui-closed:translate-y-1/2 flex max-h-[70vh] w-full flex-col overflow-y-scroll rounded-t-xl bg-gray-900 transition-transform">
+          {!heading ? null : (
+            <div className="border-b border-gray-950 p-6">
+              <p className="title text-white">{heading}</p>
+            </div>
           )}
-        >
-          {children}
+          <div className={className}>{children}</div>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useLoaderData, redirect } from "react-router";
+import type { Route } from "./+types/vote.$id";
 
 import { useRootLoaderData } from "@app/hooks/use-root-loader";
 

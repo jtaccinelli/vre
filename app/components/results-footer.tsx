@@ -3,6 +3,8 @@ import { useMemo } from "react";
 import type { ResultValue } from "@app/lib/results";
 import { DialogResults } from "@app/components/dialog-results";
 import { DialogTiebreak } from "@app/components/dialog-tiebreak";
+import { Placeholder } from "./placeholder";
+import { ResultsTable } from "./results-table";
 
 type Props = {
   data: ResultValue[];
@@ -28,29 +30,12 @@ export function ResultsFooter({ data, label, field, canTiebreak }: Props) {
   return (
     <>
       <div className="flex items-end justify-between pt-2">
-        <label className="label">{label}</label>
-        <p className="text text-gray-400">
+        <label className="heading">{label}</label>
+        <p className="label text-gray-400">
           {total} total {total > 1 ? "responses" : "response"}
         </p>
       </div>
-      <div className="flex flex-col overflow-hidden rounded">
-        {!winners.length ? (
-          <p className="text flex items-center justify-center rounded border border-gray-600 p-4 text-gray-600">
-            No data
-          </p>
-        ) : (
-          winners.map((item) => (
-            <p className="flex justify-between border-b border-gray-900 bg-gray-800 p-3 text-left last:border-b-0">
-              <span className="label grow truncate text-white">
-                {item.name}
-              </span>
-              <span className="text whitespace-nowrap text-gray-400">
-                {item.count} {item.count > 1 ? "votes" : "vote"}
-              </span>
-            </p>
-          ))
-        )}
-      </div>
+      <ResultsTable results={winners} placeholder="No data" suffix="vote(s)" />
       <div className="flex gap-3">
         <DialogResults data={data} label={label} cta="See All Results" />
         {!canTiebreak || winners.length <= 1 ? null : (

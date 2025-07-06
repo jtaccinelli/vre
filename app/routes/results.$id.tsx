@@ -80,7 +80,7 @@ export default function Page() {
 
   return (
     <PlaylistProvider value={playlist}>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col">
         <HeaderBack />
         <HeaderResults playlist={playlist} />
         {!hasCreated ? null : (

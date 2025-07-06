@@ -10,11 +10,10 @@ type Props = {
 };
 
 export function CardUser({ user, isSelected, onClick }: Props) {
-  console.log(user);
   return (
     <div
       data-ui={isSelected && "selected"}
-      className="group ui-selected:bg-white ui-selected:text-black flex shrink-0 items-center overflow-hidden rounded bg-gray-800 transition-all hover:cursor-pointer hover:bg-gray-700"
+      className="group ui-selected:bg-white ui-selected:text-black flex shrink-0 overflow-hidden rounded bg-gray-800 transition-all hover:cursor-pointer hover:bg-gray-700"
     >
       <Link
         to={user.external_urls.spotify}
@@ -30,7 +29,7 @@ export function CardUser({ user, isSelected, onClick }: Props) {
       <button
         type="button"
         onClick={onClick}
-        className="flex h-full min-w-0 grow flex-col justify-center px-3 py-2 text-left hover:cursor-pointer"
+        className="flex min-w-0 grow flex-col justify-center px-3 py-2 text-left hover:cursor-pointer"
       >
         <p className="label">{user?.display_name ?? user.id}</p>
       </button>

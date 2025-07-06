@@ -25,7 +25,7 @@ export function ResultsBar({ label, data, field, canTiebreak }: Props) {
           <ResponsiveContainer
             width="100%"
             aspect={16 / 9}
-            className="bg-gray-800"
+            className="aspect-video bg-gray-800"
           >
             <BarChart data={data} className="-mb-1 px-8 pt-8">
               <Bar

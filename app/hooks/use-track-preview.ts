@@ -11,7 +11,6 @@ export function useTrackPreview(url?: string | null) {
 
   const handleInterrupt = useCallback(
     (event: CustomEvent<Record<string, string>>) => {
-      console.log(event.detail, url, event.detail.url === url);
       if (event.detail.url === url) return;
       setIsPlaying.false();
     },

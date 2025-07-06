@@ -7,6 +7,7 @@ import { useBoolean } from "@app/hooks/use-boolean";
 import { usePlaylist } from "@app/hooks/use-playlist";
 
 import { Dialog } from "@app/components/dialog";
+import { Placeholder } from "./placeholder";
 
 type Props = {
   cta: string;
@@ -56,24 +57,20 @@ export function DialogTiebreak({
           <p className="title">Tiebreak</p>
         </div>
         <div className="flex h-full flex-col gap-3 p-6 text-white">
-          <p className="label text-gray-300">Which one of these won?</p>
-          <div className="flex flex-col overflow-hidden rounded">
-            {!items.length ? (
-              <div className="text flex items-center justify-center rounded border border-gray-600 p-4 text-gray-600">
-                No Results Found
-              </div>
-            ) : (
-              items.map((item) => (
-                <button
-                  onClick={handleSetId(item)}
-                  data-ui={item.id === selectedId && "selected"}
-                  className="ui-selected:bg-white ui-selected:text-black flex justify-between border-b border-gray-900 bg-gray-800 p-3 text-left last:border-b-0"
-                >
-                  {item.name}
-                </button>
-              ))
-            )}
-          </div>
+          <p className="label text-gray-300">Please select a true winner</p>
+          {!items.length ? (
+            <Placeholder label="No data found" />
+          ) : (
+            items.map((item) => (
+              <button
+                onClick={handleSetId(item)}
+                data-ui={item.id === selectedId && "selected"}
+                className="ui-selected:bg-white ui-selected:text-black flex justify-between rounded bg-gray-800 p-3 text-left transition-all hover:cursor-pointer hover:bg-gray-700"
+              >
+                {item.name}
+              </button>
+            ))
+          )}
         </div>
         <div className="sticky bottom-0 border-t border-gray-950 bg-gray-900 px-6 py-4">
           <Form action="/api/vote/create" method="post">

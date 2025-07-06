@@ -73,36 +73,40 @@ export function DialogSearch<Item>({
       <Dialog
         open={isOpen}
         onClose={setIsOpen.false}
-        className="flex h-[75vh] flex-col gap-3 p-6 text-white"
+        heading={label}
+        className="flex flex-col"
       >
-        <label className="heading">{label}</label>
-        <div className="sticky top-4 z-10 flex h-11 w-full rounded bg-gray-700 text-white outline-white focus-within:outline-1">
-          <input
-            name="query"
-            type="text"
-            value={query}
-            onChange={handleSearch}
-            placeholder={placeholder}
-            disabled={disabled}
-            className="grow rounded border-transparent bg-transparent px-3 placeholder:text-gray-500 focus:outline-none"
-          />
-          <button
-            className="group flex size-11 items-center justify-center"
-            onClick={handleClear}
-            disabled={!query}
-          >
-            <MagnifyingGlass
-              size={20}
-              className="hidden group-disabled:block"
-            />
-            <X size={20} className="group-disabled:hidden" />
-          </button>
+        <div className="flex flex-col gap-3 px-6 py-8 text-white">
+          {!filteredItems.length ? (
+            <Placeholder label="No results found" />
+          ) : (
+            filteredItems.map((item) => renderItem(item))
+          )}
         </div>
-        {!filteredItems.length ? (
-          <Placeholder label="No results found" />
-        ) : (
-          filteredItems.map((item) => renderItem(item))
-        )}
+        <div className="sticky bottom-0 z-10 border-t border-gray-950 bg-gray-900 p-6">
+          <div className="flex h-11 w-full rounded bg-gray-700 text-white outline-white focus-within:outline-1">
+            <input
+              name="query"
+              type="text"
+              value={query}
+              onChange={handleSearch}
+              placeholder={placeholder}
+              disabled={disabled}
+              className="grow rounded border-transparent bg-transparent px-3 placeholder:text-gray-500 focus:outline-none"
+            />
+            <button
+              className="group flex size-11 items-center justify-center"
+              onClick={handleClear}
+              disabled={!query}
+            >
+              <MagnifyingGlass
+                size={20}
+                className="hidden group-disabled:block"
+              />
+              <X size={20} className="group-disabled:hidden" />
+            </button>
+          </div>
+        </div>
       </Dialog>
     </>
   );

@@ -11,10 +11,12 @@ export function DialogCreateForm() {
       <button onClick={setIsOpen.true} className="btn btn-primary">
         Create Form
       </button>
-      <Dialog open={isOpen} onClose={setIsOpen.false} className="flex flex-col">
-        <div className="border-b border-gray-950 p-6">
-          <p className="title">Create a Form</p>
-        </div>
+      <Dialog
+        open={isOpen}
+        onClose={setIsOpen.false}
+        heading="Create a Form"
+        className="flex flex-col"
+      >
         <FormCreate />
       </Dialog>
     </>

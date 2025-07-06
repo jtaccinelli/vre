@@ -17,7 +17,7 @@ export function HeaderVote({ playlist, users, votes, voter }: Props) {
   }, [voter, votes]);
 
   return (
-    <div className="flex flex-col gap-6 p-4 pt-10">
+    <div className="flex flex-col gap-6 p-6 pt-10">
       <div className="flex flex-col">
         <p className="text text-gray-400">Playlist Voting Form</p>
         <h1 className="title">{playlist.name}</h1>
