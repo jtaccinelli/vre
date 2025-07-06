@@ -33,7 +33,7 @@ export function CardTrack({ track, isSelected, onClick }: Props) {
       </Link>
       <button
         type="button"
-        className="flex min-w-0 grow flex-col px-3 py-2 text-left hover:cursor-pointer"
+        className="flex h-full min-w-0 grow flex-col justify-center px-3 py-2 text-left hover:cursor-pointer"
         onClick={onClick}
       >
         <p className="label">{track.name}</p>

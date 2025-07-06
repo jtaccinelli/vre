@@ -76,7 +76,7 @@ export function DialogSearch<Item>({
         className="flex h-[75vh] flex-col gap-3 p-6 text-white"
       >
         <label className="heading">{label}</label>
-        <div className="sticky top-6 z-10 flex h-11 w-full rounded bg-gray-700 text-white outline-white focus-within:outline-1">
+        <div className="sticky top-4 z-10 flex h-11 w-full rounded bg-gray-700 text-white outline-white focus-within:outline-1">
           <input
             name="query"
             type="text"

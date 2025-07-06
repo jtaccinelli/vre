@@ -55,15 +55,12 @@ export function FieldUsers({ users, max = 1 }: Props) {
     (item: User) => {
       const isSelected = selectedUsers.some((user) => item.id === user.id);
       return (
-        <button
+        <CardUser
           key={item.id}
-          type="button"
-          data-ui={isSelected && "selected"}
-          className="group"
+          user={item}
+          isSelected={isSelected}
           onClick={handleToggleTrack(item)}
-        >
-          <CardUser user={item} />
-        </button>
+        />
       );
     },
     [selectedUsers],
@@ -109,7 +106,7 @@ export function FieldUsers({ users, max = 1 }: Props) {
         cta="Add your users..."
         label="Search Users"
         placeholder="Search for users by name..."
-        className="field-input rounded border-transparent bg-gray-700 text-start text-gray-500"
+        className="field-input text-gray-500 disabled:text-gray-900"
         items={users}
         filter={handleFilter}
         renderItem={renderUser}
