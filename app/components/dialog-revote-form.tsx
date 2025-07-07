@@ -1,12 +1,12 @@
 import { Form, Link } from "react-router";
 
-import type { Vote } from "@server/schema";
+import type { VoteSchema } from "@server/schema";
 
 import { DialogBasic } from "@app/components/dialog-basic";
 
 type Props = {
   playlist: Playlist;
-  vote?: Vote;
+  vote?: VoteSchema;
 };
 
 export function DialogRevoteForm({ vote, playlist }: Props) {

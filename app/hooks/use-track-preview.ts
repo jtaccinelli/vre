@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { useNavigation } from "react-router";
 
 import { PREVIEW_EVENTS } from "@app/lib/events";
+
 import { useBoolean } from "@app/hooks/use-boolean";
 
 export function useTrackPreview(url?: string | null) {

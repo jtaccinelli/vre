@@ -1,7 +1,7 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import type { Route } from "./+types/root";
 
-import "./app.css";
+import "@app/styles/index.css";
 
 import { DialogSignIn } from "@app/components/dialog-sign-in";
 import { DialogRefreshSession } from "@app/components/dialog-refresh-session";

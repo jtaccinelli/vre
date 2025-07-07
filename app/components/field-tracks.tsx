@@ -1,9 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
-import { Link } from "react-router";
 
 import { DialogSearch } from "@app/components/dialog-search";
 import { Pill } from "@app/components/pill";
-import { SpotifyImage } from "@app/components/spotify-image";
 import { CardTrack } from "@app/components/card-track";
 
 type Props = {

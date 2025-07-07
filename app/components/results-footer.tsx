@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 
 import type { ResultValue } from "@app/lib/results";
+
 import { DialogResults } from "@app/components/dialog-results";
 import { DialogTiebreak } from "@app/components/dialog-tiebreak";
-import { Placeholder } from "@app/components/placeholder";
 import { ResultsTable } from "@app/components/results-table";
 
 type Props = {

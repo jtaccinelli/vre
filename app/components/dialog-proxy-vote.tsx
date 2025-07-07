@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router";
 
-import type { Vote } from "@server/schema";
+import type { VoteSchema } from "@server/schema";
 
 import { CardUser } from "@app/components/card-user";
 import { DialogSearch } from "@app/components/dialog-search";
@@ -10,7 +10,7 @@ type Props = {
   users: User[];
   playlist: Playlist;
   className?: string;
-  votes: Vote[];
+  votes: VoteSchema[];
 };
 
 export function DialogProxyVote({ users, playlist, votes, className }: Props) {

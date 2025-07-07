@@ -16,7 +16,7 @@ export function DialogDeleteForm({ playlist, className }: Props) {
       subheading="This can't be undone!"
       className={className}
     >
-      <Form action="/api/config/delete" method="post">
+      <Form action="/api/form/delete" method="post">
         <input type="hidden" name="playlist-id" value={playlist.id} />
         <button className="btn btn-primary">Yes, delete this</button>
       </Form>

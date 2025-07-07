@@ -7,6 +7,7 @@ import {
 } from "recharts";
 
 import type { ResultValue } from "@app/lib/results";
+
 import { ResultsTooltip } from "@app/components/results-tooltip";
 import { ResultsFooter } from "@app/components/results-footer";
 

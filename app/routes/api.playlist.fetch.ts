@@ -14,11 +14,11 @@ export async function loader({ request, context }: Route.LoaderArgs) {
   const playlist = await context.spotify.fetchPlaylist(playlistId);
   if (!playlist?.id) return FALLBACK_VALUE;
 
-  const config = await context.config.get(playlist.id);
+  const form = await context.form.get(playlist.id);
 
   return {
     playlist,
-    hasConfig: config.length > 0,
+    hasForm: form.length > 0,
   };
 }
 

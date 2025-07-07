@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { Form } from "react-router";
 
-import type { Config } from "@server/schema";
+import type { FormSchema } from "@server/schema";
+
 import { FieldUsers } from "@app/components/field-users";
 import { FieldTextarea } from "@app/components/field-textarea";
 import { FieldTracks } from "@app/components/field-tracks";
@@ -10,10 +11,10 @@ type Props = {
   playlist: Playlist;
   users: User[];
   voter?: User;
-  config: Config;
+  form: FormSchema;
 };
 
-export function FormVote({ users, playlist, config, voter }: Props) {
+export function FormVote({ users, playlist, form, voter }: Props) {
   const filteredTracks = useMemo(() => {
     const userId = voter?.id;
     return playlist.tracks.items
@@ -35,19 +36,16 @@ export function FormVote({ users, playlist, config, voter }: Props) {
     >
       <input type="hidden" name="playlist-id" value={playlist.id} />
       <input type="hidden" name="voter-id" value={voter?.id} />
-      <FieldTracks tracks={filteredTracks} max={config.trackVoteCount ?? 3} />
-      <FieldUsers
-        users={filteredUsers}
-        max={config.contributorVoteCount ?? 1}
-      />
-      {!config.enableHonourableMentions ? null : (
+      <FieldTracks tracks={filteredTracks} max={form.trackVoteCount ?? 3} />
+      <FieldUsers users={filteredUsers} max={form.contributorVoteCount ?? 1} />
+      {!form.enableHonourableMentions ? null : (
         <FieldTextarea
           name="honourable-mentions"
           placeholder="I liked..."
           label="Are there any tracks or contributors worthy of an honourable mention?"
         />
       )}
-      {!config.enableShameVotes ? null : (
+      {!form.enableShameVotes ? null : (
         <FieldTextarea
           name="shame-votes"
           placeholder="I didn't like..."

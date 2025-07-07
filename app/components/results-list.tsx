@@ -1,12 +1,13 @@
 import { useMemo } from "react";
 
-import type { Vote } from "@server/schema";
+import type { VoteSchema } from "@server/schema";
+
 import { Placeholder } from "@app/components/placeholder";
 
 type Props = {
   label: string;
-  votes: Vote[];
-  map: (vote: Vote) => string | null;
+  votes: VoteSchema[];
+  map: (vote: VoteSchema) => string | null;
 };
 
 export function ResultsList({ label, votes, map }: Props) {

@@ -1,13 +1,14 @@
-import type { Vote } from "@server/schema";
 import { useMemo } from "react";
+import { CheckCircle } from "@phosphor-icons/react";
+
+import type { VoteSchema } from "@server/schema";
 
 import { SpotifyImage } from "@app/components/spotify-image";
-import { Check, CheckCircle } from "@phosphor-icons/react";
 
 type Props = {
   voter?: User;
   users: User[];
-  votes: Vote[];
+  votes: VoteSchema[];
 };
 
 export function UserAvatars({ voter, users, votes }: Props) {

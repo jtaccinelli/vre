@@ -5,7 +5,7 @@ import * as schema from "server/schema";
 import { SessionHandler } from "./session";
 import { AuthHandler } from "./auth";
 import { VoteHandler } from "./vote";
-import { ConfigHandler } from "./config";
+import { FormHandler } from "./form";
 import { SpotifyHandler } from "./spotify";
 
 declare module "react-router" {
@@ -19,7 +19,7 @@ declare module "react-router" {
     auth: AuthHandler;
     spotify: SpotifyHandler;
     vote: VoteHandler;
-    config: ConfigHandler;
+    form: FormHandler;
     user?: CurrentUser;
   }
 }
@@ -42,7 +42,7 @@ export default {
     const user = await spotify.fetchCurrentUser();
 
     const vote = new VoteHandler(db, user);
-    const config = new ConfigHandler(db, user);
+    const form = new FormHandler(db, user);
 
     return requestHandler(request, {
       cloudflare: { env, ctx },
@@ -51,7 +51,7 @@ export default {
       auth,
       spotify,
       vote,
-      config,
+      form,
       user,
     });
   },

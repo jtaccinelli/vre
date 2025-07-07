@@ -17,11 +17,11 @@ export default [
       route("sign-in", "./routes/api.auth.sign-in.ts"),
       route("sign-out", "./routes/api.auth.sign-out.ts"),
     ]),
-    ...prefix("config", [
-      route("close", "./routes/api.config.close.ts"),
-      route("create", "./routes/api.config.create.ts"),
-      route("delete", "./routes/api.config.delete.ts"),
-      route("open", "./routes/api.config.open.ts"),
+    ...prefix("form", [
+      route("close", "./routes/api.form.close.ts"),
+      route("create", "./routes/api.form.create.ts"),
+      route("delete", "./routes/api.form.delete.ts"),
+      route("open", "./routes/api.form.open.ts"),
     ]),
     ...prefix("vote", [
       route("create", "./routes/api.vote.create.ts"),

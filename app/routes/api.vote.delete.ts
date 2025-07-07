@@ -11,7 +11,7 @@ export async function action({ context, request }: Route.ActionArgs) {
 
   const hasValidData = isString(playlistId) && isString(voteId);
   if (!hasValidData) {
-    throw new Error("Data for config creation was sent with incorrect format");
+    throw new Error("Data for form creation was sent with incorrect format");
   }
 
   await context.vote.delete(parseInt(voteId));

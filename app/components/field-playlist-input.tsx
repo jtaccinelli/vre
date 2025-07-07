@@ -13,11 +13,11 @@ export function FieldPlaylistInput() {
   const [value, setValue] = useState<string>("");
   const fetcher = useFetcher<Loader>();
 
-  const { playlist, contributorIds, hasConfig } = useMemo(() => {
+  const { playlist, contributorIds, hasForm } = useMemo(() => {
     if (!fetcher.data?.playlist) return {};
 
     const playlist = fetcher.data.playlist;
-    const hasConfig = fetcher.data.hasConfig;
+    const hasForm = fetcher.data.hasForm;
     const contributorIds = playlist.tracks.items
       .reduce<string[]>((array, item) => {
         const hasId = array.some((id) => id === item.added_by.id);
@@ -28,7 +28,7 @@ export function FieldPlaylistInput() {
 
     return {
       playlist,
-      hasConfig,
+      hasForm,
       contributorIds,
     };
   }, [fetcher.data]);
@@ -90,7 +90,7 @@ export function FieldPlaylistInput() {
           </div>
         </div>
       )}
-      {!hasConfig || !playlist ? null : (
+      {!hasForm || !playlist ? null : (
         <Alert
           message="This playlist already has a form created."
           cta="Go Vote"

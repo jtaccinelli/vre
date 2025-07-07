@@ -1,4 +1,4 @@
-import type { Vote } from "@server/schema";
+import type { VoteSchema } from "@server/schema";
 
 export const TIEBREAK_VOTER = "tiebreaker";
 
@@ -42,7 +42,7 @@ function initialiseValue(
   return map;
 }
 
-export function processBestTrackResults(votes: Vote[], tracks: Track[]) {
+export function processBestTrackResults(votes: VoteSchema[], tracks: Track[]) {
   const ids = flattenIdsValues(votes.map((vote) => vote.trackIds));
 
   const data = ids.reduce<ResultValueMap>((map, id) => {
@@ -59,7 +59,7 @@ export function processBestTrackResults(votes: Vote[], tracks: Track[]) {
   return Array.from(data.values());
 }
 
-export function processBestUserResults(votes: Vote[], users: User[]) {
+export function processBestUserResults(votes: VoteSchema[], users: User[]) {
   const ids = flattenIdsValues(votes.map((vote) => vote.contributorIds));
 
   const data = ids.reduce<ResultValueMap>((map, id) => {
@@ -77,7 +77,7 @@ export function processBestUserResults(votes: Vote[], users: User[]) {
 }
 
 export function processMostTrackVotesResults(
-  votes: Vote[],
+  votes: VoteSchema[],
   users: User[],
   tracks: (Track & { added_by: UserPublic })[],
 ) {

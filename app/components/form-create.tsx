@@ -7,7 +7,7 @@ export function FormCreate() {
   return (
     <Form
       className="relative flex flex-col divide-y divide-gray-950"
-      action="/api/config/create"
+      action="/api/form/create"
       method="post"
     >
       <FieldPlaylistInput />

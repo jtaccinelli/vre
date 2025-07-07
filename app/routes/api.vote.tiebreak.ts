@@ -15,7 +15,7 @@ export async function action({ context, request }: Route.ActionArgs) {
     isString(playlistId) && isNotFile(contributorId) && isNotFile(trackId);
 
   if (!hasValidData) {
-    throw new Error("Data for config creation was sent with incorrect format");
+    throw new Error("Data for form creation was sent with incorrect format");
   }
 
   await context.vote.create({

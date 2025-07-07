@@ -1,7 +1,7 @@
 import { type InferSelectModel } from "drizzle-orm";
 import { text, sqliteTable as table, integer } from "drizzle-orm/sqlite-core";
 
-export const config = table("config", {
+export const form = table("form", {
   playlistId: text("playlist_id").primaryKey(),
   createdBy: text("created_by").notNull(),
   contributorIds: text("contributor_ids").notNull(),
@@ -26,5 +26,5 @@ export const vote = table("vote", {
   shameVotes: text("shame_votes"),
 });
 
-export type Vote = InferSelectModel<typeof vote>;
-export type Config = InferSelectModel<typeof config>;
+export type VoteSchema = InferSelectModel<typeof vote>;
+export type FormSchema = InferSelectModel<typeof form>;

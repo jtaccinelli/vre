@@ -1,5 +1,5 @@
 import { redirect } from "react-router";
-import type { Route } from "./+types/api.config.open";
+import type { Route } from "./+types/api.form.close";
 
 import { isString } from "@app/lib/predicates";
 
@@ -10,8 +10,8 @@ export async function action({ context, request }: Route.ActionArgs) {
   const hasValidData = isString(playlistId);
   if (!hasValidData) throw Error("No playlist ID provided.");
 
-  await context.config.update(playlistId, {
-    enableVoting: true,
+  await context.form.update(playlistId, {
+    enableVoting: false,
   });
 
   throw redirect(`/results/${playlistId}`);

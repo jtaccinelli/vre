@@ -12,7 +12,7 @@ export async function loader({ context }: Route.LoaderArgs) {
     const userId = context?.user?.id;
     if (!userId) return [];
 
-    const forms = await context.config.current();
+    const forms = await context.form.current();
     const votes = await context.vote.current();
 
     if (!forms) return [];

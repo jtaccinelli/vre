@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 
-import type { Vote } from "@server/schema";
+import type { VoteSchema } from "@server/schema";
+
 import { DialogRevoteForm } from "@app/components/dialog-revote-form";
 import { UserAvatars } from "@app/components/user-avatars";
 
@@ -8,7 +9,7 @@ type Props = {
   playlist: Playlist;
   users: User[];
   voter?: User;
-  votes: Vote[];
+  votes: VoteSchema[];
 };
 
 export function HeaderVote({ playlist, users, votes, voter }: Props) {

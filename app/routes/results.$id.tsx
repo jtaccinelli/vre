@@ -28,9 +28,9 @@ export async function loader({ params, context }: Route.LoaderArgs) {
   const playlist = await context.spotify.fetchPlaylist(playlistId);
   if (!playlist) throw redirect("/");
 
-  const [config] = await context.config.get(playlistId);
-  if (!config) throw redirect("/");
-  if (config.enableVoting) throw redirect(`/vote/${params.id}`);
+  const [form] = await context.form.get(playlistId);
+  if (!form) throw redirect("/");
+  if (form.enableVoting) throw redirect(`/vote/${params.id}`);
 
   const votes = await context.vote.playlist(playlistId);
   const users = await context.spotify.fetchUsersFromPlaylist(playlist);
@@ -45,7 +45,7 @@ export async function loader({ params, context }: Route.LoaderArgs) {
   const bestUserVote = processBestUserResults(votes, users);
   const mostTrackVotes = processMostTrackVotesResults(votes, users, tracks);
 
-  const hasCreated = config.createdBy === userId;
+  const hasCreated = form.createdBy === userId;
 
   return {
     playlist,

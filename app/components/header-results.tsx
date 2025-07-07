@@ -1,6 +1,3 @@
-import { CaretLeft } from "@phosphor-icons/react";
-import { Link } from "react-router";
-
 type Props = {
   playlist: Playlist;
 };

@@ -16,7 +16,7 @@ export function DialogCloseVoting({ playlist, className }: Props) {
       subheading="Submissions will be stopped."
       className={className}
     >
-      <Form action="/api/config/close" method="post">
+      <Form action="/api/form/close" method="post">
         <input type="hidden" name="playlist-id" value={playlist.id} />
         <button className="btn btn-primary">Yes, close voting</button>
       </Form>

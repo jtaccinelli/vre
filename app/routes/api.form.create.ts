@@ -1,5 +1,5 @@
 import { redirect } from "react-router";
-import type { Route } from "./+types/api.config.create";
+import type { Route } from "./+types/api.form.create";
 
 import { isString } from "@app/lib/predicates";
 
@@ -21,10 +21,10 @@ export async function action({ context, request }: Route.ActionArgs) {
     isString(contributorVoteCount);
 
   if (!hasValidData) {
-    throw new Error("Data for config creation was sent with incorrect format");
+    throw new Error("Data for form creation was sent with incorrect format");
   }
 
-  await context.config.create({
+  await context.form.create({
     playlistId: playlistId,
     createdBy: userId,
     contributorIds: contributorIds,
