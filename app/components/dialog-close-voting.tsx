@@ -10,6 +10,7 @@ type Props = {
 export function DialogCloseVoting({ playlist, className }: Props) {
   return (
     <DialogConfirm
+      id="close-voting"
       label="Close Voting"
       emoji="🤔"
       heading="Are you sure?"

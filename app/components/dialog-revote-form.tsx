@@ -14,6 +14,7 @@ export function DialogRevoteForm({ vote, playlist }: Props) {
 
   return (
     <DialogBasic
+      id="revote-form"
       open={!!vote}
       emoji="🤔"
       heading="You've already voted!"

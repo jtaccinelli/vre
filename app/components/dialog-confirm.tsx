@@ -4,6 +4,7 @@ import { useBoolean } from "@app/hooks/use-boolean";
 import { DialogBasic } from "@app/components/dialog-basic";
 
 type Props = {
+  id: string;
   label: string;
   emoji: string;
   heading: string;
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export function DialogConfirm({
+  id,
   label,
   emoji,
   heading,
@@ -28,6 +30,7 @@ export function DialogConfirm({
         {label}
       </button>
       <DialogBasic
+        id={id}
         open={isOpen}
         emoji={emoji}
         heading={heading}

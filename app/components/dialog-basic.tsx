@@ -3,6 +3,7 @@ import { type ReactNode } from "react";
 import { Dialog } from "@app/components/dialog";
 
 type Props = {
+  id: string;
   open: boolean;
   emoji: string;
   heading: string;
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export function DialogBasic({
+  id,
   open,
   emoji,
   heading,
@@ -19,6 +21,7 @@ export function DialogBasic({
 }: Props) {
   return (
     <Dialog
+      id={id}
       open={open}
       className="flex flex-col items-center p-6 pt-16 pb-12 text-center"
     >

@@ -10,12 +10,14 @@ export async function action({ context, request }: Route.ActionArgs) {
   const form = await request.formData();
 
   const playlistId = form.get("playlist-id");
+  const roomId = form.get("room-id");
   const contributorIds = form.get("contributor-ids");
   const contributorVoteCount = form.get("contributor-vote-count");
   const trackVoteCount = form.get("track-vote-count");
 
   const hasValidData =
     isString(playlistId) &&
+    isString(roomId) &&
     isString(contributorIds) &&
     isString(trackVoteCount) &&
     isString(contributorVoteCount);
@@ -26,6 +28,7 @@ export async function action({ context, request }: Route.ActionArgs) {
 
   await context.form.create({
     playlistId: playlistId,
+    roomId: roomId,
     createdBy: userId,
     contributorIds: contributorIds,
     contributorVoteCount: parseInt(contributorVoteCount),

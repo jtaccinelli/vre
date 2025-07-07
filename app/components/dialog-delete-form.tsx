@@ -10,6 +10,7 @@ type Props = {
 export function DialogDeleteForm({ playlist, className }: Props) {
   return (
     <DialogConfirm
+      id="delete-form"
       label="Delete Form"
       emoji="🤔"
       heading="Are you sure?"

@@ -34,6 +34,7 @@ export function DialogResults({ label, cta, data }: Props) {
         {cta}
       </button>
       <Dialog
+        id="results"
         open={isOpen}
         onClose={setIsOpen.false}
         className="flex flex-col px-6 py-8"

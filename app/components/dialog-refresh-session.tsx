@@ -9,6 +9,7 @@ export function DialogRefreshSession() {
 
   return (
     <DialogBasic
+      id="refresh-session"
       open={isLoggedIn && isTokenExpired}
       emoji="❤️‍🩹"
       heading="Oh no!"

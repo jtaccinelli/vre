@@ -5,6 +5,7 @@ import { DialogBasic } from "@app/components/dialog-basic";
 export function DialogCantVote() {
   return (
     <DialogBasic
+      id="cant-vote"
       open
       emoji="🧑‍⚖️"
       heading="You can't vote!"

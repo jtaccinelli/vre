@@ -7,6 +7,7 @@ import { AuthHandler } from "./auth";
 import { VoteHandler } from "./vote";
 import { FormHandler } from "./form";
 import { SpotifyHandler } from "./spotify";
+import { RoomHandler } from "./room";
 
 declare module "react-router" {
   export interface AppLoadContext {
@@ -18,6 +19,7 @@ declare module "react-router" {
     session: SessionHandler;
     auth: AuthHandler;
     spotify: SpotifyHandler;
+    room: RoomHandler;
     vote: VoteHandler;
     form: FormHandler;
     user?: CurrentUser;
@@ -41,8 +43,9 @@ export default {
     const spotify = new SpotifyHandler(auth);
     const user = await spotify.fetchCurrentUser();
 
-    const vote = new VoteHandler(db, user);
+    const room = new RoomHandler(db);
     const form = new FormHandler(db, user);
+    const vote = new VoteHandler(db, user);
 
     return requestHandler(request, {
       cloudflare: { env, ctx },
@@ -51,6 +54,7 @@ export default {
       auth,
       spotify,
       vote,
+      room,
       form,
       user,
     });

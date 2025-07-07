@@ -4,7 +4,7 @@ import { useRootLoaderData } from "@app/hooks/use-root-loader";
 
 import { DialogBasic } from "@app/components/dialog-basic";
 
-export function DialogSignIn() {
+export function DialogJoinRoom() {
   const { isLoggedIn } = useRootLoaderData();
 
   return (
@@ -12,8 +12,8 @@ export function DialogSignIn() {
       id="sign-in"
       open={!isLoggedIn}
       emoji="💿"
-      heading="Welcome to the VRE!"
-      subheading="Trading tunes since '24"
+      heading="VRE"
+      subheading="Virtual Record Exchange"
     >
       <Link to="/api/auth/sign-in" className="btn btn-primary">
         Sign in w/ Spotify

@@ -14,6 +14,7 @@ import { Dialog } from "@app/components/dialog";
 import { Placeholder } from "@app/components/placeholder";
 
 type Props<Item> = {
+  id: string;
   label: string;
   cta: string;
   placeholder: string;
@@ -25,6 +26,7 @@ type Props<Item> = {
 };
 
 export function DialogSearch<Item>({
+  id,
   label,
   cta,
   placeholder,
@@ -71,6 +73,7 @@ export function DialogSearch<Item>({
         {cta}
       </button>
       <Dialog
+        id={id}
         open={isOpen}
         onClose={setIsOpen.false}
         heading={label}

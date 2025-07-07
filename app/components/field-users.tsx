@@ -103,6 +103,7 @@ export function FieldUsers({ users, max = 1 }: Props) {
         </button>
       </div>
       <DialogSearch
+        id="search-users"
         cta="Add your users..."
         label="Search Users"
         placeholder="Search for users by name..."

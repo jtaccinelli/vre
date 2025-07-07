@@ -10,6 +10,7 @@ type Props = {
 export function DialogReopenVoting({ playlist, className }: Props) {
   return (
     <DialogConfirm
+      id="reopen-voting"
       label="Reopen Voting"
       emoji="🤔"
       heading="Are you sure?"

@@ -52,7 +52,12 @@ export function DialogTiebreak({
       >
         {cta}
       </button>
-      <Dialog open={isOpen} onClose={setIsOpen.false} className="flex flex-col">
+      <Dialog
+        id="tiebreak"
+        open={isOpen}
+        onClose={setIsOpen.false}
+        className="flex flex-col"
+      >
         <div className="border-b border-gray-950 p-6">
           <p className="title">Tiebreak</p>
         </div>

@@ -1,8 +1,10 @@
-import { type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 import { useUi } from "@app/hooks/use-ui";
+import { DIALOG_EVENTS } from "@app/lib/events";
 
 type Props = {
+  id: string;
   open: boolean;
   heading?: string;
   onClose?: () => void;
@@ -11,6 +13,7 @@ type Props = {
 };
 
 export function Dialog({
+  id,
   open,
   heading,
   className,
@@ -20,6 +23,24 @@ export function Dialog({
   const ui = useUi({
     closed: !open,
   });
+
+  useEffect(() => {
+    document.addEventListener(DIALOG_EVENTS.OPEN, (event) => {
+      if (id === event.detail.id) return;
+      onClose();
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    document.dispatchEvent(
+      new CustomEvent(DIALOG_EVENTS.OPEN, {
+        detail: {
+          id: id,
+        },
+      }),
+    );
+  }, [open]);
 
   return (
     <div

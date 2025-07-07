@@ -103,6 +103,7 @@ export function FieldTracks({ tracks, max = 3 }: Props) {
         </button>
       </div>
       <DialogSearch
+        id="search-tracks"
         cta="Add your tracks..."
         label="Search Tracks"
         placeholder="Search for tracks by name..."
