@@ -49,7 +49,7 @@ export function Dialog({
     >
       <button
         type="button"
-        className="absolute inset-0 z-0 bg-gray-950/80"
+        className="absolute inset-0 z-0 bg-gray-950/80 backdrop-blur"
         onClick={onClose}
       />
       <div className="absolute bottom-0 left-1/2 z-10 w-full max-w-screen-sm -translate-x-1/2 px-2">
