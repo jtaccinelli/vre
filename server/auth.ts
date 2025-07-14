@@ -4,55 +4,76 @@ import { randomBytes } from "node:crypto";
 import { SessionHandler } from "./session";
 import { config } from "@app/config";
 import { redirect } from "react-router";
+import { RoomHandler } from "./room";
 
 export class AuthHandler {
-  static async init(request: Request, session: SessionHandler) {
-    return new this(request, session);
+  static async init(
+    request: Request,
+    session: SessionHandler,
+    room: RoomHandler,
+  ) {
+    return new this(request, session, room);
   }
 
   // -- CLASS INSTANCE VARIABLES & METHODS
   session: SessionHandler;
+  room: RoomHandler;
 
   state: string;
-  basicAuthToken: string;
   redirectUri: string;
 
   accessToken: string;
   refreshToken: string;
   expiresAt: number;
+  clientId: string;
+  clientSecret: string;
 
-  constructor(request: Request, session: SessionHandler) {
+  get basicAuthToken() {
+    const token = `${this.clientId}:${this.clientSecret}`;
+    return Buffer.from(token).toString("base64");
+  }
+
+  constructor(request: Request, session: SessionHandler, room: RoomHandler) {
     this.state = Buffer.from(randomBytes(48)).toString("hex");
     this.session = session;
-
-    // Generate basic authentication header token
-    const { clientId, clientSecret, redirectUri } = config.spotify.details;
-    const token = `${clientId}:${clientSecret}`;
-    this.basicAuthToken = Buffer.from(token).toString("base64");
+    this.room = room;
 
     // Generate redirect uri based on application site
     const url = new URL(request.url);
-    this.redirectUri = `${url.origin}${redirectUri}`;
+    this.redirectUri = `${url.origin}${config.spotify.details.redirectUri}`;
 
     // Set values fetched from sessions
     this.accessToken = this.session.get(SessionHandler.KEY__ACCESS_TOKEN);
     this.refreshToken = this.session.get(SessionHandler.KEY__REFERSH_TOKEN);
     this.expiresAt = this.session.get(SessionHandler.KEY__EXPIRES_AT);
+    this.clientId = this.session.get(SessionHandler.KEY__CLIENT_ID);
+    this.clientSecret = this.session.get(SessionHandler.KEY__CLIENT_SECRET);
   }
 
   // -- SENDS USER TO AUTHORIZATION PLACE
 
-  async authoriseUser() {
+  async authoriseUser(roomId: string) {
+    const [room] = await this.room.get(roomId);
+    if (!room) throw Error("No room found.");
+
+    this.session.set(SessionHandler.KEY__ROOM_ID, room.id);
+    this.session.set(SessionHandler.KEY__CLIENT_ID, room.clientId);
+    this.session.set(SessionHandler.KEY__CLIENT_SECRET, room.clientSecret);
+
     const url = new URL(config.spotify.endpoints.authorise);
 
     url.searchParams.set("response_type", "code");
     url.searchParams.set("show_dialog", "true");
     url.searchParams.set("state", this.state);
     url.searchParams.set("redirect_uri", this.redirectUri);
-    url.searchParams.set("client_id", config.spotify.details.clientId);
+    url.searchParams.set("client_id", room.clientId);
     url.searchParams.set("scope", config.spotify.details.scope);
 
-    throw redirect(url.toString());
+    throw redirect(url.toString(), {
+      headers: {
+        "Set-Cookie": await this.session.commit(),
+      },
+    });
   }
 
   // -- FETCHES ACCESS TOKEN W/ USER CODE FROM AUTH
@@ -142,6 +163,8 @@ export class AuthHandler {
     this.session.unset(SessionHandler.KEY__ACCESS_TOKEN);
     this.session.unset(SessionHandler.KEY__REFERSH_TOKEN);
     this.session.unset(SessionHandler.KEY__EXPIRES_AT);
+    this.session.unset(SessionHandler.KEY__CLIENT_ID);
+    this.session.unset(SessionHandler.KEY__CLIENT_SECRET);
 
     throw redirect("/", {
       headers: {

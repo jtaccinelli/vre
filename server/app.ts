@@ -37,13 +37,14 @@ export default {
       schema,
     });
 
+    const room = new RoomHandler(db);
+
     const session = await SessionHandler.init(request, env.SESSION);
-    const auth = await AuthHandler.init(request, session);
+    const auth = await AuthHandler.init(request, session, room);
 
     const spotify = new SpotifyHandler(auth);
     const user = await spotify.fetchCurrentUser();
 
-    const room = new RoomHandler(db);
     const form = new FormHandler(db, user);
     const vote = new VoteHandler(db, user);
 
