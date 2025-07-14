@@ -11,6 +11,10 @@ export default [
   route("results/:id", "./routes/results.$id.tsx"),
   ...prefix("api", [
     route("playlist/fetch", "./routes/api.playlist.fetch.ts"),
+    ...prefix("room", [
+      route("create", "./routes/api.room.create.ts"),
+      route("fetch", "./routes/api.room.fetch.ts"),
+    ]),
     ...prefix("auth", [
       route("callback", "./routes/api.auth.callback.ts"),
       route("refresh", "./routes/api.auth.refresh.ts"),
