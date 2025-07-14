@@ -1,7 +1,8 @@
 import { Form } from "react-router";
 
-import { FieldPlaylistInput } from "@app/components/field-playlist-input";
-import { FieldTabs } from "@app/components/field-tabs";
+import { FieldText } from "@app/components/field-text";
+import { FieldRoomGenerateInput } from "@app/components/field-room-generate-input";
+import { FieldCredentials } from "@app/components/field-credentials";
 
 export function FormRoom() {
   return (
@@ -10,22 +11,12 @@ export function FormRoom() {
       action="/api/room/create"
       method="post"
     >
-      <FieldPlaylistInput />
-      <FieldTabs
-        name="track-vote-count"
-        label="How many tracks should people be able to vote for?"
-        defaultValue={3}
-        values={[1, 2, 3, 4, 5]}
-      />
-      <FieldTabs
-        name="contributor-vote-count"
-        label="How many best contributors should people be able to vote for?"
-        defaultValue={1}
-        values={[1, 2, 3, 4, 5]}
-      />
+      <FieldText name="name" label="What do you want to name your room?" />
+      <FieldRoomGenerateInput />
+      <FieldCredentials />
       <div className="sticky bottom-0 bg-gray-900 px-6 py-4">
         <button type="submit" className="btn btn-primary self-start">
-          Create Voting Form
+          Create Room
         </button>
       </div>
     </Form>

@@ -1,5 +1,13 @@
 import type { Route } from "./+types/api.auth.sign-in";
 
-export async function loader({ context }: Route.LoaderArgs) {
-  await context.auth.authoriseUser();
+import { isString } from "@app/lib/predicates";
+
+export async function action({ request, context }: Route.LoaderArgs) {
+  const form = await request.formData();
+  const roomId = form.get("room-id");
+
+  const hasValidData = isString(roomId);
+  if (!hasValidData) throw Error("No Room ID provided.");
+
+  await context.auth.authoriseUser(roomId);
 }

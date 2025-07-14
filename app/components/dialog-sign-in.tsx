@@ -1,23 +1,29 @@
-import { Link } from "react-router";
+import { useBoolean } from "@app/hooks/use-boolean";
 
-import { useRootLoaderData } from "@app/hooks/use-root-loader";
+import { Dialog } from "@app/components/dialog";
+import { FormSignIn } from "@app/components/form-sign-in";
 
-import { DialogBasic } from "@app/components/dialog-basic";
+type Props = {
+  className?: string;
+};
 
-export function DialogSignIn() {
-  const { isLoggedIn } = useRootLoaderData();
+export function DialogSignIn({ className }: Props) {
+  const [isOpen, setIsOpen] = useBoolean(false);
 
   return (
-    <DialogBasic
-      id="sign-in"
-      open={!isLoggedIn}
-      emoji="💿"
-      heading="Welcome to the VRE!"
-      subheading="Trading tunes since '24"
-    >
-      <Link to="/api/auth/sign-in" className="btn btn-primary">
-        Sign in w/ Spotify
-      </Link>
-    </DialogBasic>
+    <>
+      <button onClick={setIsOpen.true} className={className} tabIndex={0}>
+        Sign In
+      </button>
+      <Dialog
+        id="sign-in"
+        open={isOpen}
+        onClose={setIsOpen.false}
+        heading="Sign In"
+        className="text-left"
+      >
+        <FormSignIn />
+      </Dialog>
+    </>
   );
 }

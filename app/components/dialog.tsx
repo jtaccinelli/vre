@@ -55,7 +55,7 @@ export function Dialog({
       <div className="absolute bottom-0 left-1/2 z-10 w-full max-w-screen-sm -translate-x-1/2 px-2">
         <div className="group-ui-closed:translate-y-1/2 flex max-h-[70vh] w-full flex-col overflow-y-scroll rounded-t-xl bg-gray-900 transition-transform">
           {!heading ? null : (
-            <div className="border-b border-gray-950 p-6">
+            <div className="border-b border-gray-950 p-6 text-left">
               <p className="title text-white">{heading}</p>
             </div>
           )}

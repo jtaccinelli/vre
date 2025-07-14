@@ -7,3 +7,7 @@ export function handleiseValue(value: string) {
 export function generateHandle() {
   return uuid();
 }
+
+export function generateRoomId() {
+  return Math.random().toString(36).substring(2, 8);
+}
