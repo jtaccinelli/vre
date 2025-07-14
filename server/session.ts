@@ -16,6 +16,9 @@ export class SessionHandler {
   static KEY__ACCESS_TOKEN = "__spotifyAccessToken";
   static KEY__REFERSH_TOKEN = "__spotifyRefreshToken";
   static KEY__EXPIRES_AT = "__spotifyExpiresAt";
+  static KEY__ROOM_ID = "__spotifyRoomId";
+  static KEY__CLIENT_ID = "__spotifyClientId";
+  static KEY__CLIENT_SECRET = "__spotifyClientSecret";
 
   static async init(request: Request, kv: KVNamespace) {
     const cookie = createCookie(SessionHandler.COOKIE_KEY, {
