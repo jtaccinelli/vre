@@ -3,7 +3,7 @@ import type { Route } from "./+types/root";
 
 import "@app/styles/index.css";
 
-import { DialogSignIn } from "@app/components/dialog-sign-in";
+import { DialogSignedOut } from "@app/components/dialog-signed-out";
 import { DialogRefreshSession } from "@app/components/dialog-refresh-session";
 import { Favicon } from "@app/components/favicon";
 import { Footer } from "@app/components/footer";
@@ -56,7 +56,7 @@ export default function App() {
           </div>
           <Footer />
         </main>
-        <DialogSignIn />
+        <DialogSignedOut />
         <DialogRefreshSession />
         <ScrollRestoration />
         <Scripts />

@@ -97,6 +97,6 @@
   }
 
   .link {
-    @apply text-base font-normal underline underline-offset-4 transition-all hover:text-gray-400;
+    @apply text-base font-normal underline underline-offset-4 transition-all hover:cursor-pointer hover:text-gray-400;
   }
 }

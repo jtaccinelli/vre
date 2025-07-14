@@ -2,6 +2,7 @@ import { redirect } from "react-router";
 import type { Route } from "./+types/api.form.create";
 
 import { isString } from "@app/lib/predicates";
+import { SessionHandler } from "@server/session";
 
 export async function action({ context, request }: Route.ActionArgs) {
   const userId = context?.user?.id;
@@ -9,12 +10,14 @@ export async function action({ context, request }: Route.ActionArgs) {
 
   const form = await request.formData();
 
+  const roomId = await context.session.get(SessionHandler.KEY__ROOM_ID);
   const playlistId = form.get("playlist-id");
   const contributorIds = form.get("contributor-ids");
   const contributorVoteCount = form.get("contributor-vote-count");
   const trackVoteCount = form.get("track-vote-count");
 
   const hasValidData =
+    isString(roomId) &&
     isString(playlistId) &&
     isString(contributorIds) &&
     isString(trackVoteCount) &&
@@ -26,7 +29,7 @@ export async function action({ context, request }: Route.ActionArgs) {
 
   await context.form.create({
     playlistId: playlistId,
-    roomId: "",
+    roomId: roomId,
     createdBy: userId,
     contributorIds: contributorIds,
     contributorVoteCount: parseInt(contributorVoteCount),
