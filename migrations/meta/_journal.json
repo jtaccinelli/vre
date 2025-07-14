@@ -15,6 +15,13 @@
       "when": 1751856736818,
       "tag": "0001_regular_marvex",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1752497909651,
+      "tag": "0002_colossal_gertrude_yorkes",
+      "breakpoints": true
     }
   ]
 }

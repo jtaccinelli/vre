@@ -10,8 +10,8 @@
     "dev": "react-router dev",
     "preview": "npm run build && vite preview",
     "db:migrate:generate": "dotenv -- drizzle-kit generate",
-    "d1:migrate:dev": "wrangler d1 migrations apply DB",
-    "d1:migrate:prod": "wrangler d1 migrations apply DB --remote"
+    "db:migrate:dev": "wrangler d1 migrations apply DB",
+    "db:migrate:prod": "wrangler d1 migrations apply DB --remote"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
