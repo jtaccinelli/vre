@@ -3,6 +3,8 @@ import { useFetcher } from "react-router";
 
 import type { Loader } from "@app/routes/api.playlist.fetch";
 
+import { extractContributorIds } from "@app/lib/helpers";
+
 import { Alert } from "@app/components/alert";
 import { Placeholder } from "@app/components/placeholder";
 import { SpotifyImage } from "@app/components/spotify-image";
@@ -18,13 +20,7 @@ export function FieldPlaylistInput() {
 
     const playlist = fetcher.data.playlist;
     const hasForm = fetcher.data.hasForm;
-    const contributorIds = playlist.tracks.items
-      .reduce<string[]>((array, item) => {
-        const hasId = array.some((id) => id === item.added_by.id);
-        if (!hasId) array.push(item.added_by.id);
-        return array;
-      }, [])
-      .join(",");
+    const contributorIds = extractContributorIds(playlist);
 
     return {
       playlist,

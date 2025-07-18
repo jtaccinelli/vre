@@ -8,6 +8,7 @@ import { DialogCantVote } from "@app/components/dialog-cant-vote";
 import { DialogDeleteForm } from "@app/components/dialog-delete-form";
 import { DialogCloseVoting } from "@app/components/dialog-close-voting";
 import { DialogProxyVote } from "@app/components/dialog-proxy-vote";
+import { DialogSyncForm } from "@app/components/dialog-sync-form";
 import { FormVote } from "@app/components/form-vote";
 import { HeaderVote } from "@app/components/header-vote";
 import { HeaderBack } from "@app/components/header-back";
@@ -70,6 +71,7 @@ export default function Page() {
           message="You created this form."
           actions={[
             <DialogProxyVote playlist={playlist} users={users} votes={votes} />,
+            <DialogSyncForm playlist={playlist} />,
             <DialogCloseVoting playlist={playlist} />,
             <DialogDeleteForm playlist={playlist} />,
           ]}

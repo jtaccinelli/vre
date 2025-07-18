@@ -24,6 +24,7 @@ export default [
     ...prefix("form", [
       route("close", "./routes/api.form.close.ts"),
       route("create", "./routes/api.form.create.ts"),
+      route("sync", "./routes/api.form.sync.ts"),
       route("delete", "./routes/api.form.delete.ts"),
       route("open", "./routes/api.form.open.ts"),
     ]),
