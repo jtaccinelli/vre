@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import type { VoteSchema } from "@server/schema";
+import type { FormSchema, VoteSchema } from "@server/schema";
 
 import { DialogRevoteForm } from "@app/components/dialog-revote-form";
 import { UserAvatars } from "@app/components/user-avatars";
@@ -10,9 +10,16 @@ type Props = {
   users: User[];
   voter?: User;
   votes: VoteSchema[];
+  hasCreated?: boolean;
 };
 
-export function HeaderVote({ playlist, users, votes, voter }: Props) {
+export function HeaderVote({
+  playlist,
+  users,
+  votes,
+  voter,
+  hasCreated,
+}: Props) {
   const currentVote = useMemo(() => {
     return votes.find((vote) => vote.voterId === voter?.id);
   }, [voter, votes]);
@@ -25,7 +32,7 @@ export function HeaderVote({ playlist, users, votes, voter }: Props) {
       </div>
 
       <UserAvatars users={users} votes={votes} voter={voter} />
-      {!currentVote ? null : (
+      {!currentVote && !hasCreated ? null : (
         <DialogRevoteForm vote={currentVote} playlist={playlist} />
       )}
     </div>

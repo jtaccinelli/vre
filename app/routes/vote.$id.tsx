@@ -65,6 +65,7 @@ export default function Page() {
         users={users}
         votes={votes}
         voter={proxiedUser ?? user}
+        hasCreated={hasCreated}
       />
       {!hasCreated ? null : (
         <ActionBar
@@ -82,6 +83,7 @@ export default function Page() {
         playlist={playlist}
         users={users}
         voter={proxiedUser ?? user}
+        hasVoted={data.hasContributed}
       />
     </div>
   );

@@ -12,9 +12,10 @@ type Props = {
   users: User[];
   voter?: User;
   form: FormSchema;
+  hasVoted?: boolean;
 };
 
-export function FormVote({ users, playlist, form, voter }: Props) {
+export function FormVote({ users, playlist, form, voter, hasVoted }: Props) {
   const filteredTracks = useMemo(() => {
     const userId = voter?.id;
     return playlist.tracks.items
@@ -53,7 +54,7 @@ export function FormVote({ users, playlist, form, voter }: Props) {
         />
       )}
       <div className="bg-gray-900 px-6 py-4">
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary" disabled={hasVoted}>
           Submit Vote
         </button>
       </div>
