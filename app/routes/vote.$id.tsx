@@ -83,7 +83,6 @@ export default function Page() {
         playlist={playlist}
         users={users}
         voter={proxiedUser ?? user}
-        hasVoted={data.hasContributed}
       />
     </div>
   );
