@@ -2,6 +2,7 @@ import { useEffect, type ReactNode } from "react";
 
 import { useUi } from "@app/hooks/use-ui";
 import { DIALOG_EVENTS } from "@app/lib/events";
+import { useNavigation } from "react-router";
 
 type Props = {
   id: string;
@@ -24,6 +25,8 @@ export function Dialog({
     closed: !open,
   });
 
+  const navigation = useNavigation();
+
   useEffect(() => {
     document.addEventListener(DIALOG_EVENTS.OPEN, (event) => {
       if (id === event.detail.id) return;
@@ -41,6 +44,11 @@ export function Dialog({
       }),
     );
   }, [open]);
+
+  useEffect(() => {
+    if (navigation.state === "idle") return;
+    onClose();
+  }, [navigation.state]);
 
   return (
     <div

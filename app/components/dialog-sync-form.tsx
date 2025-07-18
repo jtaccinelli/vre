@@ -19,7 +19,9 @@ export function DialogSyncForm({ playlist, className }: Props) {
     >
       <Form action="/api/form/sync" method="post">
         <input type="hidden" name="playlist-id" value={playlist.id} />
-        <button className="btn btn-primary">Yes, sync form</button>
+        <button type="submit" className="btn btn-primary">
+          Yes, sync form
+        </button>
       </Form>
     </DialogConfirm>
   );

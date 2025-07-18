@@ -32,6 +32,7 @@ export function DialogConfirm({
       <DialogBasic
         id={id}
         open={isOpen}
+        onClose={setIsOpen.false}
         emoji={emoji}
         heading={heading}
         subheading={subheading}

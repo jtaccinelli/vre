@@ -8,6 +8,7 @@ type Props = {
   emoji: string;
   heading: string;
   subheading: string;
+  onClose?: () => void;
   children?: ReactNode;
 };
 
@@ -17,12 +18,14 @@ export function DialogBasic({
   emoji,
   heading,
   subheading,
+  onClose,
   children,
 }: Props) {
   return (
     <Dialog
       id={id}
       open={open}
+      onClose={onClose}
       className="flex flex-col items-center p-6 pt-16 pb-12 text-center"
     >
       <span className="mb-6 text-6xl">{emoji}</span>
