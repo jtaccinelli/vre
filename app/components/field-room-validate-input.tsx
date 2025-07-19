@@ -1,12 +1,14 @@
-import { type ChangeEvent, useMemo, useState } from "react";
+import { type ChangeEvent, useEffect, useMemo, useState } from "react";
 import { useFetcher } from "react-router";
 
 import type { Loader } from "@app/routes/api.room.fetch";
 
 import { Placeholder } from "@app/components/placeholder";
+import { useRootLoaderData } from "@app/hooks/use-root-loader";
 
 export function FieldRoomValidateInput() {
-  const [value, setValue] = useState<string>("");
+  const { roomId } = useRootLoaderData();
+  const [value, setValue] = useState(roomId || "");
   const fetcher = useFetcher<Loader>();
 
   const room = useMemo(() => {
@@ -17,10 +19,12 @@ export function FieldRoomValidateInput() {
     const value = event.target.value;
     if (value.length > 6) return;
     setValue(value);
+  };
 
+  useEffect(() => {
     if (value.length !== 6) return;
     fetcher.load(`/api/room/fetch?id=${value}`);
-  };
+  }, [value]);
 
   return (
     <div className="flex flex-col gap-4 px-6 py-8">

@@ -3,6 +3,8 @@ import type { Route } from "./+types/root";
 
 import "@app/styles/index.css";
 
+import { SessionHandler } from "@server/session";
+
 import { DialogSignedOut } from "@app/components/dialog-signed-out";
 import { DialogRefreshSession } from "@app/components/dialog-refresh-session";
 import { Favicon } from "@app/components/favicon";
@@ -31,8 +33,12 @@ export function links() {
 export async function loader({ context }: Route.LoaderArgs) {
   const isLoggedIn = !!context.auth.accessToken;
   const isTokenExpired = context.auth.expiresAt < Date.now();
+  const roomId: string | undefined = context.session.get(
+    SessionHandler.KEY__ROOM_ID,
+  );
 
   return {
+    roomId,
     isLoggedIn,
     isTokenExpired,
     user: context.user,
