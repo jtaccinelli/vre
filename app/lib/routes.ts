@@ -1,11 +1,14 @@
+import type { FormError } from "react-router";
+
 export function message(message: string) {
   return {
     message,
   };
 }
 
-export function error(error: string) {
+export function error(message: string): FormError {
   return {
-    error,
+    type: "error",
+    message,
   };
 }

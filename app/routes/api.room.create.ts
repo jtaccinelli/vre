@@ -2,6 +2,7 @@ import { redirect } from "react-router";
 import type { Route } from "./+types/api.form.create";
 
 import { isString } from "@app/lib/predicates";
+import { error } from "@app/lib/routes";
 
 export async function action({ context, request }: Route.ActionArgs) {
   const form = await request.formData();
@@ -17,9 +18,7 @@ export async function action({ context, request }: Route.ActionArgs) {
     isString(clientId) &&
     isString(clientSecret);
 
-  if (!hasValidData) {
-    throw new Error("Data for form creation was sent with incorrect format");
-  }
+  if (!hasValidData) return error("Form was incomplete");
 
   await context.room.create({
     id,

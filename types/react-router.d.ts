@@ -10,4 +10,9 @@ declare module "react-router" {
     };
     db: DrizzleD1Database<typeof schema>;
   }
+
+  export interface FormError {
+    type: "error";
+    message: string;
+  }
 }

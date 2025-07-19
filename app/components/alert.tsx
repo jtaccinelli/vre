@@ -3,8 +3,8 @@ import { Link } from "react-router";
 
 type Props = {
   message: string;
-  cta: string;
-  href: string;
+  cta?: string;
+  href?: string;
 };
 
 export function Alert({ message, cta, href }: Props) {
@@ -13,9 +13,11 @@ export function Alert({ message, cta, href }: Props) {
       <Info size={20} weight="fill" />
       <div className="flex grow flex-col gap-1 md:flex-row">
         <p className="text grow">{message}</p>
-        <Link to={href} className="link">
-          {cta}
-        </Link>
+        {!cta || !href ? null : (
+          <Link to={href} className="link">
+            {cta}
+          </Link>
+        )}
       </div>
     </div>
   );

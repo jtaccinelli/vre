@@ -3,6 +3,7 @@ import type { Route } from "./+types/api.vote.tiebreak";
 
 import { isNotFile, isString } from "@app/lib/predicates";
 import { TIEBREAK_VOTER } from "@app/lib/results";
+import { error } from "@app/lib/routes";
 
 export async function action({ context, request }: Route.ActionArgs) {
   const form = await request.formData();
@@ -13,10 +14,7 @@ export async function action({ context, request }: Route.ActionArgs) {
 
   const hasValidData =
     isString(playlistId) && isNotFile(contributorId) && isNotFile(trackId);
-
-  if (!hasValidData) {
-    throw new Error("Data for form creation was sent with incorrect format");
-  }
+  if (!hasValidData) return error("Form was incomplete");
 
   await context.vote.create({
     playlistId,

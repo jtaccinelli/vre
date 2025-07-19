@@ -1,11 +1,12 @@
 import { useMemo } from "react";
-import { Form } from "react-router";
+import { useFetcher } from "react-router";
 
 import type { FormSchema } from "@server/schema";
 
 import { FieldUsers } from "@app/components/field-users";
 import { FieldTextarea } from "@app/components/field-textarea";
 import { FieldTracks } from "@app/components/field-tracks";
+import { FormSubmit } from "./form-submit";
 
 type Props = {
   playlist: Playlist;
@@ -16,6 +17,8 @@ type Props = {
 };
 
 export function FormVote({ users, playlist, form, voter, hasVoted }: Props) {
+  const fetcher = useFetcher();
+
   const filteredTracks = useMemo(() => {
     const userId = voter?.id;
     return playlist.tracks.items
@@ -30,7 +33,7 @@ export function FormVote({ users, playlist, form, voter, hasVoted }: Props) {
   }, [users]);
 
   return (
-    <Form
+    <fetcher.Form
       className="flex flex-col divide-y divide-gray-800"
       action="/api/vote/create"
       method="post"
@@ -53,11 +56,7 @@ export function FormVote({ users, playlist, form, voter, hasVoted }: Props) {
           label="Are there any tracks or contributors that deserve shame votes?"
         />
       )}
-      <div className="bg-gray-900 px-6 py-4">
-        <button type="submit" className="btn btn-primary" disabled={hasVoted}>
-          Submit Vote
-        </button>
-      </div>
-    </Form>
+      <FormSubmit fetcher={fetcher} cta="Submit Vote" />
+    </fetcher.Form>
   );
 }

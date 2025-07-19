@@ -1,16 +1,19 @@
-import { Form } from "react-router";
+import { useFetcher } from "react-router";
 
 import { FieldRoomValidateInput } from "@app/components/field-room-validate-input";
+import { FormSubmit } from "./form-submit";
 
 export function FormSignIn() {
+  const fetcher = useFetcher();
+
   return (
-    <Form action="/api/auth/sign-in" method="post" className="flex flex-col">
+    <fetcher.Form
+      action="/api/auth/sign-in"
+      method="post"
+      className="flex flex-col"
+    >
       <FieldRoomValidateInput />
-      <div className="sticky bottom-0 bg-gray-900 px-6 py-4">
-        <button type="submit" className="btn btn-primary self-start">
-          Sign In w/ Spotify
-        </button>
-      </div>
-    </Form>
+      <FormSubmit fetcher={fetcher} cta="Sign In w/ Spotify" />
+    </fetcher.Form>
   );
 }
