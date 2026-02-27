@@ -1,4 +1,4 @@
-import { Component, type ComponentProps, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import { ActionMenu } from "@app/components/action-menu";
 

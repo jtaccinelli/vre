@@ -4,27 +4,31 @@ import { useFetcher } from "react-router";
 import type { Loader } from "@app/routes/api.room.fetch";
 
 import { Placeholder } from "@app/components/placeholder";
-import { useRootLoaderData } from "@app/hooks/use-root-loader";
+import { useLocalStorage } from "@app/hooks/use-local-storage";
 
 export function FieldRoomValidateInput() {
-  const { roomId } = useRootLoaderData();
-  const [value, setValue] = useState(roomId || "");
+  const [storedRoomId] = useLocalStorage("room-id");
+  const [inputValue, setInputValue] = useState("");
   const fetcher = useFetcher<Loader>();
 
   const room = useMemo(() => {
     return fetcher?.data?.room;
   }, [fetcher.data]);
 
+  useEffect(() => {
+    if (storedRoomId) setInputValue(storedRoomId);
+  }, [storedRoomId]);
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     if (value.length > 6) return;
-    setValue(value);
+    setInputValue(value);
   };
 
   useEffect(() => {
-    if (value.length !== 6) return;
-    fetcher.load(`/api/room/fetch?id=${value}`);
-  }, [value]);
+    if (inputValue.length !== 6) return;
+    fetcher.load(`/api/room/fetch?id=${inputValue}`);
+  }, [inputValue]);
 
   return (
     <div className="flex flex-col gap-4 px-6 py-8">
@@ -36,11 +40,11 @@ export function FieldRoomValidateInput() {
       <input
         type="text"
         placeholder="vR3RoX"
-        value={value}
+        value={inputValue}
         onChange={handleChange}
         className="field-input rounded border-transparent bg-gray-700 font-mono text-white placeholder:text-gray-500"
       />
-      {!value ? (
+      {!inputValue ? (
         <Placeholder label="No ID has been provided" />
       ) : fetcher.state === "loading" ? (
         <Placeholder label="Searching for room..." loading />

@@ -1,16 +1,19 @@
-import { useState } from "react";
-import { Link } from "react-router";
+import { useEffect } from "react";
 
-import { useRootLoaderData } from "@app/hooks/use-root-loader";
 import { useBoolean } from "@app/hooks/use-boolean";
+import { useLocalStorage } from "@app/hooks/use-local-storage";
 
 import { DialogBasic } from "@app/components/dialog-basic";
-import { DialogSignIn } from "@app/components/dialog-sign-in";
-import { DialogCreateRoom } from "@app/components/dialog-create-room";
+import { DialogJoinRoom } from "@app/components/dialog-join-room";
+import { DialogSignIn } from "./dialog-sign-in";
 
 export function DialogSignedOut() {
-  const { isLoggedIn } = useRootLoaderData();
-  const [isOpen, setIsOpen] = useBoolean(!isLoggedIn);
+  const [isOpen, setIsOpen] = useBoolean(true);
+  const [roomId] = useLocalStorage("room-id");
+
+  useEffect(() => {
+    if (roomId) setIsOpen.false();
+  }, [roomId]);
 
   return (
     <DialogBasic
@@ -20,8 +23,8 @@ export function DialogSignedOut() {
       heading="Welcome to the VRE!"
       subheading="Trading tunes since '24"
     >
-      <DialogSignIn className="btn btn-primary" />
-      <DialogCreateRoom className="btn btn-secondary" />
+      <DialogJoinRoom className="btn btn-primary" />
+      <DialogSignIn className="btn btn-secondary" />
     </DialogBasic>
   );
 }
