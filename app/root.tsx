@@ -8,7 +8,7 @@ import { SessionHandler } from "@server/session";
 import { DialogSignedOut } from "@app/components/dialog-signed-out";
 import { DialogRefreshSession } from "@app/components/dialog-refresh-session";
 import { Favicon } from "@app/components/favicon";
-import { Footer } from "@app/components/footer";
+import { HeaderRoom } from "@app/components/header-room";
 
 export function meta() {
   return [
@@ -59,10 +59,10 @@ export default function App() {
       </head>
       <body className="h-full bg-gray-800 text-white md:p-4">
         <main className="mx-auto h-full w-full max-w-screen-sm overflow-y-scroll bg-gray-900 md:rounded-lg">
+          <HeaderRoom />
           <div className="min-h-full">
             <Outlet />
           </div>
-          <Footer />
         </main>
         <DialogSignedOut />
         <DialogRefreshSession />

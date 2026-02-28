@@ -31,7 +31,7 @@ export function Dialog({
   useEffect(() => {
     document.addEventListener(DIALOG_EVENTS.OPEN, (event) => {
       if (id === event.detail.id) return;
-      onClose();
+      onClose?.();
     });
   }, []);
 
@@ -48,13 +48,13 @@ export function Dialog({
 
   useEffect(() => {
     if (navigation.state === "idle") return;
-    onClose();
+    onClose?.();
   }, [navigation.state]);
 
   return (
     <div
       data-ui={ui}
-      className="group ui-closed:pointer-events-none ui-closed:opacity-0 fixed inset-0 z-40 transition-opacity"
+      className="group ui-closed:pointer-events-none ui-closed:opacity-0 fixed inset-0 z-60 transition-opacity"
     >
       <button
         type="button"

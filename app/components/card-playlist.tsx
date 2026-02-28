@@ -47,7 +47,7 @@ export function CardPlaylist({ playlist, href, cta, tags, actions }: Props) {
               {cta}
             </Link>
           )}
-{!actions?.length ? null : <ActionMenu items={actions} />}
+{!actions?.length ? null : <ActionMenu variant="dark" items={actions} />}
         </div>
       </div>
     </div>

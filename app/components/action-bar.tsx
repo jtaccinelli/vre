@@ -11,7 +11,7 @@ export function ActionBar({ message, actions }: Props) {
   return (
     <div className="flex items-center justify-between gap-2 bg-gray-300 px-6 py-4 text-black">
       <p className="label">{message}</p>
-      <ActionMenu items={actions} />
+      <ActionMenu variant="light" items={actions} />
     </div>
   );
 }
