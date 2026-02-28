@@ -1,7 +1,8 @@
 import {
-  Children,
   cloneElement,
   isValidElement,
+  useEffect,
+  useRef,
   type ComponentProps,
   type ReactNode,
 } from "react";
@@ -13,39 +14,80 @@ import { useUi } from "@app/hooks/use-ui";
 
 type Props = {
   items: ReactNode[];
+  direction?: "up" | "down";
+  variant?: "light" | "dark";
+  icon?: ReactNode;
 };
 
-export function ActionMenu({ items }: Props) {
+const directionClasses = {
+  up: "bottom-full mb-3 ui-closed:mb-0",
+  down: "top-full mt-3 ui-closed:mt-0",
+};
+
+const variantClasses = {
+  light: "text-gray-950 hover:bg-black/10",
+  dark: "text-white hover:bg-white/10",
+};
+
+export function ActionMenu({
+  items,
+  direction = "up",
+  variant = "light",
+  icon,
+}: Props) {
   const [isOpen, setIsOpen] = useBoolean(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   const ui = useUi({
     closed: !isOpen,
   });
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (!isOpen) return;
+      if (ref.current?.contains(event.target as Node)) return;
+      setIsOpen.false();
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
   if (items.length === 0) return null;
 
   return (
-    <div className="group relative">
-      <button className="btn-icon" onClick={setIsOpen.toggle}>
-        <Gear weight="fill" size={20} />
+    <div ref={ref} className="group relative">
+      <button
+        className={clsx(
+          "-m-3 flex size-11 items-center justify-center rounded-full transition-all hover:cursor-pointer",
+          variantClasses[variant],
+        )}
+        onClick={setIsOpen.toggle}
+      >
+        {icon ?? <Gear weight="fill" size={20} />}
       </button>
       <div
         data-ui={ui}
         className={clsx(
-          "absolute right-0 bottom-full mb-3 flex min-w-32 flex-col overflow-hidden rounded bg-white text-black transition-all",
-          "ui-closed:pointer-events-none ui-closed:mb-0 ui-closed:opacity-0",
+          "absolute right-0 z-50 flex min-w-32 flex-col rounded bg-white text-black shadow-md transition-all",
+          "ui-closed:pointer-events-none ui-closed:opacity-0",
+          directionClasses[direction],
         )}
       >
-        {Children.map(items, (item) => {
+        {items.map((item, index) => {
           if (isValidElement<ComponentProps<"div">>(item)) {
+            const isFirst = index === 0;
+            const isLast = index === items.length - 1;
             return cloneElement(item, {
-              className: clsx([
+              key: index,
+              className: clsx(
                 "text px-3 py-2 text-left whitespace-nowrap hover:cursor-pointer hover:bg-gray-200 transition-all",
-              ]),
+                isFirst && "rounded-t",
+                isLast && "rounded-b",
+              ),
             });
-          } else {
-            return null;
           }
+          return null;
         })}
       </div>
     </div>
