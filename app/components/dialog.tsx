@@ -1,4 +1,5 @@
 import { useEffect, type ReactNode } from "react";
+import { X } from "@phosphor-icons/react";
 
 import { useUi } from "@app/hooks/use-ui";
 import { DIALOG_EVENTS } from "@app/lib/events";
@@ -18,7 +19,7 @@ export function Dialog({
   open,
   heading,
   className,
-  onClose = () => {},
+  onClose,
   children,
 }: Props) {
   const ui = useUi({
@@ -63,8 +64,13 @@ export function Dialog({
       <div className="absolute bottom-0 left-1/2 z-10 w-full max-w-screen-sm -translate-x-1/2 px-2">
         <div className="group-ui-closed:translate-y-1/2 flex max-h-[70vh] w-full flex-col overflow-y-scroll rounded-t-xl bg-gray-900 transition-transform">
           {!heading ? null : (
-            <div className="border-b border-gray-950 p-6 text-left">
+            <div className="flex items-center justify-between border-b border-gray-950 p-6 text-left">
               <p className="title text-white">{heading}</p>
+              {!onClose ? null : (
+                <button type="button" onClick={onClose} className="cursor-pointer text-gray-400 hover:text-white">
+                  <X size={20} />
+                </button>
+              )}
             </div>
           )}
           <div className={className}>{children}</div>

@@ -19,7 +19,7 @@ export async function loader({ context }: Route.LoaderArgs) {
 
     const playlists = await Promise.all(
       forms.map((item) => {
-        return context.spotify.fetchPlaylist(item.playlistId);
+        return context.playlist.get(item.playlistId);
       }),
     );
 
@@ -44,6 +44,7 @@ export async function loader({ context }: Route.LoaderArgs) {
 
   return {
     playlists: playlistPromise(),
+    user: context.user,
   };
 }
 

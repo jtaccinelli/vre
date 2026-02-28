@@ -13,7 +13,7 @@ export async function action({ context, request }: Route.ActionArgs) {
   const playlistId = form.get("playlist-id");
   if (!isString(playlistId)) return error("Form was incomplete");
 
-  const playlist = await context.spotify.fetchPlaylist(playlistId);
+  const playlist = await context.playlist.get(playlistId);
   if (!playlist) return error("No playlist was found with");
 
   const contributorIds = extractContributorIds(playlist);

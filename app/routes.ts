@@ -14,6 +14,8 @@ export default [
     ...prefix("room", [
       route("create", "./routes/api.room.create.ts"),
       route("fetch", "./routes/api.room.fetch.ts"),
+      route("join", "./routes/api.room.join.ts"),
+      route("leave", "./routes/api.room.leave.ts"),
     ]),
     ...prefix("auth", [
       route("callback", "./routes/api.auth.callback.ts"),

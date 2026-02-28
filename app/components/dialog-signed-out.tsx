@@ -1,19 +1,14 @@
-import { useEffect } from "react";
+import { useRouteLoaderData } from "react-router";
 
-import { useBoolean } from "@app/hooks/use-boolean";
-import { useLocalStorage } from "@app/hooks/use-local-storage";
+import type { loader } from "@app/root";
 
 import { DialogBasic } from "@app/components/dialog-basic";
 import { DialogJoinRoom } from "@app/components/dialog-join-room";
-import { DialogSignIn } from "./dialog-sign-in";
+import { DialogCreateRoom } from "@app/components/dialog-create-room";
 
 export function DialogSignedOut() {
-  const [isOpen, setIsOpen] = useBoolean(true);
-  const [roomId] = useLocalStorage("room-id");
-
-  useEffect(() => {
-    if (roomId) setIsOpen.false();
-  }, [roomId]);
+  const data = useRouteLoaderData<typeof loader>("root");
+  const isOpen = !data?.room;
 
   return (
     <DialogBasic
@@ -24,7 +19,7 @@ export function DialogSignedOut() {
       subheading="Trading tunes since '24"
     >
       <DialogJoinRoom className="btn btn-primary" />
-      <DialogSignIn className="btn btn-secondary" />
+      <DialogCreateRoom className="btn btn-secondary" />
     </DialogBasic>
   );
 }

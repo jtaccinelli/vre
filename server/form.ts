@@ -1,16 +1,17 @@
 import type { DrizzleD1Database } from "drizzle-orm/d1";
-import { and, eq, like, or } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 import * as schema from "@server/schema";
-import { form, type FormSchema } from "@server/schema";
+import { form, type FormSchema, type RoomSchema } from "@server/schema";
+import { SessionHandler } from "./session";
 
 export class FormHandler {
   db;
-  user;
+  roomId;
 
-  constructor(db: DrizzleD1Database<typeof schema>, user?: CurrentUser) {
+  constructor(db: DrizzleD1Database<typeof schema>, session: SessionHandler) {
     this.db = db;
-    this.user = user;
+    this.roomId = session.get(SessionHandler.KEY__ROOM_ID) as RoomSchema["id"] | undefined;
   }
 
   async list() {
@@ -26,16 +27,11 @@ export class FormHandler {
   }
 
   async current() {
-    if (!this.user) return;
+    if (!this.roomId) return;
     return await this.db
       .select()
       .from(form)
-      .where(
-        or(
-          like(form.contributorIds, `%${this.user.id}%`),
-          eq(form.createdBy, `%${this.user.id}%`),
-        ),
-      );
+      .where(eq(form.roomId, this.roomId));
   }
 
   async create(data: FormSchema) {
@@ -46,17 +42,17 @@ export class FormHandler {
     id: FormSchema["playlistId"],
     data: Partial<Omit<FormSchema, "playlistId">>,
   ) {
-    if (!this.user) return;
+    if (!this.roomId) return;
     return await this.db
       .update(form)
       .set(data)
-      .where(and(eq(form.playlistId, id), eq(form.createdBy, this.user.id)));
+      .where(and(eq(form.playlistId, id), eq(form.roomId, this.roomId)));
   }
 
   async delete(id: FormSchema["playlistId"]) {
-    if (!this.user) return;
+    if (!this.roomId) return;
     return await this.db
       .delete(form)
-      .where(and(eq(form.playlistId, id), eq(form.createdBy, this.user.id)));
+      .where(and(eq(form.playlistId, id), eq(form.roomId, this.roomId)));
   }
 }

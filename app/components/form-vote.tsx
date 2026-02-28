@@ -6,7 +6,8 @@ import type { FormSchema } from "@server/schema";
 import { FieldUsers } from "@app/components/field-users";
 import { FieldTextarea } from "@app/components/field-textarea";
 import { FieldTracks } from "@app/components/field-tracks";
-import { FormSubmit } from "./form-submit";
+import { FormActions } from "@app/components/form-actions";
+import { FormSubmit } from "@app/components/form-submit";
 
 type Props = {
   playlist: Playlist;
@@ -56,7 +57,9 @@ export function FormVote({ users, playlist, form, voter, hasVoted }: Props) {
           label="Are there any tracks or contributors that deserve shame votes?"
         />
       )}
-      <FormSubmit fetcher={fetcher} cta="Submit Vote" />
+      <FormActions fetcher={fetcher}>
+        <FormSubmit cta="Submit Vote" />
+      </FormActions>
     </fetcher.Form>
   );
 }

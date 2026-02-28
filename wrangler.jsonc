@@ -13,6 +13,10 @@
     {
       "binding": "SESSION",
       "id": "f5ab5a60780f43628d5d941ed706b431"
+    },
+    {
+      "binding": "PLAYLISTS",
+      "id": "f61dd3b4e60f41d8b791ff2df9cd65c0"
     }
   ],
   "d1_databases": [

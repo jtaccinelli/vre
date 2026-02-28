@@ -1,7 +1,4 @@
-import { Link } from "react-router";
-
 import { SpotifyImage } from "@app/components/spotify-image";
-import { SpotifyLogo } from "@app/components/spotify-logo";
 
 type Props = {
   user: User;
@@ -15,17 +12,12 @@ export function CardUser({ user, isSelected, onClick }: Props) {
       data-ui={isSelected && "selected"}
       className="group ui-selected:bg-white ui-selected:text-black flex shrink-0 overflow-hidden rounded bg-gray-800 transition-all hover:cursor-pointer hover:bg-gray-700"
     >
-      <Link
-        to={user.external_urls.spotify}
-        target="_blank"
-        className="relative size-20 shrink-0"
-      >
+      <div className="relative size-20 shrink-0">
         <SpotifyImage
           image={user.images?.[0]}
           className="size-full bg-gray-950"
         />
-        <SpotifyLogo className="absolute right-2 bottom-2 size-4" />
-      </Link>
+      </div>
       <button
         type="button"
         onClick={onClick}

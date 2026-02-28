@@ -1,19 +1,31 @@
 import { type ChangeEvent, useEffect, useMemo, useState } from "react";
-import { useFetcher } from "react-router";
+import { useFetcher, useRouteLoaderData } from "react-router";
 
+import type { loader } from "@app/root";
 import type { Loader } from "@app/routes/api.room.fetch";
+import type { RoomSchema } from "@server/schema";
 
-import { Placeholder } from "@app/components/placeholder";
 import { useLocalStorage } from "@app/hooks/use-local-storage";
+import { Placeholder } from "@app/components/placeholder";
 
-export function FieldRoomValidateInput() {
-  const [storedRoomId] = useLocalStorage("room-id");
+type Props = {
+  onFindRoom?: (room?: RoomSchema) => void;
+};
+
+export function FieldRoomValidateInput({ onFindRoom }: Props) {
+  const rootData = useRouteLoaderData<typeof loader>("root");
+  const [localRoomId] = useLocalStorage("room-id");
+  const storedRoomId = rootData?.room?.id ?? localRoomId;
   const [inputValue, setInputValue] = useState("");
   const fetcher = useFetcher<Loader>();
 
   const room = useMemo(() => {
     return fetcher?.data?.room;
   }, [fetcher.data]);
+
+  useEffect(() => {
+    onFindRoom?.(room);
+  }, [room]);
 
   useEffect(() => {
     if (storedRoomId) setInputValue(storedRoomId);

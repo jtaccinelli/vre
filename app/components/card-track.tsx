@@ -1,6 +1,4 @@
-import { Link } from "react-router";
 import { SpotifyImage } from "@app/components/spotify-image";
-import { SpotifyLogo } from "@app/components/spotify-logo";
 import { useTrackPreview } from "@app/hooks/use-track-preview";
 import { Pause, Play } from "@phosphor-icons/react";
 
@@ -20,17 +18,12 @@ export function CardTrack({ track, isSelected, onClick }: Props) {
       data-ui={isSelected && "selected"}
       className="group ui-selected:bg-white ui-selected:text-black flex shrink-0 items-center overflow-hidden rounded bg-gray-800 transition-all hover:bg-gray-700"
     >
-      <Link
-        to={track.external_urls.spotify}
-        target="_blank"
-        className="relative size-20 shrink-0"
-      >
+      <div className="relative size-20 shrink-0">
         <SpotifyImage
           image={track.album?.images?.[0]}
           className="size-full bg-gray-950"
         />
-        <SpotifyLogo className="absolute right-2 bottom-2 size-4" />
-      </Link>
+      </div>
       <button
         type="button"
         className="flex h-full min-w-0 grow flex-col justify-center px-3 py-2 text-left hover:cursor-pointer"

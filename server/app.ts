@@ -7,6 +7,7 @@ import { AuthHandler } from "./auth";
 import { VoteHandler } from "./vote";
 import { FormHandler } from "./form";
 import { SpotifyHandler } from "./spotify";
+import { PlaylistHandler } from "./playlist";
 import { RoomHandler } from "./room";
 
 declare module "react-router" {
@@ -19,6 +20,7 @@ declare module "react-router" {
     session: SessionHandler;
     auth: AuthHandler;
     spotify: SpotifyHandler;
+    playlist: PlaylistHandler;
     room: RoomHandler;
     vote: VoteHandler;
     form: FormHandler;
@@ -43,9 +45,10 @@ export default {
     const auth = await AuthHandler.init(request, session, room);
 
     const spotify = new SpotifyHandler(auth);
+    const playlist = new PlaylistHandler(env.PLAYLISTS, spotify);
     const user = await spotify.fetchCurrentUser();
 
-    const form = new FormHandler(db, user);
+    const form = new FormHandler(db, session);
     const vote = new VoteHandler(db, user);
 
     return requestHandler(request, {
@@ -54,6 +57,7 @@ export default {
       session,
       auth,
       spotify,
+      playlist,
       vote,
       room,
       form,

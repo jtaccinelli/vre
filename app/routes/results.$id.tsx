@@ -25,7 +25,7 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 
   if (!playlistId || !userId) throw redirect("/");
 
-  const playlist = await context.spotify.fetchPlaylist(playlistId);
+  const playlist = await context.playlist.get(playlistId);
   if (!playlist) throw redirect("/");
 
   const [form] = await context.form.get(playlistId);

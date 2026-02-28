@@ -37,8 +37,10 @@ export async function loader({ context }: Route.LoaderArgs) {
     SessionHandler.KEY__ROOM_ID,
   );
 
+  const [room] = roomId ? await context.room.get(roomId) : [];
+
   return {
-    roomId,
+    room,
     isLoggedIn,
     isTokenExpired,
     user: context.user,

@@ -11,7 +11,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
   const playlistId = url.searchParams.get("id");
   if (!isString(playlistId)) return FALLBACK_VALUE;
 
-  const playlist = await context.spotify.fetchPlaylist(playlistId);
+  const playlist = await context.playlist.get(playlistId);
   if (!playlist?.id) return FALLBACK_VALUE;
 
   const form = await context.form.get(playlist.id);

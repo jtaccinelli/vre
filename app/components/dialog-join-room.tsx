@@ -22,7 +22,7 @@ export function DialogJoinRoom({ className }: Props) {
         heading="Join a Room"
         className="text-left"
       >
-        <FormJoinRoom onSuccess={setIsOpen.false} />
+        <FormJoinRoom />
       </Dialog>
     </>
   );

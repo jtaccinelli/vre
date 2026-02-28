@@ -37,9 +37,12 @@ pnpm typegen:wrangler          # Regenerate Cloudflare env types -> types/cloudf
 
 ## Project structure
 
+> **Important:** Every new route file added to `app/routes/` must also be registered in `app/routes.ts`. React Router uses this file as the explicit route manifest — files in `app/routes/` are not picked up automatically.
+
 ```
 app/
-  routes/          # React Router routes (index, vote.$id, results.$id)
+  routes.ts        # Route manifest — register ALL routes here
+  routes/          # React Router routes (index, vote.$id, results.$id, api.*)
   components/      # Shared UI components
   hooks/           # Custom React hooks
   lib/             # Utility functions
@@ -49,6 +52,7 @@ server/
   schema.ts        # Drizzle schema (room, form, vote tables)
   auth.ts          # OAuth/session auth handler
   spotify.ts       # Spotify API handler
+  playlist.ts      # Playlist KV-cache handler (wraps Spotify + PLAYLISTS KV)
   form.ts          # Form business logic
   vote.ts          # Vote business logic
   room.ts          # Room business logic
@@ -59,10 +63,11 @@ types/             # TypeScript type definitions (cloudflare.d.ts generated)
 
 ## Architecture notes
 
-- Server-side handlers (`SessionHandler`, `AuthHandler`, `SpotifyHandler`, `RoomHandler`, `FormHandler`, `VoteHandler`) are instantiated per-request in `server/app.ts` and injected into React Router's `AppLoadContext`.
+- Server-side handlers (`SessionHandler`, `AuthHandler`, `SpotifyHandler`, `PlaylistHandler`, `RoomHandler`, `FormHandler`, `VoteHandler`) are instantiated per-request in `server/app.ts` and injected into React Router's `AppLoadContext`.
 - Routes access these via `context` in `loader` / `action` functions.
 - The `user` field on context is the currently authenticated Spotify user (`CurrentUser | undefined`).
 - All DB access goes through Drizzle with the schema from `server/schema.ts`.
+- **`PlaylistHandler`** (`server/playlist.ts`) — checks `PLAYLISTS` KV first, falls back to Spotify API and caches the result. Always use `context.playlist.get(id)` — never call `context.spotify.fetchPlaylist()` directly.
 
 ## Constraints
 
@@ -81,3 +86,20 @@ vote    { id (auto), playlistId, voterId, contributorIds, trackIds,
 ```
 
 Exported types: `RoomSchema`, `FormSchema`, `VoteSchema` (via `InferSelectModel`).
+
+## UI conventions
+
+- **Icons** — use `@phosphor-icons/react` for all icons.
+- **Button classes** — `btn btn-primary`, `btn btn-secondary`; subtle link-style buttons use `link text-sm underline`.
+- **Dialog hierarchy** — `Dialog` is the base component (handles open/close, backdrop, heading bar); `DialogBasic` is a centred wrapper used for splash/welcome-style dialogs. The X close button lives in `Dialog`'s heading bar and is only rendered when `onClose` is provided (no default). `Dialog` also auto-closes when navigation state changes (React Router `useNavigation`) and fires/listens to `DIALOG_EVENTS.OPEN` custom events so that opening one dialog closes any sibling dialogs.
+- **Room state** — fully session-based (server-side). The current room is available via `useRouteLoaderData<typeof loader>("root")` from `@app/root`. Joining navigates via form POST to `/api/room/join`; leaving links to `/api/room/leave` (GET loader). localStorage `"room-id"` is kept as a fallback backup only for pre-filling the room input if the session expires.
+- **`useLocalStorage`** — returns `[value, actions]`. Always access actions via dot notation (`actions.set(val)`, `actions.clear()`), never destructure actions individually. Valid keys are enforced by the `LocalStorageKey` union type in `app/hooks/use-local-storage.ts` — add new keys there.
+- **Auth flow** — `authoriseUser(roomId)` in `server/auth.ts` fetches the room's Spotify `clientId`/`clientSecret` from the DB, stores them in the session, and redirects to the Spotify OAuth URL. The room ID is always required for this step.
+- **Form footer pattern** — use `FormActions` (sticky wrapper + error display, takes `fetcher` + `children`) wrapping one or more `FormSubmit` buttons (just the button element, takes `cta`, optional `variant` (`"primary"` | `"secondary"`, defaults to `"primary"`), optional `formAction`, optional `formMethod`, optional `disabled`). `FormSubmit` uses `useNavigation` to show a spinner while submitting. Alternative submit targets use `formAction`/`formMethod` props on `FormSubmit`; the form's `onSubmit` handler should check `(event.nativeEvent as SubmitEvent).submitter?.getAttribute("formaction")` and skip `preventDefault` for those buttons.
+
+## Code style
+
+- **Imports** — always use aliased paths (`@app/components/...`, `@app/hooks/...`, etc.). Never use relative paths (e.g. `./foo`, `../foo`) except for React Router generated types (`./+types/...`) which must stay relative.
+- **Event handlers** — never inline arrow functions directly on props (e.g. no `onChange={(e) => setState(e)}`). If a named function reference is already available (e.g. `updateRoom.leave`), pass it directly. If a new handler is needed, define it as a named function outside the JSX return (e.g. `handleSubmit`, `handleFindRoom`) with a name that includes a verb describing the action being captured.
+- **Optional types** — always use `?` syntax for possibly-undefined values (e.g. `room?: Room`), never `Room | undefined`.
+- **Tailwind classes** — never construct class names dynamically with template literals (e.g. no `` `btn-${variant}` ``); Tailwind's JIT compiler requires full class strings in source. Use a lookup object instead, keeping any shared prefix in the static className (e.g. `btn` stays in the JSX, only `btn-primary`/`btn-secondary` go in the lookup).

@@ -3,6 +3,7 @@ import { useFetcher } from "react-router";
 import { FieldText } from "@app/components/field-text";
 import { FieldRoomGenerateInput } from "@app/components/field-room-generate-input";
 import { FieldCredentials } from "@app/components/field-credentials";
+import { FormActions } from "@app/components/form-actions";
 import { FormSubmit } from "@app/components/form-submit";
 
 export function FormRoom() {
@@ -17,7 +18,9 @@ export function FormRoom() {
       <FieldText name="name" label="What do you want to name your room?" />
       <FieldRoomGenerateInput />
       <FieldCredentials />
-      <FormSubmit fetcher={fetcher} cta="Create Room" />
+      <FormActions fetcher={fetcher}>
+        <FormSubmit cta="Create Room" />
+      </FormActions>
     </fetcher.Form>
   );
 }

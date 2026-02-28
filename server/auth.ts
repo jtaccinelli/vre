@@ -40,7 +40,10 @@ export class AuthHandler {
 
     // Generate redirect uri based on application site
     const url = new URL(request.url);
-    this.redirectUri = `${url.origin}${config.spotify.details.redirectUri}`;
+    const origin = url.origin.includes("localhost")
+      ? url.origin.replace("localhost", "127.0.0.1")
+      : url.origin;
+    this.redirectUri = `${origin}${config.spotify.details.redirectUri}`;
 
     // Set values fetched from sessions
     this.accessToken = this.session.get(SessionHandler.KEY__ACCESS_TOKEN);

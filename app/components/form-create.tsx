@@ -2,6 +2,7 @@ import { useFetcher } from "react-router";
 
 import { FieldPlaylistInput } from "@app/components/field-playlist-input";
 import { FieldTabs } from "@app/components/field-tabs";
+import { FormActions } from "@app/components/form-actions";
 import { FormSubmit } from "@app/components/form-submit";
 
 export function FormCreate() {
@@ -25,7 +26,9 @@ export function FormCreate() {
         defaultValue={1}
         values={[1, 2, 3, 4, 5]}
       />
-      <FormSubmit fetcher={fetcher} cta="Create Voting Form" />
+      <FormActions fetcher={fetcher}>
+        <FormSubmit cta="Create Voting Form" />
+      </FormActions>
     </fetcher.Form>
   );
 }

@@ -3,7 +3,6 @@ import { Link } from "react-router";
 
 import { ActionMenu } from "@app/components/action-menu";
 import { SpotifyImage } from "@app/components/spotify-image";
-import { SpotifyLogo } from "@app/components/spotify-logo";
 
 type Props = {
   playlist: Playlist;
@@ -48,10 +47,7 @@ export function CardPlaylist({ playlist, href, cta, tags, actions }: Props) {
               {cta}
             </Link>
           )}
-          <Link to={playlist.external_urls.spotify} target="_blank">
-            <SpotifyLogo className="size-4" />
-          </Link>
-          {!actions?.length ? null : <ActionMenu items={actions} />}
+{!actions?.length ? null : <ActionMenu items={actions} />}
         </div>
       </div>
     </div>
