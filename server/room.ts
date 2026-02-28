@@ -18,4 +18,8 @@ export class RoomHandler {
   async create(data: RoomSchema) {
     return await this.db.insert(room).values(data);
   }
+
+  async update(id: RoomSchema["id"], data: Partial<Omit<RoomSchema, "id">>) {
+    return await this.db.update(room).set(data).where(eq(room.id, id));
+  }
 }

@@ -7,6 +7,7 @@ import {
 
 export default [
   index("./routes/index.tsx"),
+  route("room", "./routes/room.tsx"),
   route("vote/:id", "./routes/vote.$id.tsx"),
   route("results/:id", "./routes/results.$id.tsx"),
   ...prefix("api", [
@@ -16,6 +17,7 @@ export default [
       route("fetch", "./routes/api.room.fetch.ts"),
       route("join", "./routes/api.room.join.ts"),
       route("leave", "./routes/api.room.leave.ts"),
+      route("update", "./routes/api.room.update.ts"),
     ]),
     ...prefix("auth", [
       route("callback", "./routes/api.auth.callback.ts"),
