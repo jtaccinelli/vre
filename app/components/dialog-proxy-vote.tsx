@@ -54,7 +54,6 @@ export function DialogProxyVote({
   return (
     <DialogSearch
       id="proxy-vote"
-      cta="Vote on behalf of..."
       label="Who is voting?"
       placeholder="Search for users by name..."
       defaultOpen={defaultOpen}

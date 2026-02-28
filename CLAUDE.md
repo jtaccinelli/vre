@@ -63,11 +63,12 @@ types/             # TypeScript type definitions (cloudflare.d.ts generated)
 
 ## Architecture notes
 
-- Server-side handlers (`SessionHandler`, `AuthHandler`, `SpotifyHandler`, `PlaylistHandler`, `RoomHandler`, `FormHandler`, `VoteHandler`) are instantiated per-request in `server/app.ts` and injected into React Router's `AppLoadContext`.
+- Server-side handlers (`SessionHandler`, `AuthHandler`, `SpotifyHandler`, `PlaylistHandler`, `RoomHandler`, `FormHandler`, `VoteHandler`, `ProfileHandler`) are instantiated per-request in `server/app.ts` and injected into React Router's `AppLoadContext`.
 - Routes access these via `context` in `loader` / `action` functions.
 - The `user` field on context is the currently authenticated Spotify user (`CurrentUser | undefined`).
 - All DB access goes through Drizzle with the schema from `server/schema.ts`.
 - **`PlaylistHandler`** (`server/playlist.ts`) — checks `PLAYLISTS` KV first, falls back to Spotify API and caches the result. Always use `context.playlist.get(id)` — never call `context.spotify.fetchPlaylist()` directly.
+- **`ProfileHandler`** (`server/profiles.ts`) — manages the `user` table. Methods: `getByIds(ids)`, `getByRoomId(roomId)`, `upsert(spotifyUsers, roomId)` (inserts, skips existing by Spotify ID), `update(id, data)`. Available as `context.profiles`. Contributor profiles are seeded on form creation and should always be read from the DB — never fetch contributor user data directly from Spotify.
 
 ## Constraints
 
@@ -99,6 +100,9 @@ Exported types: `RoomSchema`, `FormSchema`, `VoteSchema`, `UserSchema` (via `Inf
 - **Form footer pattern** — use `FormActions` (sticky wrapper + error display, takes `fetcher` + `children`) wrapping one or more `FormSubmit` buttons (just the button element, takes `cta`, optional `variant` (`"primary"` | `"secondary"`, defaults to `"primary"`), optional `formAction`, optional `formMethod`, optional `disabled`). `FormSubmit` uses `useNavigation` to show a spinner while submitting. Alternative submit targets use `formAction`/`formMethod` props on `FormSubmit`; the form's `onSubmit` handler should check `(event.nativeEvent as SubmitEvent).submitter?.getAttribute("formaction")` and skip `preventDefault` for those buttons.
 - **`ActionMenu`** — accepts `items: ReactNode[]`, `direction?: "up" | "down"` (default `"up"`), `variant?: "light" | "dark"` (default `"light"`), `icon?: ReactNode` (default: Gear icon). The `variant` describes the **background context** it sits on, not the icon colour: `"light"` = light background → dark icon; `"dark"` = dark background → light icon. Items are passed as ReactNode elements; `cloneElement` applies item styling (padding, hover) to the top-level element of each item. Closes on click-outside. Dropdown is `z-50`, `shadow-md`.
 - **`HeaderRoom`** — theme-aware: light scheme (`bg-white`, dark text/icon) when user is signed in; dark scheme (`bg-gray-950`, light text/icon) when not. Dropdown contains: Manage Room / Sign In, Create Form (signed in only), Sign Out (signed in only), Leave Room. `DialogCreateForm` state is managed here.
+- **`SpotifyImage`** — accepts `image?: Image` (Spotify image object) or `url?: string | null` (plain URL string). Use `url` for `UserSchema.imageUrl`; use `image` for playlist/track images from the Spotify API.
+- **`ListProfiles`** — renders a clickable list of `UserSchema[]` rows (avatar + name + Spotify ID). Accepts `profiles` and `onEdit: (profile) => void`.
+- **`DialogEditProfile`** — controlled dialog for editing a profile's `name` and `imageUrl`. Accepts `profile: UserSchema | null` (open when non-null) and `onClose`. Uses `key={profile.id}` on the inner `fetcher.Form` so field values reset correctly when switching between profiles. Submits to `/api/profile/update`; the redirect response closes the dialog via `Dialog`'s navigation effect.
 
 ## Code style
 

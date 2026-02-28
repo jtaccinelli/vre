@@ -32,6 +32,9 @@ export default [
       route("delete", "./routes/api.form.delete.ts"),
       route("open", "./routes/api.form.open.ts"),
     ]),
+    ...prefix("profile", [
+      route("update", "./routes/api.profile.update.ts"),
+    ]),
     ...prefix("vote", [
       route("create", "./routes/api.vote.create.ts"),
       route("delete", "./routes/api.vote.delete.ts"),

@@ -27,13 +27,7 @@ export function ListPlaylists({ filter }: Props) {
     <CardPlaylist
       key={playlist.data.id}
       playlist={playlist.data}
-      cta={
-        playlist.isOpen
-          ? playlist.hasVoted
-            ? "Overwrite Your Vote"
-            : "Submit Your Vote"
-          : "See Results"
-      }
+      cta={playlist.isOpen ? "Submit Vote" : "See Results"}
       href={
         playlist.isOpen
           ? `/vote/${playlist.data.id}`

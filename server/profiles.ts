@@ -1,8 +1,8 @@
 import type { DrizzleD1Database } from "drizzle-orm/d1";
-import { inArray } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 
 import * as schema from "@server/schema";
-import { user } from "@server/schema";
+import { user, type UserSchema } from "@server/schema";
 
 export class ProfileHandler {
   db;
@@ -14,6 +14,14 @@ export class ProfileHandler {
   async getByIds(ids: string[]) {
     if (ids.length === 0) return [];
     return await this.db.select().from(user).where(inArray(user.id, ids));
+  }
+
+  async getByRoomId(roomId: string) {
+    return await this.db.select().from(user).where(eq(user.roomId, roomId));
+  }
+
+  async update(id: string, data: Partial<Pick<UserSchema, "name" | "imageUrl">>) {
+    return await this.db.update(user).set(data).where(eq(user.id, id));
   }
 
   async upsert(spotifyUsers: User[], roomId: string) {

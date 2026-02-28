@@ -16,7 +16,7 @@ import { Placeholder } from "@app/components/placeholder";
 type Props<Item> = {
   id: string;
   label: string;
-  cta: string;
+  cta?: string;
   placeholder: string;
   defaultOpen?: boolean;
   isClosable?: boolean;
@@ -68,14 +68,16 @@ export function DialogSearch<Item>({
 
   return (
     <>
-      <button
-        type="button"
-        onClick={setIsOpen.true}
-        className={className}
-        disabled={disabled}
-      >
-        {cta}
-      </button>
+      {!cta ? null : (
+        <button
+          type="button"
+          onClick={setIsOpen.true}
+          className={className}
+          disabled={disabled}
+        >
+          {cta}
+        </button>
+      )}
       <Dialog
         id={id}
         open={isOpen}
