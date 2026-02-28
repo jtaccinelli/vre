@@ -34,6 +34,14 @@ export const vote = table("vote", {
   shameVotes: text("shame_votes"),
 });
 
+export const user = table("user", {
+  id: text("id").primaryKey(),
+  roomId: text("room_id").references(() => room.id),
+  name: text("name").notNull(),
+  imageUrl: text("image_url"),
+});
+
 export type VoteSchema = InferSelectModel<typeof vote>;
 export type FormSchema = InferSelectModel<typeof form>;
 export type RoomSchema = InferSelectModel<typeof room>;
+export type UserSchema = InferSelectModel<typeof user>;

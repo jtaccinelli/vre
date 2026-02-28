@@ -9,6 +9,7 @@ import { FormHandler } from "./form";
 import { SpotifyHandler } from "./spotify";
 import { PlaylistHandler } from "./playlist";
 import { RoomHandler } from "./room";
+import { ProfileHandler } from "./profiles";
 
 declare module "react-router" {
   export interface AppLoadContext {
@@ -24,6 +25,7 @@ declare module "react-router" {
     room: RoomHandler;
     vote: VoteHandler;
     form: FormHandler;
+    profiles: ProfileHandler;
     user?: CurrentUser;
   }
 }
@@ -50,6 +52,7 @@ export default {
 
     const form = new FormHandler(db, session);
     const vote = new VoteHandler(db, user);
+    const profiles = new ProfileHandler(db);
 
     return requestHandler(request, {
       cloudflare: { env, ctx },
@@ -61,6 +64,7 @@ export default {
       vote,
       room,
       form,
+      profiles,
       user,
     });
   },

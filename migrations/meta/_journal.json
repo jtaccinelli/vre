@@ -22,6 +22,13 @@
       "when": 1752497909651,
       "tag": "0002_colossal_gertrude_yorkes",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1772245044799,
+      "tag": "0003_famous_clint_barton",
+      "breakpoints": true
     }
   ]
 }
