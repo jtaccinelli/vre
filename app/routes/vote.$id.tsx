@@ -1,8 +1,6 @@
 import { useLoaderData, redirect } from "react-router";
 import type { Route } from "./+types/vote.$id";
 
-import { useRootLoaderData } from "@app/hooks/use-root-loader";
-
 import { ActionBar } from "@app/components/action-bar";
 import { DialogCantVote } from "@app/components/dialog-cant-vote";
 import { DialogDeleteForm } from "@app/components/dialog-delete-form";
@@ -18,7 +16,7 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
   const playlistId = params.id;
   const url = new URL(request.url);
 
-  if (!playlistId || !userId) throw redirect("/");
+  if (!playlistId) throw redirect("/");
 
   const playlist = await context.playlist.get(playlistId);
   if (!playlist) throw redirect("/");
@@ -28,10 +26,13 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
   if (!form.enableVoting) throw redirect(`/results/${params.id}`);
 
   const votes = await context.vote.playlist(playlistId);
-  const users = await context.spotify.fetchUsersFromPlaylist(playlist);
+
+  const ids = form.contributorIds.split(",").filter(Boolean);
+  const users = await context.profiles.getByIds(ids);
 
   const proxiedUserId = url.searchParams.get("user");
   const proxiedUser = users.find((user) => user.id === proxiedUserId);
+  const voter = proxiedUser ?? users.find((user) => user.id === userId);
 
   const hasContributed = users.some((user) => user.id === userId);
   const hasCreated = form.createdBy === userId;
@@ -44,18 +45,18 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
     hasContributed,
     hasCreated,
     proxiedUser,
+    voter,
   };
 }
 
 export default function Page() {
-  const { user } = useRootLoaderData();
   const data = useLoaderData<typeof loader>();
 
-  if (!data.hasContributed) {
+  if (!data.hasContributed && data.proxiedUser) {
     return <DialogCantVote />;
   }
 
-  const { playlist, users, form, votes, hasCreated, proxiedUser } = data;
+  const { playlist, users, form, votes, hasCreated, proxiedUser, voter } = data;
 
   return (
     <div className="flex flex-col">
@@ -64,14 +65,19 @@ export default function Page() {
         playlist={playlist}
         users={users}
         votes={votes}
-        voter={proxiedUser ?? user}
+        voter={voter}
         hasCreated={hasCreated}
+      />
+      <DialogProxyVote
+        playlist={playlist}
+        users={users}
+        votes={votes}
+        defaultOpen={!proxiedUser}
       />
       {!hasCreated ? null : (
         <ActionBar
           message="You created this form."
           actions={[
-            <DialogProxyVote playlist={playlist} users={users} votes={votes} />,
             <DialogSyncForm playlist={playlist} />,
             <DialogCloseVoting playlist={playlist} />,
             <DialogDeleteForm playlist={playlist} />,
@@ -82,7 +88,7 @@ export default function Page() {
         form={form}
         playlist={playlist}
         users={users}
-        voter={proxiedUser ?? user}
+        voter={voter}
       />
     </div>
   );

@@ -41,5 +41,10 @@ export async function action({ context, request }: Route.ActionArgs) {
     enableVoting: true,
   });
 
+  const ids = contributorIds.split(",").filter(Boolean);
+  const spotifyUsers = await Promise.all(ids.map((id) => context.spotify.fetchUser(id)));
+  const validUsers = spotifyUsers.filter((u) => !!u);
+  await context.profiles.upsert(validUsers, roomId);
+
   throw redirect("/vote/" + playlistId);
 }

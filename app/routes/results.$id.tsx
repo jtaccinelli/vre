@@ -33,7 +33,9 @@ export async function loader({ params, context }: Route.LoaderArgs) {
   if (form.enableVoting) throw redirect(`/vote/${params.id}`);
 
   const votes = await context.vote.playlist(playlistId);
-  const users = await context.spotify.fetchUsersFromPlaylist(playlist);
+
+  const ids = form.contributorIds.split(",").filter(Boolean);
+  const users = await context.profiles.getByIds(ids);
 
   const tracks = playlist.tracks.items
     .map((item) =>

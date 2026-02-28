@@ -1,4 +1,4 @@
-import type { VoteSchema } from "@server/schema";
+import type { UserSchema, VoteSchema } from "@server/schema";
 
 export const TIEBREAK_VOTER = "tiebreaker";
 
@@ -59,7 +59,7 @@ export function processBestTrackResults(votes: VoteSchema[], tracks: Track[]) {
   return Array.from(data.values());
 }
 
-export function processBestUserResults(votes: VoteSchema[], users: User[]) {
+export function processBestUserResults(votes: VoteSchema[], users: UserSchema[]) {
   const ids = flattenIdsValues(votes.map((vote) => vote.contributorIds));
 
   const data = ids.reduce<ResultValueMap>((map, id) => {
@@ -69,7 +69,7 @@ export function processBestUserResults(votes: VoteSchema[], users: User[]) {
     if (!user) return map;
 
     return initialiseValue(map, user.id, {
-      name: user.display_name ?? user.id,
+      name: user.name,
     });
   }, new Map());
 
@@ -78,7 +78,7 @@ export function processBestUserResults(votes: VoteSchema[], users: User[]) {
 
 export function processMostTrackVotesResults(
   votes: VoteSchema[],
-  users: User[],
+  users: UserSchema[],
   tracks: (Track & { added_by: UserPublic })[],
 ) {
   const ids = flattenIdsValues(votes.map((vote) => vote.trackIds));
@@ -94,7 +94,7 @@ export function processMostTrackVotesResults(
     if (!user) return map;
 
     return initialiseValue(map, user.id, {
-      name: user.display_name ?? user.id,
+      name: user.name,
     });
   }, new Map());
 

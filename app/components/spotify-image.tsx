@@ -2,12 +2,19 @@ import { type ComponentProps } from "react";
 
 type Props = ComponentProps<"img"> & {
   image?: Image;
+  url?: string | null;
 };
 
-export function SpotifyImage({ image, ...props }: Props) {
-  if (!image) return <div {...props}></div>;
+export function SpotifyImage({ image, url, ...props }: Props) {
+  const src = url ?? image?.url;
+  if (!src) return <div {...props}></div>;
 
   return (
-    <img src={image.url} width={image.width} height={image.height} {...props} />
+    <img
+      src={src}
+      width={image?.width}
+      height={image?.height}
+      {...props}
+    />
   );
 }

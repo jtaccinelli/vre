@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useFetcher } from "react-router";
 
-import type { FormSchema } from "@server/schema";
+import type { FormSchema, UserSchema } from "@server/schema";
 
 import { FieldUsers } from "@app/components/field-users";
 import { FieldTextarea } from "@app/components/field-textarea";
@@ -11,8 +11,8 @@ import { FormSubmit } from "@app/components/form-submit";
 
 type Props = {
   playlist: Playlist;
-  users: User[];
-  voter?: User;
+  users: UserSchema[];
+  voter?: UserSchema;
   form: FormSchema;
   hasVoted?: boolean;
 };

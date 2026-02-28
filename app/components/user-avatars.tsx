@@ -1,13 +1,13 @@
 import { useMemo } from "react";
 import { CheckCircle } from "@phosphor-icons/react";
 
-import type { VoteSchema } from "@server/schema";
+import type { UserSchema, VoteSchema } from "@server/schema";
 
 import { SpotifyImage } from "@app/components/spotify-image";
 
 type Props = {
-  voter?: User;
-  users: User[];
+  voter?: UserSchema;
+  users: UserSchema[];
   votes: VoteSchema[];
 };
 
@@ -32,7 +32,7 @@ export function UserAvatars({ voter, users, votes }: Props) {
         {!voter ? null : (
           <SpotifyImage
             key={voter.id}
-            image={voter?.images?.[0]}
+            url={voter.imageUrl}
             className="mr-2 size-8 rounded-full border-2 border-white bg-gray-700"
           />
         )}
@@ -43,8 +43,7 @@ export function UserAvatars({ voter, users, votes }: Props) {
               className="relative size-8 rounded-full border-2 border-gray-700 bg-gray-900"
             >
               <SpotifyImage
-                key={user.id}
-                image={user?.images?.[0]}
+                url={user.imageUrl}
                 className="rounded-full"
               />
               <CheckCircle
@@ -56,7 +55,7 @@ export function UserAvatars({ voter, users, votes }: Props) {
           ) : (
             <SpotifyImage
               key={user.id}
-              image={user?.images?.[0]}
+              url={user.imageUrl}
               className="size-8 rounded-full border-2 border-gray-700 bg-gray-900"
             />
           );

@@ -1,14 +1,14 @@
 import { useMemo } from "react";
 
-import type { FormSchema, VoteSchema } from "@server/schema";
+import type { UserSchema, VoteSchema } from "@server/schema";
 
 import { DialogRevoteForm } from "@app/components/dialog-revote-form";
 import { UserAvatars } from "@app/components/user-avatars";
 
 type Props = {
   playlist: Playlist;
-  users: User[];
-  voter?: User;
+  users: UserSchema[];
+  voter?: UserSchema;
   votes: VoteSchema[];
   hasCreated?: boolean;
 };

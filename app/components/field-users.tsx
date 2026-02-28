@@ -1,39 +1,40 @@
 import { useCallback, useMemo, useState } from "react";
 
+import type { UserSchema } from "@server/schema";
+
 import { CardUser } from "@app/components/card-user";
 import { DialogSearch } from "@app/components/dialog-search";
 import { Pill } from "@app/components/pill";
 
 type Props = {
-  users: User[];
+  users: UserSchema[];
   max?: number;
 };
 
 export function FieldUsers({ users, max = 1 }: Props) {
-  const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<UserSchema[]>([]);
 
   const isAtSelectedMax = useMemo(() => {
     return selectedUsers.length >= max;
   }, [selectedUsers, max]);
 
-  const handleFilter = (item: User, query: string) => {
+  const handleFilter = (item: UserSchema, query: string) => {
     if (!query) return true;
     const term = query.toLowerCase();
-    const displayName = item?.display_name ?? item.id;
 
-    const hasNameMatch = displayName.toLowerCase().includes(term);
+    const hasNameMatch = item.name.toLowerCase().includes(term);
     const hasIdMatch = item.id.toLowerCase().includes(term);
 
     return hasNameMatch || hasIdMatch;
   };
 
-  const handleSelectUser = (item: User) => () => {
+  const handleSelectUser = (item: UserSchema) => () => {
     setSelectedUsers((users) => {
       return [...users, item];
     });
   };
 
-  const handleClearUser = (item: User) => () => {
+  const handleClearUser = (item: UserSchema) => () => {
     setSelectedUsers((users) => {
       return users.filter((user) => {
         return user.id !== item.id;
@@ -45,14 +46,14 @@ export function FieldUsers({ users, max = 1 }: Props) {
     setSelectedUsers([]);
   };
 
-  const handleToggleTrack = (item: User) => () => {
+  const handleToggleTrack = (item: UserSchema) => () => {
     const isSelected = selectedUsers.some((user) => item.id === user.id);
     if (isSelected) handleClearUser(item)();
     else handleSelectUser(item)();
   };
 
   const renderUser = useCallback(
-    (item: User) => {
+    (item: UserSchema) => {
       const isSelected = selectedUsers.some((user) => item.id === user.id);
       return (
         <CardUser
@@ -88,7 +89,7 @@ export function FieldUsers({ users, max = 1 }: Props) {
               <Pill
                 key={user.id}
                 onClick={handleClearUser(user)}
-                label={user?.display_name ?? user.id}
+                label={user.name}
               />
             ))
           )}

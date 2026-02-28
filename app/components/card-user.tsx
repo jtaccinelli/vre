@@ -1,7 +1,9 @@
+import type { UserSchema } from "@server/schema";
+
 import { SpotifyImage } from "@app/components/spotify-image";
 
 type Props = {
-  user: User;
+  user: UserSchema;
   isSelected: boolean;
   onClick: () => void;
 };
@@ -14,7 +16,7 @@ export function CardUser({ user, isSelected, onClick }: Props) {
     >
       <div className="relative size-20 shrink-0">
         <SpotifyImage
-          image={user.images?.[0]}
+          url={user.imageUrl}
           className="size-full bg-gray-950"
         />
       </div>
@@ -23,7 +25,7 @@ export function CardUser({ user, isSelected, onClick }: Props) {
         onClick={onClick}
         className="flex min-w-0 grow flex-col justify-center px-3 py-2 text-left hover:cursor-pointer"
       >
-        <p className="label">{user?.display_name ?? user.id}</p>
+        <p className="label">{user.name}</p>
       </button>
     </div>
   );
