@@ -1,4 +1,9 @@
-export function FieldCredentials() {
+type Props = {
+  defaultClientId?: string;
+  defaultClientSecret?: string;
+};
+
+export function FieldCredentials({ defaultClientId, defaultClientSecret }: Props) {
   return (
     <div className="flex flex-col gap-4 px-6 py-8">
       <label className="label -mb-4 block">What are your credentials?</label>
@@ -11,12 +16,14 @@ export function FieldCredentials() {
         type="text"
         name="spotify-client-id"
         placeholder="Spotify Client ID"
+        defaultValue={defaultClientId}
         className="field-input rounded border-transparent bg-gray-700 text-white placeholder:text-gray-500"
       />
       <input
         type="text"
         name="spotify-client-secret"
         placeholder="Spotify Client Secret"
+        defaultValue={defaultClientSecret}
         className="field-input rounded border-transparent bg-gray-700 text-white placeholder:text-gray-500"
       />
     </div>

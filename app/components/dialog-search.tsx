@@ -18,6 +18,8 @@ type Props<Item> = {
   label: string;
   cta: string;
   placeholder: string;
+  defaultOpen?: boolean;
+  isClosable?: boolean;
   disabled?: boolean;
   items: Item[];
   renderItem: (item: Item) => ReactNode;
@@ -30,6 +32,8 @@ export function DialogSearch<Item>({
   label,
   cta,
   placeholder,
+  defaultOpen,
+  isClosable = true,
   disabled,
   items,
   filter,
@@ -37,7 +41,7 @@ export function DialogSearch<Item>({
   className,
 }: Props<Item>) {
   const [query, setQuery] = useState("");
-  const [isOpen, setIsOpen] = useBoolean(false);
+  const [isOpen, setIsOpen] = useBoolean(defaultOpen ?? false);
   const navigation = useNavigation();
 
   const filteredItems = useMemo(() => {
@@ -75,7 +79,7 @@ export function DialogSearch<Item>({
       <Dialog
         id={id}
         open={isOpen}
-        onClose={setIsOpen.false}
+        onClose={isClosable ? setIsOpen.false : undefined}
         heading={label}
         className="flex flex-col"
       >

@@ -10,7 +10,6 @@ import { Placeholder } from "@app/components/placeholder";
 export async function loader({ context }: Route.LoaderArgs) {
   async function playlistPromise() {
     const userId = context?.user?.id;
-    if (!userId) return [];
 
     const forms = await context.form.current();
     const votes = await context.vote.current();
