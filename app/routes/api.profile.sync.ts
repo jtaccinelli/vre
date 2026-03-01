@@ -11,19 +11,18 @@ export async function loader({ context }: Route.LoaderArgs) {
   const forms = await context.form.current();
   if (!forms || forms.length === 0) throw redirect("/room");
 
-  const uniqueIds = [
-    ...new Set(
-      forms.flatMap((currentForm) =>
-        currentForm.contributorIds.split(",").filter(Boolean),
+  for (const currentForm of forms) {
+    const contributorIds = currentForm.contributorIds.split(",").filter(Boolean);
+
+    const spotifyUserData = await Promise.all(
+      contributorIds.map((contributorId) =>
+        context.spotify.fetchUser(contributorId),
       ),
-    ),
-  ];
+    );
 
-  const spotifyUserData = await Promise.all(
-    uniqueIds.map((contributorId) => context.spotify.fetchUser(contributorId)),
-  );
+    const validUsers = spotifyUserData.filter((spotifyUser) => !!spotifyUser);
+    await context.profiles.upsert(validUsers, roomId);
+  }
 
-  const validUsers = spotifyUserData.filter((spotifyUser) => !!spotifyUser);
-  await context.profiles.upsert(validUsers, roomId);
   throw redirect("/room");
 }
