@@ -1,10 +1,19 @@
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import { useEffect } from "react";
+import {
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+} from "react-router";
 import type { Route } from "./+types/root";
 
 import "@app/styles/index.css";
 
 import { SessionHandler } from "@server/session";
 
+import { useLocalStorage } from "@app/hooks/use-local-storage";
 import { DialogSignedOut } from "@app/components/dialog-signed-out";
 import { DialogRefreshSession } from "@app/components/dialog-refresh-session";
 import { Favicon } from "@app/components/favicon";
@@ -48,6 +57,14 @@ export async function loader({ context }: Route.LoaderArgs) {
 }
 
 export default function App() {
+  const { room } = useLoaderData<typeof loader>();
+  const [storedRoomId, storedRoomIdActions] = useLocalStorage("room-id");
+
+  useEffect(() => {
+    if (room.id === storedRoomId) return;
+    storedRoomIdActions.set(room.id);
+  }, [room]);
+
   return (
     <html lang="en" className="h-full">
       <head>

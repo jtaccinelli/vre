@@ -21,6 +21,7 @@ export async function loader({ context }: Route.LoaderArgs) {
   const roomId: string | undefined = context.session.get(
     SessionHandler.KEY__ROOM_ID,
   );
+
   if (!roomId) throw redirect("/");
 
   const [room] = await context.room.get(roomId);

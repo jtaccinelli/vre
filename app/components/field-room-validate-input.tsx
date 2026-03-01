@@ -14,10 +14,11 @@ type Props = {
 
 export function FieldRoomValidateInput({ onFindRoom }: Props) {
   const rootData = useRouteLoaderData<typeof loader>("root");
-  const [localRoomId] = useLocalStorage("room-id");
-  const storedRoomId = rootData?.room?.id ?? localRoomId;
+  const [roomId] = useLocalStorage("room-id");
   const [inputValue, setInputValue] = useState("");
   const fetcher = useFetcher<Loader>();
+
+  const storedRoomId = rootData?.room?.id ?? roomId;
 
   const room = useMemo(() => {
     return fetcher?.data?.room;
