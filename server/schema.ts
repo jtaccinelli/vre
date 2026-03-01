@@ -1,5 +1,10 @@
 import { type InferSelectModel } from "drizzle-orm";
-import { text, sqliteTable as table, integer } from "drizzle-orm/sqlite-core";
+import {
+  text,
+  sqliteTable as table,
+  integer,
+  primaryKey,
+} from "drizzle-orm/sqlite-core";
 
 export const room = table("room", {
   id: text("id").primaryKey(),
@@ -40,14 +45,18 @@ export const user = table("user", {
   imageUrl: text("image_url"),
 });
 
-export const userRoom = table("user_room", {
-  userId: text("user_id")
-    .notNull()
-    .references(() => user.id),
-  roomId: text("room_id")
-    .notNull()
-    .references(() => room.id),
-});
+export const userRoom = table(
+  "user_room",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id),
+    roomId: text("room_id")
+      .notNull()
+      .references(() => room.id),
+  },
+  (t) => [primaryKey({ columns: [t.userId, t.roomId] })],
+);
 
 export type VoteSchema = InferSelectModel<typeof vote>;
 export type FormSchema = InferSelectModel<typeof form>;
