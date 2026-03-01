@@ -15,5 +15,6 @@ type EnrichedPlaylist = {
   addedBy?: UserPublic;
   isOpen?: boolean;
   hasVoted?: boolean;
+  isSignedIn?: boolean;
   hasCreated?: boolean;
 };

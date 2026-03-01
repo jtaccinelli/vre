@@ -32,8 +32,9 @@ export async function loader({ context }: Route.LoaderArgs) {
 
 export default function Page() {
   const { room, profiles } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher();
   const [editingProfile, setEditingProfile] = useState<UserSchema | null>(null);
+
+  const fetcher = useFetcher();
 
   function handleCloseEdit() {
     setEditingProfile(null);
@@ -58,6 +59,9 @@ export default function Page() {
       </fetcher.Form>
       <Section title="Room Users">
         <ListProfiles profiles={profiles} onEdit={setEditingProfile} />
+        <fetcher.Form action="/api/profile/sync" method="get">
+          <FormSubmit cta="Sync Users" variant="secondary" />
+        </fetcher.Form>
       </Section>
       <DialogEditProfile profile={editingProfile} onClose={handleCloseEdit} />
     </div>

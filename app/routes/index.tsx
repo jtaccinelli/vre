@@ -35,6 +35,7 @@ export async function loader({ context }: Route.LoaderArgs) {
         isOpen: !!form.enableVoting,
         hasVoted: !!vote,
         hasCreated: form.createdBy === userId,
+        isSignedIn: !!userId,
       };
     });
 

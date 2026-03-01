@@ -43,6 +43,12 @@ export function DialogEditProfile({ profile, onClose }: Props) {
           />
           <FormActions fetcher={fetcher}>
             <FormSubmit cta="Save Changes" />
+            <FormSubmit
+              cta="Delete User"
+              variant="secondary"
+              formAction="/api/profile/delete"
+              formMethod="post"
+            />
           </FormActions>
         </fetcher.Form>
       )}

@@ -38,13 +38,13 @@ export function ListPlaylists({ filter }: Props) {
         !!playlist.hasVoted && "Voted",
       ]}
       actions={[
-        !!playlist.hasCreated ? (
+        !!playlist.isSignedIn ? (
           <DialogDeleteForm playlist={playlist.data} />
         ) : null,
-        !!playlist.hasCreated && !!playlist.isOpen ? (
+        !!playlist.isSignedIn && !!playlist.isOpen ? (
           <DialogCloseVoting playlist={playlist.data} />
         ) : null,
-        !!playlist.hasCreated && !playlist.isOpen ? (
+        !!playlist.isSignedIn && !playlist.isOpen ? (
           <DialogReopenVoting playlist={playlist.data} />
         ) : null,
       ]}

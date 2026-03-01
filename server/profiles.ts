@@ -24,6 +24,10 @@ export class ProfileHandler {
     return await this.db.update(user).set(data).where(eq(user.id, id));
   }
 
+  async delete(id: string) {
+    return await this.db.delete(user).where(eq(user.id, id));
+  }
+
   async upsert(spotifyUsers: User[], roomId: string) {
     const values = spotifyUsers.map((spotifyUser) => ({
       id: spotifyUser.id,

@@ -34,6 +34,8 @@ export default [
     ]),
     ...prefix("profile", [
       route("update", "./routes/api.profile.update.ts"),
+      route("delete", "./routes/api.profile.delete.ts"),
+      route("sync", "./routes/api.profile.sync.ts"),
     ]),
     ...prefix("vote", [
       route("create", "./routes/api.vote.create.ts"),

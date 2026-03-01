@@ -12,3 +12,6 @@
 .dev.vars*
 .env
 
+# Local DB dumps
+tmp-*.sql
+
