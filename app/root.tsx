@@ -61,7 +61,7 @@ export default function App() {
   const [storedRoomId, storedRoomIdActions] = useLocalStorage("room-id");
 
   useEffect(() => {
-    if (!room || room.id === storedRoomId) return;
+    if (!room?.id || room.id === storedRoomId) return;
     storedRoomIdActions.set(room.id);
   }, [room]);
 
