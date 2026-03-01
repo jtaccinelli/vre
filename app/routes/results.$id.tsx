@@ -1,5 +1,7 @@
-import { useLoaderData } from "react-router";
-import { redirect } from "react-router";
+import { useEffect } from "react";
+import { useLoaderData, redirect, data } from "react-router";
+
+import { useDialogEvent } from "@app/hooks/use-dialog-event";
 
 import {
   processBestTrackResults,
@@ -11,6 +13,7 @@ import { PlaylistProvider } from "@app/hooks/use-playlist";
 
 import { ActionBar } from "@app/components/action-bar";
 import { DialogDeleteForm } from "@app/components/dialog-delete-form";
+import { DialogOpen } from "@app/components/dialog-open";
 import { DialogReopenVoting } from "@app/components/dialog-reopen-voting";
 import { HeaderResults } from "@app/components/header-results";
 import { ResultsList } from "@app/components/results-list";
@@ -18,6 +21,8 @@ import { ResultsBar } from "@app/components/results-bar";
 import { ResultsPie } from "@app/components/results-pie";
 import type { Route } from "./+types/results.$id";
 import { HeaderBack } from "@app/components/header-back";
+
+import { SessionHandler } from "@server/session";
 
 export async function loader({ params, context }: Route.LoaderArgs) {
   const userId = context.user?.id;
@@ -49,7 +54,7 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 
   const hasCreated = form.createdBy === userId;
 
-  return {
+  const payload = {
     playlist,
     votes,
     data: {
@@ -58,7 +63,18 @@ export async function loader({ params, context }: Route.LoaderArgs) {
       mostTrackVotes,
     },
     hasCreated,
+    roomId: form.roomId,
   };
+
+  const sessionRoomId = context.session.get(SessionHandler.KEY__ROOM_ID);
+  if (form.roomId && form.roomId !== sessionRoomId) {
+    context.session.set(SessionHandler.KEY__ROOM_ID, form.roomId);
+    return data(payload, {
+      headers: { "Set-Cookie": await context.session.commit() },
+    });
+  }
+
+  return payload;
 }
 
 export function meta({ data }: Route.MetaArgs) {
@@ -78,7 +94,12 @@ export function meta({ data }: Route.MetaArgs) {
 }
 
 export default function Page() {
-  const { playlist, votes, data, hasCreated } = useLoaderData<typeof loader>();
+  const { playlist, votes, data, hasCreated, roomId } = useLoaderData<typeof loader>();
+  const signedOutDialog = useDialogEvent("signed-out");
+
+  useEffect(() => {
+    if (roomId) signedOutDialog.close();
+  }, [roomId]);
 
   return (
     <PlaylistProvider value={playlist}>
@@ -89,8 +110,8 @@ export default function Page() {
           <ActionBar
             message="You created this form."
             actions={[
-              <DialogReopenVoting playlist={playlist} />,
-              <DialogDeleteForm playlist={playlist} />,
+              <DialogOpen id="reopen-voting">Reopen Voting</DialogOpen>,
+              <DialogOpen id="delete-form">Delete Form</DialogOpen>,
             ]}
           />
         )}
@@ -124,6 +145,8 @@ export default function Page() {
           />
         </div>
       </div>
+      <DialogReopenVoting playlist={playlist} />
+      <DialogDeleteForm playlist={playlist} />
     </PlaylistProvider>
   );
 }

@@ -4,27 +4,27 @@ import { Dialog } from "@app/components/dialog";
 
 type Props = {
   id: string;
-  open: boolean;
   emoji: string;
   heading: string;
   subheading: string;
+  isClosable?: boolean;
   onClose?: () => void;
   children?: ReactNode;
 };
 
 export function DialogBasic({
   id,
-  open,
   emoji,
   heading,
   subheading,
+  isClosable,
   onClose,
   children,
 }: Props) {
   return (
     <Dialog
       id={id}
-      open={open}
+      isClosable={isClosable}
       onClose={onClose}
       className="flex flex-col items-center p-6 pt-16 pb-12 text-center"
     >

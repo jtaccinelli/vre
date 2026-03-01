@@ -1,14 +1,16 @@
-import { useEffect, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { X } from "@phosphor-icons/react";
+import { useNavigation } from "react-router";
 
 import { useUi } from "@app/hooks/use-ui";
+import { useDocumentEvent } from "@app/hooks/use-document-event";
+import { useDialogEvent } from "@app/hooks/use-dialog-event";
 import { DIALOG_EVENTS } from "@app/lib/events";
-import { useNavigation } from "react-router";
 
 type Props = {
   id: string;
-  open: boolean;
   heading?: string;
+  isClosable?: boolean;
   onClose?: () => void;
   children?: ReactNode;
   className?: string;
@@ -16,40 +18,43 @@ type Props = {
 
 export function Dialog({
   id,
-  open,
   heading,
+  isClosable = true,
   className,
   onClose,
   children,
 }: Props) {
-  const ui = useUi({
-    closed: !open,
-  });
-
+  const [isOpen, setIsOpen] = useState(false);
+  const dialog = useDialogEvent(id);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    document.addEventListener(DIALOG_EVENTS.OPEN, (event) => {
-      if (id === event.detail.id) return;
-      onClose?.();
-    });
-  }, []);
+  const ui = useUi({ closed: !isOpen });
 
-  useEffect(() => {
-    if (!open) return;
-    document.dispatchEvent(
-      new CustomEvent(DIALOG_EVENTS.OPEN, {
-        detail: {
-          id: id,
-        },
-      }),
-    );
-  }, [open]);
+  useDocumentEvent(DIALOG_EVENTS.OPEN, (event) => {
+    if (event.detail.id === id) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+      onClose?.();
+    }
+  });
+
+  useDocumentEvent(DIALOG_EVENTS.CLOSE, (event) => {
+    if (event.detail.id !== id) return;
+    setIsOpen(false);
+    onClose?.();
+  });
 
   useEffect(() => {
     if (navigation.state === "idle") return;
+    setIsOpen(false);
     onClose?.();
   }, [navigation.state]);
+
+  function handleBackdropClick() {
+    if (!isClosable) return;
+    dialog.close();
+  }
 
   return (
     <div
@@ -59,15 +64,15 @@ export function Dialog({
       <button
         type="button"
         className="absolute inset-0 z-0 bg-gray-950/80 backdrop-blur"
-        onClick={onClose}
+        onClick={handleBackdropClick}
       />
       <div className="absolute bottom-0 left-1/2 z-10 w-full max-w-screen-sm -translate-x-1/2 px-2">
         <div className="group-ui-closed:translate-y-1/2 flex max-h-[70vh] w-full flex-col overflow-y-scroll rounded-t-xl bg-gray-900 transition-transform">
           {!heading ? null : (
             <div className="flex items-center justify-between border-b border-gray-950 p-6 text-left">
               <p className="title text-white">{heading}</p>
-              {!onClose ? null : (
-                <button type="button" onClick={onClose} className="cursor-pointer text-gray-400 hover:text-white">
+              {!isClosable ? null : (
+                <button type="button" onClick={dialog.close} className="cursor-pointer text-gray-400 hover:text-white">
                   <X size={20} />
                 </button>
               )}

@@ -3,23 +3,21 @@ import { Form, useFetcher } from "react-router";
 
 import type { loader } from "@app/routes/api.room.list";
 import { useLocalStorage } from "@app/hooks/use-local-storage";
+import { useDocumentEvent } from "@app/hooks/use-document-event";
+import { DIALOG_EVENTS } from "@app/lib/events";
 import { Dialog } from "@app/components/dialog";
 import { Placeholder } from "@app/components/placeholder";
 
-type Props = {
-  isOpen: boolean;
-  onClose: () => void;
-};
-
-export function DialogSwapRoom({ isOpen, onClose }: Props) {
+export function DialogSwapRoom() {
   const fetcher = useFetcher<typeof loader>();
   const [, roomIdActions] = useLocalStorage("room-id");
 
-  useEffect(() => {
-    if (isOpen && fetcher.state === "idle" && !fetcher.data) {
+  useDocumentEvent(DIALOG_EVENTS.OPEN, (event) => {
+    if (event.detail.id !== "swap-room") return;
+    if (fetcher.state === "idle" && !fetcher.data) {
       fetcher.load("/api/room/list");
     }
-  }, [isOpen]);
+  });
 
   const rooms = fetcher.data?.rooms ?? [];
 
@@ -28,13 +26,7 @@ export function DialogSwapRoom({ isOpen, onClose }: Props) {
   }
 
   return (
-    <Dialog
-      id="swap-room"
-      open={isOpen}
-      onClose={onClose}
-      heading="Swap Room"
-      className="flex flex-col"
-    >
+    <Dialog id="swap-room" heading="Swap Room" className="flex flex-col">
       <div className="flex flex-col gap-2 px-6 py-8 text-white">
         {fetcher.state !== "idle" ? (
           <Placeholder label="Loading rooms…" />

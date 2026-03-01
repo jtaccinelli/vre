@@ -6,9 +6,10 @@ import {
   useState,
 } from "react";
 import { MagnifyingGlass, X } from "@phosphor-icons/react";
-import { useNavigation } from "react-router";
 
-import { useBoolean } from "@app/hooks/use-boolean";
+import { useDialogEvent } from "@app/hooks/use-dialog-event";
+import { useDocumentEvent } from "@app/hooks/use-document-event";
+import { DIALOG_EVENTS } from "@app/lib/events";
 
 import { Dialog } from "@app/components/dialog";
 import { Placeholder } from "@app/components/placeholder";
@@ -41,14 +42,24 @@ export function DialogSearch<Item>({
   className,
 }: Props<Item>) {
   const [query, setQuery] = useState("");
-  const [isOpen, setIsOpen] = useBoolean(defaultOpen ?? false);
-  const navigation = useNavigation();
+  const dialog = useDialogEvent(id);
 
   const filteredItems = useMemo(() => {
-    return items.filter((item) => {
-      return filter(item, query);
-    });
+    return items.filter((item) => filter(item, query));
   }, [items, query]);
+
+  useEffect(() => {
+    if (defaultOpen) dialog.open();
+  }, []);
+
+  useEffect(() => {
+    if (disabled) dialog.close();
+  }, [disabled]);
+
+  useDocumentEvent(DIALOG_EVENTS.CLOSE, (event) => {
+    if (event.detail.id !== id) return;
+    setQuery("");
+  });
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
@@ -58,20 +69,12 @@ export function DialogSearch<Item>({
     setQuery("");
   };
 
-  useEffect(() => {
-    if (disabled) setIsOpen.false();
-  }, [disabled]);
-
-  useEffect(() => {
-    if (navigation.state !== "idle") setIsOpen.false();
-  }, [navigation]);
-
   return (
     <>
       {!cta ? null : (
         <button
           type="button"
-          onClick={setIsOpen.true}
+          onClick={dialog.open}
           className={className}
           disabled={disabled}
         >
@@ -80,8 +83,7 @@ export function DialogSearch<Item>({
       )}
       <Dialog
         id={id}
-        open={isOpen}
-        onClose={isClosable ? setIsOpen.false : undefined}
+        isClosable={isClosable}
         heading={label}
         className="flex flex-col"
       >

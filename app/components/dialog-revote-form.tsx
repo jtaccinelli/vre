@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { Form, Link } from "react-router";
 
 import type { VoteSchema } from "@server/schema";
 
+import { useDialogEvent } from "@app/hooks/use-dialog-event";
 import { DialogBasic } from "@app/components/dialog-basic";
 
 type Props = {
@@ -10,12 +12,19 @@ type Props = {
 };
 
 export function DialogRevoteForm({ vote, playlist }: Props) {
-  if (!vote) return;
+  const dialog = useDialogEvent("revote-form");
+
+  useEffect(() => {
+    if (vote) dialog.open();
+    else dialog.close();
+  }, [!!vote]);
+
+  if (!vote) return null;
 
   return (
     <DialogBasic
       id="revote-form"
-      open={!!vote}
+      isClosable={false}
       emoji="🤔"
       heading="You've already voted!"
       subheading="You can always resubmit though. Click below to clear your previous vote."

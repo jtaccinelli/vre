@@ -16,12 +16,7 @@ export function DialogEditProfile({ profile, onClose }: Props) {
   const fetcher = useFetcher();
 
   return (
-    <Dialog
-      id="edit-profile"
-      open={!!profile}
-      onClose={onClose}
-      heading="Edit Profile"
-    >
+    <Dialog id="edit-profile" onClose={onClose} heading="Edit Profile">
       {!profile ? null : (
         <fetcher.Form
           key={profile.id}

@@ -2,20 +2,16 @@ import { useMemo } from "react";
 
 import { type ResultValue } from "@app/lib/results";
 
-import { useBoolean } from "@app/hooks/use-boolean";
-
 import { Dialog } from "@app/components/dialog";
 import { ResultsTable } from "@app/components/results-table";
 
 type Props = {
+  id: string;
   label: string;
-  cta: string;
   data: ResultValue[];
 };
 
-export function DialogResults({ label, cta, data }: Props) {
-  const [isOpen, setIsOpen] = useBoolean(false);
-
+export function DialogResults({ id, label, data }: Props) {
   const sortedData = useMemo(() => {
     return data.sort((a, b) => {
       if (a.count == b.count) return 0;
@@ -25,27 +21,8 @@ export function DialogResults({ label, cta, data }: Props) {
   }, [data]);
 
   return (
-    <>
-      <button
-        type="button"
-        onClick={setIsOpen.true}
-        className="btn btn-primary self-start"
-      >
-        {cta}
-      </button>
-      <Dialog
-        id="results"
-        open={isOpen}
-        onClose={setIsOpen.false}
-        className="flex flex-col px-6 py-8"
-        heading={label}
-      >
-        <ResultsTable
-          results={sortedData}
-          placeholder="No data"
-          suffix="vote(s)"
-        />
-      </Dialog>
-    </>
+    <Dialog id={id} className="flex flex-col px-6 py-8" heading={label}>
+      <ResultsTable results={sortedData} placeholder="No data" suffix="vote(s)" />
+    </Dialog>
   );
 }

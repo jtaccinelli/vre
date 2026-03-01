@@ -1,47 +1,25 @@
 import { type ReactNode } from "react";
 
-import { useBoolean } from "@app/hooks/use-boolean";
+import { useDialogEvent } from "@app/hooks/use-dialog-event";
 import { DialogBasic } from "@app/components/dialog-basic";
 
 type Props = {
   id: string;
-  label: string;
   emoji: string;
   heading: string;
   subheading: string;
   children?: ReactNode;
-  className?: string;
 };
 
-export function DialogConfirm({
-  id,
-  label,
-  emoji,
-  heading,
-  subheading,
-  className,
-  children,
-}: Props) {
-  const [isOpen, setIsOpen] = useBoolean(false);
+export function DialogConfirm({ id, emoji, heading, subheading, children }: Props) {
+  const dialog = useDialogEvent(id);
 
   return (
-    <>
-      <button onClick={setIsOpen.true} className={className} tabIndex={0}>
-        {label}
+    <DialogBasic id={id} emoji={emoji} heading={heading} subheading={subheading}>
+      {children}
+      <button onClick={dialog.close} className="btn btn-secondary">
+        Cancel
       </button>
-      <DialogBasic
-        id={id}
-        open={isOpen}
-        onClose={setIsOpen.false}
-        emoji={emoji}
-        heading={heading}
-        subheading={subheading}
-      >
-        {children}
-        <button onClick={setIsOpen.false} className="btn btn-secondary">
-          Cancel
-        </button>
-      </DialogBasic>
-    </>
+    </DialogBasic>
   );
 }

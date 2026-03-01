@@ -4,9 +4,9 @@ import { DotsThree } from "@phosphor-icons/react";
 import clsx from "clsx";
 
 import type { loader } from "@app/root";
-import { useBoolean } from "@app/hooks/use-boolean";
 import { ActionMenu } from "@app/components/action-menu";
 import { DialogCreateForm } from "@app/components/dialog-create-form";
+import { DialogOpen } from "@app/components/dialog-open";
 import { DialogSwapRoom } from "@app/components/dialog-swap-room";
 
 const barClasses = {
@@ -29,25 +29,15 @@ export function HeaderRoom() {
   const data = useRouteLoaderData<typeof loader>("root");
   const room = data?.room;
   const user = data?.user;
-  const [isCreateFormOpen, setIsCreateFormOpen] = useBoolean(false);
-  const [isSwapRoomOpen, setIsSwapRoomOpen] = useBoolean(false);
 
   const theme = user ? "light" : "dark";
 
   const actions = useMemo(() => {
     const actions = [] as ReactNode[];
     if (user) {
-      actions.push(
-        <button type="button" onClick={setIsCreateFormOpen.true}>
-          Create Form
-        </button>,
-      );
+      actions.push(<DialogOpen id="create-form">Create Form</DialogOpen>);
       actions.push(<Link to="/room">Manage Room</Link>);
-      actions.push(
-        <button type="button" onClick={setIsSwapRoomOpen.true}>
-          Swap Room
-        </button>,
-      );
+      actions.push(<DialogOpen id="swap-room">Swap Room</DialogOpen>);
       actions.push(<Link to="/api/auth/sign-out">Sign Out</Link>);
     } else {
       actions.push(
@@ -87,14 +77,8 @@ export function HeaderRoom() {
       {navigation.state === "idle" ? null : (
         <div className="animate-load h-px bg-gray-950" />
       )}
-      <DialogCreateForm
-        isOpen={isCreateFormOpen}
-        onClose={setIsCreateFormOpen.false}
-      />
-      <DialogSwapRoom
-        isOpen={isSwapRoomOpen}
-        onClose={setIsSwapRoomOpen.false}
-      />
+      <DialogCreateForm />
+      <DialogSwapRoom />
     </div>
   );
 }

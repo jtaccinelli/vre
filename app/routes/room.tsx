@@ -5,6 +5,7 @@ import type { Route } from "./+types/room";
 import { SessionHandler } from "@server/session";
 import type { UserSchema } from "@server/schema";
 
+import { useDialogEvent } from "@app/hooks/use-dialog-event";
 import { HeaderBack } from "@app/components/header-back";
 import { FieldText } from "@app/components/field-text";
 import { FieldCredentials } from "@app/components/field-credentials";
@@ -33,8 +34,14 @@ export async function loader({ context }: Route.LoaderArgs) {
 export default function Page() {
   const { room, profiles } = useLoaderData<typeof loader>();
   const [editingProfile, setEditingProfile] = useState<UserSchema | null>(null);
+  const editProfileDialog = useDialogEvent("edit-profile");
 
   const fetcher = useFetcher();
+
+  function handleEditProfile(profile: UserSchema) {
+    setEditingProfile(profile);
+    editProfileDialog.open();
+  }
 
   function handleCloseEdit() {
     setEditingProfile(null);
@@ -58,7 +65,7 @@ export default function Page() {
         </FormActions>
       </fetcher.Form>
       <Section title="Room Users">
-        <ListProfiles profiles={profiles} onEdit={setEditingProfile} />
+        <ListProfiles profiles={profiles} onEdit={handleEditProfile} />
         <fetcher.Form action="/api/profile/sync" method="get">
           <FormSubmit cta="Sync Users" variant="secondary" />
         </fetcher.Form>

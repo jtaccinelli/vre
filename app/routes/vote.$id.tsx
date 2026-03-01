@@ -1,10 +1,15 @@
-import { useLoaderData, redirect } from "react-router";
+import { useEffect } from "react";
+import { useLoaderData, redirect, data } from "react-router";
 import type { Route } from "./+types/vote.$id";
 
+import { useDialogEvent } from "@app/hooks/use-dialog-event";
+
+import { SessionHandler } from "@server/session";
+
 import { ActionBar } from "@app/components/action-bar";
-import { DialogCantVote } from "@app/components/dialog-cant-vote";
-import { DialogDeleteForm } from "@app/components/dialog-delete-form";
 import { DialogCloseVoting } from "@app/components/dialog-close-voting";
+import { DialogDeleteForm } from "@app/components/dialog-delete-form";
+import { DialogOpen } from "@app/components/dialog-open";
 import { DialogProxyVote } from "@app/components/dialog-proxy-vote";
 import { DialogSyncForm } from "@app/components/dialog-sync-form";
 import { FormVote } from "@app/components/form-vote";
@@ -37,7 +42,7 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
   const hasContributed = users.some((user) => user.id === userId);
   const hasCreated = form.createdBy === userId;
 
-  return {
+  const payload = {
     playlist,
     users,
     form,
@@ -47,12 +52,26 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
     proxiedUser,
     voter,
   };
+
+  const sessionRoomId = context.session.get(SessionHandler.KEY__ROOM_ID);
+  if (form.roomId && form.roomId !== sessionRoomId) {
+    context.session.set(SessionHandler.KEY__ROOM_ID, form.roomId);
+    return data(payload, {
+      headers: { "Set-Cookie": await context.session.commit() },
+    });
+  }
+
+  return payload;
 }
 
 export default function Page() {
   const data = useLoaderData<typeof loader>();
-
   const { playlist, users, form, votes, hasCreated, proxiedUser, voter } = data;
+  const signedOutDialog = useDialogEvent("signed-out");
+
+  useEffect(() => {
+    if (form.roomId) signedOutDialog.close();
+  }, [form.roomId]);
 
   return (
     <div className="flex flex-col">
@@ -74,13 +93,16 @@ export default function Page() {
         <ActionBar
           message="You created this form."
           actions={[
-            <DialogSyncForm playlist={playlist} />,
-            <DialogCloseVoting playlist={playlist} />,
-            <DialogDeleteForm playlist={playlist} />,
+            <DialogOpen id="sync-form">Sync Form</DialogOpen>,
+            <DialogOpen id="close-voting">Close Voting</DialogOpen>,
+            <DialogOpen id="delete-form">Delete Form</DialogOpen>,
           ]}
         />
       )}
       <FormVote form={form} playlist={playlist} users={users} voter={voter} />
+      <DialogSyncForm playlist={playlist} />
+      <DialogCloseVoting playlist={playlist} />
+      <DialogDeleteForm playlist={playlist} />
     </div>
   );
 }

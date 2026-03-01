@@ -4,18 +4,15 @@ import { DialogConfirm } from "@app/components/dialog-confirm";
 
 type Props = {
   playlist: Playlist;
-  className?: string;
 };
 
-export function DialogDeleteForm({ playlist, className }: Props) {
+export function DialogDeleteForm({ playlist }: Props) {
   return (
     <DialogConfirm
       id="delete-form"
-      label="Delete Form"
       emoji="🤔"
       heading="Are you sure?"
       subheading="This can't be undone!"
-      className={className}
     >
       <Form action="/api/form/delete" method="post">
         <input type="hidden" name="playlist-id" value={playlist.id} />

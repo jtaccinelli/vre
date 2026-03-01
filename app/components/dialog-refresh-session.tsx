@@ -1,16 +1,24 @@
+import { useEffect } from "react";
 import { Link } from "react-router";
 
 import { useRootLoaderData } from "@app/hooks/use-root-loader";
-
+import { useDialogEvent } from "@app/hooks/use-dialog-event";
 import { DialogBasic } from "@app/components/dialog-basic";
 
 export function DialogRefreshSession() {
   const { isLoggedIn, isTokenExpired } = useRootLoaderData();
+  const isOpen = isLoggedIn && isTokenExpired;
+  const dialog = useDialogEvent("refresh-session");
+
+  useEffect(() => {
+    if (isOpen) dialog.open();
+    else dialog.close();
+  }, [isOpen]);
 
   return (
     <DialogBasic
       id="refresh-session"
-      open={isLoggedIn && isTokenExpired}
+      isClosable={false}
       emoji="❤️‍🩹"
       heading="Oh no!"
       subheading="Looks like your session has expired"
