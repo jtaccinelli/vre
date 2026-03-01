@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Form, useFetcher } from "react-router";
 
 import type { loader } from "@app/routes/api.room.list";
+import { useLocalStorage } from "@app/hooks/use-local-storage";
 import { Dialog } from "@app/components/dialog";
 import { Placeholder } from "@app/components/placeholder";
 
@@ -12,6 +13,7 @@ type Props = {
 
 export function DialogSwapRoom({ isOpen, onClose }: Props) {
   const fetcher = useFetcher<typeof loader>();
+  const [, roomIdActions] = useLocalStorage("room-id");
 
   useEffect(() => {
     if (isOpen && fetcher.state === "idle" && !fetcher.data) {
@@ -21,6 +23,10 @@ export function DialogSwapRoom({ isOpen, onClose }: Props) {
 
   const rooms = fetcher.data?.rooms ?? [];
 
+  function handleSelectRoom(roomId: string) {
+    return () => roomIdActions.set(roomId);
+  }
+
   return (
     <Dialog
       id="swap-room"
@@ -29,7 +35,7 @@ export function DialogSwapRoom({ isOpen, onClose }: Props) {
       heading="Swap Room"
       className="flex flex-col"
     >
-      <div className="flex flex-col gap-3 px-6 py-8 text-white">
+      <div className="flex flex-col gap-2 px-6 py-8 text-white">
         {fetcher.state !== "idle" ? (
           <Placeholder label="Loading rooms…" />
         ) : !rooms.length ? (
@@ -40,7 +46,8 @@ export function DialogSwapRoom({ isOpen, onClose }: Props) {
               <input type="hidden" name="room-id" value={room.id} />
               <button
                 type="submit"
-                className="w-full rounded bg-gray-800 px-4 py-3 text-left font-semibold hover:bg-gray-700"
+                className="w-full rounded bg-gray-800 p-4 text-left hover:bg-gray-700"
+                onClick={handleSelectRoom(room.id)}
               >
                 {room.name}
               </button>
