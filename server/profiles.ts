@@ -38,6 +38,10 @@ export class ProfileHandler {
 
     if (values.length === 0) return;
 
-    return await this.db.insert(user).values(values).onConflictDoNothing();
+    const chunkSize = 25;
+    for (let index = 0; index < values.length; index += chunkSize) {
+      const chunk = values.slice(index, index + chunkSize);
+      await this.db.insert(user).values(chunk).onConflictDoNothing();
+    }
   }
 }
