@@ -39,7 +39,7 @@ export async function loader({ context }: Route.LoaderArgs) {
       };
     });
 
-    return enrichedPlaylists.filter((item) => !!item);
+    return enrichedPlaylists.filter((item) => !!item).reverse();
   }
 
   return {

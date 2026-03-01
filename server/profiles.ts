@@ -2,7 +2,7 @@ import type { DrizzleD1Database } from "drizzle-orm/d1";
 import { eq, inArray } from "drizzle-orm";
 
 import * as schema from "@server/schema";
-import { user, type UserSchema } from "@server/schema";
+import { user, userRoom, type UserSchema } from "@server/schema";
 
 export class ProfileHandler {
   db;
@@ -17,7 +17,12 @@ export class ProfileHandler {
   }
 
   async getByRoomId(roomId: string) {
-    return await this.db.select().from(user).where(eq(user.roomId, roomId));
+    const rows = await this.db
+      .select({ user })
+      .from(user)
+      .innerJoin(userRoom, eq(userRoom.userId, user.id))
+      .where(eq(userRoom.roomId, roomId));
+    return rows.map((row) => row.user);
   }
 
   async update(id: string, data: Partial<Pick<UserSchema, "name" | "imageUrl">>) {
@@ -29,19 +34,29 @@ export class ProfileHandler {
   }
 
   async upsert(spotifyUsers: User[], roomId: string) {
-    const values = spotifyUsers.map((spotifyUser) => ({
+    if (spotifyUsers.length === 0) return;
+
+    const userValues = spotifyUsers.map((spotifyUser) => ({
       id: spotifyUser.id,
-      roomId,
       name: spotifyUser.display_name ?? spotifyUser.id,
       imageUrl: spotifyUser.images?.[0]?.url ?? null,
     }));
 
-    if (values.length === 0) return;
+    const userRoomValues = spotifyUsers.map((spotifyUser) => ({
+      userId: spotifyUser.id,
+      roomId,
+    }));
 
     const chunkSize = 25;
-    for (let index = 0; index < values.length; index += chunkSize) {
-      const chunk = values.slice(index, index + chunkSize);
+
+    for (let index = 0; index < userValues.length; index += chunkSize) {
+      const chunk = userValues.slice(index, index + chunkSize);
       await this.db.insert(user).values(chunk).onConflictDoNothing();
+    }
+
+    for (let index = 0; index < userRoomValues.length; index += chunkSize) {
+      const chunk = userRoomValues.slice(index, index + chunkSize);
+      await this.db.insert(userRoom).values(chunk).onConflictDoNothing();
     }
   }
 }

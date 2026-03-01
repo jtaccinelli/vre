@@ -36,12 +36,21 @@ export const vote = table("vote", {
 
 export const user = table("user", {
   id: text("id").primaryKey(),
-  roomId: text("room_id").references(() => room.id),
   name: text("name").notNull(),
   imageUrl: text("image_url"),
+});
+
+export const userRoom = table("user_room", {
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id),
+  roomId: text("room_id")
+    .notNull()
+    .references(() => room.id),
 });
 
 export type VoteSchema = InferSelectModel<typeof vote>;
 export type FormSchema = InferSelectModel<typeof form>;
 export type RoomSchema = InferSelectModel<typeof room>;
 export type UserSchema = InferSelectModel<typeof user>;
+export type UserRoomSchema = InferSelectModel<typeof userRoom>;
