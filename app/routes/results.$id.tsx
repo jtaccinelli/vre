@@ -23,7 +23,7 @@ export async function loader({ params, context }: Route.LoaderArgs) {
   const userId = context.user?.id;
   const playlistId = params.id;
 
-  if (!playlistId || !userId) throw redirect("/");
+  if (!playlistId) throw redirect("/");
 
   const playlist = await context.playlist.get(playlistId);
   if (!playlist) throw redirect("/");

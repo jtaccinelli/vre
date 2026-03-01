@@ -52,10 +52,6 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
 export default function Page() {
   const data = useLoaderData<typeof loader>();
 
-  if (!data.hasContributed && data.proxiedUser) {
-    return <DialogCantVote />;
-  }
-
   const { playlist, users, form, votes, hasCreated, proxiedUser, voter } = data;
 
   return (
@@ -84,12 +80,7 @@ export default function Page() {
           ]}
         />
       )}
-      <FormVote
-        form={form}
-        playlist={playlist}
-        users={users}
-        voter={voter}
-      />
+      <FormVote form={form} playlist={playlist} users={users} voter={voter} />
     </div>
   );
 }
