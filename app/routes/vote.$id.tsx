@@ -2,8 +2,6 @@ import { useEffect } from "react";
 import { useLoaderData, redirect, data } from "react-router";
 import type { Route } from "./+types/vote.$id";
 
-import { useDialogEvent } from "@app/hooks/use-dialog-event";
-
 import { SessionHandler } from "@server/session";
 
 import { ActionBar } from "@app/components/action-bar";
@@ -42,36 +40,45 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
   const hasContributed = users.some((user) => user.id === userId);
   const hasCreated = form.createdBy === userId;
 
-  const payload = {
-    playlist,
-    users,
-    form,
-    votes,
-    hasContributed,
-    hasCreated,
-    proxiedUser,
-    voter,
-  };
-
-  const sessionRoomId = context.session.get(SessionHandler.KEY__ROOM_ID);
-  if (form.roomId && form.roomId !== sessionRoomId) {
+  const headers = new Headers();
+  const savedRoomId = context.session.get(SessionHandler.KEY__ROOM_ID);
+  if (!savedRoomId) {
     context.session.set(SessionHandler.KEY__ROOM_ID, form.roomId);
-    return data(payload, {
-      headers: { "Set-Cookie": await context.session.commit() },
-    });
+    headers.set("Set-Cookie", await context.session.commit());
   }
 
-  return payload;
+  return data(
+    {
+      playlist,
+      users,
+      form,
+      votes,
+      hasContributed,
+      hasCreated,
+      proxiedUser,
+      savedRoomId,
+      voter,
+    },
+    { headers },
+  );
 }
 
 export default function Page() {
   const data = useLoaderData<typeof loader>();
-  const { playlist, users, form, votes, hasCreated, proxiedUser, voter } = data;
-  const signedOutDialog = useDialogEvent("signed-out");
+  const {
+    playlist,
+    users,
+    form,
+    votes,
+    hasCreated,
+    proxiedUser,
+    voter,
+    savedRoomId,
+  } = data;
 
   useEffect(() => {
-    if (form.roomId) signedOutDialog.close();
-  }, [form.roomId]);
+    if (!savedRoomId) window.location.reload();
+  }, []);
 
   return (
     <div className="flex flex-col">

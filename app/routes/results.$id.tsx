@@ -54,27 +54,27 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 
   const hasCreated = form.createdBy === userId;
 
-  const payload = {
-    playlist,
-    votes,
-    data: {
-      bestTrackVote,
-      bestUserVote,
-      mostTrackVotes,
-    },
-    hasCreated,
-    roomId: form.roomId,
-  };
-
-  const sessionRoomId = context.session.get(SessionHandler.KEY__ROOM_ID);
-  if (form.roomId && form.roomId !== sessionRoomId) {
+  const headers = new Headers();
+  const savedRoomId = context.session.get(SessionHandler.KEY__ROOM_ID);
+  if (!savedRoomId) {
     context.session.set(SessionHandler.KEY__ROOM_ID, form.roomId);
-    return data(payload, {
-      headers: { "Set-Cookie": await context.session.commit() },
-    });
+    headers.set("Set-Cookie", await context.session.commit());
   }
 
-  return payload;
+  return data(
+    {
+      playlist,
+      votes,
+      results: {
+        bestTrackVote,
+        bestUserVote,
+        mostTrackVotes,
+      },
+      savedRoomId,
+      hasCreated,
+    },
+    { headers },
+  );
 }
 
 export function meta({ data }: Route.MetaArgs) {
@@ -94,12 +94,13 @@ export function meta({ data }: Route.MetaArgs) {
 }
 
 export default function Page() {
-  const { playlist, votes, data, hasCreated, roomId } = useLoaderData<typeof loader>();
-  const signedOutDialog = useDialogEvent("signed-out");
+  const data = useLoaderData<typeof loader>();
+
+  const { playlist, votes, results, hasCreated, savedRoomId } = data;
 
   useEffect(() => {
-    if (roomId) signedOutDialog.close();
-  }, [roomId]);
+    if (!savedRoomId) window.location.reload();
+  }, []);
 
   return (
     <PlaylistProvider value={playlist}>
@@ -118,18 +119,18 @@ export default function Page() {
         <div className="flex flex-col divide-y divide-gray-800">
           <ResultsBar
             label="Best Track"
-            data={data.bestTrackVote}
+            data={results.bestTrackVote}
             canTiebreak={hasCreated}
             field="track-ids"
           />
           <ResultsBar
             label="Most Track Votes"
-            data={data.mostTrackVotes}
+            data={results.mostTrackVotes}
             field="track-ids"
           />
           <ResultsPie
             label="Best Contributor"
-            data={data.bestUserVote}
+            data={results.bestUserVote}
             canTiebreak={hasCreated}
             field="user-ids"
           />
