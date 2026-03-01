@@ -7,6 +7,7 @@ import type { loader } from "@app/root";
 import { useBoolean } from "@app/hooks/use-boolean";
 import { ActionMenu } from "@app/components/action-menu";
 import { DialogCreateForm } from "@app/components/dialog-create-form";
+import { DialogSwapRoom } from "@app/components/dialog-swap-room";
 
 const barClasses = {
   light: "bg-white",
@@ -29,6 +30,7 @@ export function HeaderRoom() {
   const room = data?.room;
   const user = data?.user;
   const [isCreateFormOpen, setIsCreateFormOpen] = useBoolean(false);
+  const [isSwapRoomOpen, setIsSwapRoomOpen] = useBoolean(false);
 
   const theme = user ? "light" : "dark";
 
@@ -41,6 +43,11 @@ export function HeaderRoom() {
         </button>,
       );
       actions.push(<Link to="/room">Manage Room</Link>);
+      actions.push(
+        <button type="button" onClick={setIsSwapRoomOpen.true}>
+          Swap Room
+        </button>,
+      );
       actions.push(<Link to="/api/auth/sign-out">Sign Out</Link>);
     } else {
       actions.push(
@@ -83,6 +90,10 @@ export function HeaderRoom() {
       <DialogCreateForm
         isOpen={isCreateFormOpen}
         onClose={setIsCreateFormOpen.false}
+      />
+      <DialogSwapRoom
+        isOpen={isSwapRoomOpen}
+        onClose={setIsSwapRoomOpen.false}
       />
     </div>
   );

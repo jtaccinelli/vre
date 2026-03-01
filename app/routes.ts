@@ -17,6 +17,7 @@ export default [
       route("fetch", "./routes/api.room.fetch.ts"),
       route("join", "./routes/api.room.join.ts"),
       route("leave", "./routes/api.room.leave.ts"),
+      route("list", "./routes/api.room.list.ts"),
       route("update", "./routes/api.room.update.ts"),
     ]),
     ...prefix("auth", [

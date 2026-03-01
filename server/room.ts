@@ -2,7 +2,7 @@ import type { DrizzleD1Database } from "drizzle-orm/d1";
 import { and, eq, like, or } from "drizzle-orm";
 
 import * as schema from "@server/schema";
-import { room, type RoomSchema } from "@server/schema";
+import { room, userRoom, type RoomSchema } from "@server/schema";
 
 export class RoomHandler {
   db;
@@ -21,5 +21,14 @@ export class RoomHandler {
 
   async update(id: RoomSchema["id"], data: Partial<Omit<RoomSchema, "id">>) {
     return await this.db.update(room).set(data).where(eq(room.id, id));
+  }
+
+  async getByUserId(userId: string) {
+    const rows = await this.db
+      .select({ room })
+      .from(room)
+      .innerJoin(userRoom, eq(userRoom.roomId, room.id))
+      .where(eq(userRoom.userId, userId));
+    return rows.map((row) => row.room);
   }
 }
