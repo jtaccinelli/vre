@@ -53,7 +53,9 @@ export function ActionMenu({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  if (items.length === 0) return null;
+  const validItems = items.filter(Boolean);
+
+  if (validItems.length === 0) return null;
 
   return (
     <div ref={ref} className="group relative">
@@ -74,10 +76,10 @@ export function ActionMenu({
           directionClasses[direction],
         )}
       >
-        {items.map((item, index) => {
+        {validItems.map((item, index) => {
           if (isValidElement<ComponentProps<"div">>(item)) {
             const isFirst = index === 0;
-            const isLast = index === items.length - 1;
+            const isLast = index === validItems.length - 1;
             return cloneElement(item, {
               key: index,
               className: clsx(

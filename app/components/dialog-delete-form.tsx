@@ -3,10 +3,12 @@ import { Form } from "react-router";
 import { DialogConfirm } from "@app/components/dialog-confirm";
 
 type Props = {
-  playlist: Playlist;
+  playlist?: Playlist;
 };
 
 export function DialogDeleteForm({ playlist }: Props) {
+  if (!playlist) return null;
+
   return (
     <DialogConfirm
       id="delete-form"

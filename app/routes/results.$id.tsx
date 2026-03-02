@@ -53,6 +53,7 @@ export async function loader({ params, context }: Route.LoaderArgs) {
   const mostTrackVotes = processMostTrackVotesResults(votes, users, tracks);
 
   const hasCreated = form.createdBy === userId;
+  const isSignedIn = !!userId;
 
   const headers = new Headers();
   const savedRoomId = context.session.get(SessionHandler.KEY__ROOM_ID);
@@ -72,6 +73,7 @@ export async function loader({ params, context }: Route.LoaderArgs) {
       },
       savedRoomId,
       hasCreated,
+      isSignedIn,
     },
     { headers },
   );
@@ -96,7 +98,7 @@ export function meta({ data }: Route.MetaArgs) {
 export default function Page() {
   const data = useLoaderData<typeof loader>();
 
-  const { playlist, votes, results, hasCreated, savedRoomId } = data;
+  const { playlist, votes, results, hasCreated, isSignedIn, savedRoomId } = data;
 
   useEffect(() => {
     if (!savedRoomId) window.location.reload();
@@ -107,9 +109,9 @@ export default function Page() {
       <div className="flex flex-col">
         <HeaderBack />
         <HeaderResults playlist={playlist} />
-        {!hasCreated ? null : (
+        {!isSignedIn ? null : (
           <ActionBar
-            message="You created this form."
+            message="You're managing this form."
             actions={[
               <DialogOpen id="reopen-voting">Reopen Voting</DialogOpen>,
               <DialogOpen id="delete-form">Delete Form</DialogOpen>,

@@ -39,6 +39,7 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
 
   const hasContributed = users.some((user) => user.id === userId);
   const hasCreated = form.createdBy === userId;
+  const isSignedIn = !!userId;
 
   const headers = new Headers();
   const savedRoomId = context.session.get(SessionHandler.KEY__ROOM_ID);
@@ -55,6 +56,7 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
       votes,
       hasContributed,
       hasCreated,
+      isSignedIn,
       proxiedUser,
       savedRoomId,
       voter,
@@ -71,6 +73,7 @@ export default function Page() {
     form,
     votes,
     hasCreated,
+    isSignedIn,
     proxiedUser,
     voter,
     savedRoomId,
@@ -96,9 +99,9 @@ export default function Page() {
         votes={votes}
         defaultOpen={!proxiedUser}
       />
-      {!hasCreated ? null : (
+      {!isSignedIn ? null : (
         <ActionBar
-          message="You created this form."
+          message="You're managing this form."
           actions={[
             <DialogOpen id="sync-form">Sync Form</DialogOpen>,
             <DialogOpen id="close-voting">Close Voting</DialogOpen>,
