@@ -1,4 +1,5 @@
 import { useNavigation } from "react-router";
+import clsx from "clsx";
 
 import { Spinner } from "@app/components/spinner";
 
@@ -23,7 +24,7 @@ export function FormSubmit({ cta, variant = "primary", formAction, formMethod, d
   const isSubmitting = navigation.state !== "idle";
 
   return (
-    <button type="submit" formAction={formAction} formMethod={formMethod} disabled={disabled} className={`btn ${variantClass[variant]} self-start`}>
+    <button type="submit" formAction={formAction} formMethod={formMethod} disabled={disabled} className={clsx("btn", variantClass[variant], "self-start")}>
       <span>{cta}</span>
       {!isSubmitting ? null : <Spinner />}
     </button>

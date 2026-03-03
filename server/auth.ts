@@ -1,10 +1,11 @@
 import { Buffer } from "node:buffer";
 import { randomBytes } from "node:crypto";
-
-import { SessionHandler } from "./session";
-import { config } from "@app/config";
 import { redirect } from "react-router";
-import { RoomHandler } from "./room";
+
+import { RoomHandler } from "@server/room";
+import { SessionHandler } from "@server/session";
+
+import { config } from "@app/config";
 
 export class AuthHandler {
   static async init(
@@ -47,7 +48,7 @@ export class AuthHandler {
 
     // Set values fetched from sessions
     this.accessToken = this.session.get(SessionHandler.KEY__ACCESS_TOKEN);
-    this.refreshToken = this.session.get(SessionHandler.KEY__REFERSH_TOKEN);
+    this.refreshToken = this.session.get(SessionHandler.KEY__REFRESH_TOKEN);
     this.expiresAt = this.session.get(SessionHandler.KEY__EXPIRES_AT);
     this.clientId = this.session.get(SessionHandler.KEY__CLIENT_ID);
     this.clientSecret = this.session.get(SessionHandler.KEY__CLIENT_SECRET);
@@ -114,7 +115,7 @@ export class AuthHandler {
     const expiresAt = Date.now() + data.expires_in * 1000;
 
     this.session.set(SessionHandler.KEY__ACCESS_TOKEN, data.access_token);
-    this.session.set(SessionHandler.KEY__REFERSH_TOKEN, data.refresh_token);
+    this.session.set(SessionHandler.KEY__REFRESH_TOKEN, data.refresh_token);
     this.session.set(SessionHandler.KEY__EXPIRES_AT, expiresAt);
 
     throw redirect("/", {
@@ -164,7 +165,7 @@ export class AuthHandler {
 
   async signUserOut() {
     this.session.unset(SessionHandler.KEY__ACCESS_TOKEN);
-    this.session.unset(SessionHandler.KEY__REFERSH_TOKEN);
+    this.session.unset(SessionHandler.KEY__REFRESH_TOKEN);
     this.session.unset(SessionHandler.KEY__EXPIRES_AT);
     this.session.unset(SessionHandler.KEY__CLIENT_ID);
     this.session.unset(SessionHandler.KEY__CLIENT_SECRET);

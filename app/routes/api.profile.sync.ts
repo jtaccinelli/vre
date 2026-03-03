@@ -1,7 +1,8 @@
 import { redirect } from "react-router";
-import type { Route } from "./+types/api.profile.sync";
 
 import { SessionHandler } from "@server/session";
+
+import type { Route } from "./+types/api.profile.sync";
 
 export async function loader({ context }: Route.LoaderArgs) {
   if (!context.user) throw redirect("/");

@@ -1,6 +1,6 @@
-import { config } from "@app/config";
+import { AuthHandler } from "@server/auth";
 
-import { AuthHandler } from "./auth";
+import { config } from "@app/config";
 
 export class SpotifyHandler {
   accessToken;

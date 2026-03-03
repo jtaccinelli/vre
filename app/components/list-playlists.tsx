@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAsyncValue } from "react-router";
 
+import { useDialogEvent } from "@app/hooks/use-dialog-event";
+
 import { CardPlaylist } from "@app/components/card-playlist";
 import { DialogCloseVoting } from "@app/components/dialog-close-voting";
 import { DialogDeleteForm } from "@app/components/dialog-delete-form";
 import { DialogReopenVoting } from "@app/components/dialog-reopen-voting";
 import { Placeholder } from "@app/components/placeholder";
-import { useDialogEvent } from "@app/hooks/use-dialog-event";
 
 type Action = "delete" | "close" | "reopen";
 

@@ -1,10 +1,11 @@
 import { redirect } from "react-router";
-import type { Route } from "./+types/api.room.join";
 
 import { SessionHandler } from "@server/session";
 
 import { isString } from "@app/lib/predicates";
 import { error } from "@app/lib/routes";
+
+import type { Route } from "./+types/api.room.join";
 
 export async function action({ request, context }: Route.ActionArgs) {
   const form = await request.formData();

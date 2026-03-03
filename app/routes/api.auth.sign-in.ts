@@ -1,7 +1,7 @@
-import type { Route } from "./+types/api.auth.sign-in";
-
 import { isString } from "@app/lib/predicates";
 import { error } from "@app/lib/routes";
+
+import type { Route } from "./+types/api.auth.sign-in";
 
 export async function action({ request, context }: Route.LoaderArgs) {
   const form = await request.formData();

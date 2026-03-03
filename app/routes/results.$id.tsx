@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useLoaderData, redirect, data } from "react-router";
+import { data, redirect, useLoaderData } from "react-router";
 
-import { useDialogEvent } from "@app/hooks/use-dialog-event";
+import { SessionHandler } from "@server/session";
 
 import {
   processBestTrackResults,
@@ -9,20 +9,20 @@ import {
   processMostTrackVotesResults,
 } from "@app/lib/results";
 
+import { useDialogEvent } from "@app/hooks/use-dialog-event";
 import { PlaylistProvider } from "@app/hooks/use-playlist";
 
 import { ActionBar } from "@app/components/action-bar";
 import { DialogDeleteForm } from "@app/components/dialog-delete-form";
 import { DialogOpen } from "@app/components/dialog-open";
 import { DialogReopenVoting } from "@app/components/dialog-reopen-voting";
-import { HeaderResults } from "@app/components/header-results";
-import { ResultsList } from "@app/components/results-list";
-import { ResultsBar } from "@app/components/results-bar";
-import { ResultsPie } from "@app/components/results-pie";
-import type { Route } from "./+types/results.$id";
 import { HeaderBack } from "@app/components/header-back";
+import { HeaderResults } from "@app/components/header-results";
+import { ResultsBar } from "@app/components/results-bar";
+import { ResultsList } from "@app/components/results-list";
+import { ResultsPie } from "@app/components/results-pie";
 
-import { SessionHandler } from "@server/session";
+import type { Route } from "./+types/results.$id";
 
 export async function loader({ params, context }: Route.LoaderArgs) {
   const userId = context.user?.id;

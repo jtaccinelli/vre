@@ -1,9 +1,10 @@
 import { redirect } from "react-router";
-import type { Route } from "./+types/api.vote.tiebreak";
 
 import { isNotFile, isString } from "@app/lib/predicates";
 import { TIEBREAK_VOTER } from "@app/lib/results";
 import { error } from "@app/lib/routes";
+
+import type { Route } from "./+types/api.vote.tiebreak";
 
 export async function action({ context, request }: Route.ActionArgs) {
   const form = await request.formData();

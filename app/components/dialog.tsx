@@ -1,11 +1,12 @@
-import { useState, useEffect, type ReactNode } from "react";
 import { X } from "@phosphor-icons/react";
+import { useState, useEffect, type ReactNode } from "react";
 import { useNavigation } from "react-router";
 
-import { useUi } from "@app/hooks/use-ui";
-import { useDocumentEvent } from "@app/hooks/use-document-event";
-import { useDialogEvent } from "@app/hooks/use-dialog-event";
 import { DIALOG_EVENTS } from "@app/lib/events";
+
+import { useDialogEvent } from "@app/hooks/use-dialog-event";
+import { useDocumentEvent } from "@app/hooks/use-document-event";
+import { useUi } from "@app/hooks/use-ui";
 
 type Props = {
   id: string;

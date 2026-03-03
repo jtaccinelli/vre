@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { Link } from "react-router";
 
-import { useRootLoaderData } from "@app/hooks/use-root-loader";
 import { useDialogEvent } from "@app/hooks/use-dialog-event";
+import { useRootLoaderData } from "@app/hooks/use-root-loader";
+
 import { DialogBasic } from "@app/components/dialog-basic";
 
 export function DialogRefreshSession() {

@@ -1,15 +1,15 @@
 import { drizzle, DrizzleD1Database } from "drizzle-orm/d1";
 import { createRequestHandler } from "react-router";
-import * as schema from "server/schema";
 
-import { SessionHandler } from "./session";
-import { AuthHandler } from "./auth";
-import { VoteHandler } from "./vote";
-import { FormHandler } from "./form";
-import { SpotifyHandler } from "./spotify";
-import { PlaylistHandler } from "./playlist";
-import { RoomHandler } from "./room";
-import { ProfileHandler } from "./profiles";
+import { AuthHandler } from "@server/auth";
+import { FormHandler } from "@server/form";
+import { PlaylistHandler } from "@server/playlist";
+import { ProfileHandler } from "@server/profiles";
+import { RoomHandler } from "@server/room";
+import * as schema from "@server/schema";
+import { SessionHandler } from "@server/session";
+import { SpotifyHandler } from "@server/spotify";
+import { VoteHandler } from "@server/vote";
 
 declare module "react-router" {
   export interface AppLoadContext {

@@ -1,9 +1,10 @@
 import { redirect } from "react-router";
-import type { Route } from "./+types/api.form.sync";
 
-import { isString } from "@app/lib/predicates";
 import { extractContributorIds } from "@app/lib/helpers";
+import { isString } from "@app/lib/predicates";
 import { error } from "@app/lib/routes";
+
+import type { Route } from "./+types/api.form.sync";
 
 export async function action({ context, request }: Route.ActionArgs) {
   const userId = context?.user?.id;

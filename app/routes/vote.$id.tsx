@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import { useLoaderData, redirect, data } from "react-router";
-import type { Route } from "./+types/vote.$id";
+import { data, redirect, useLoaderData } from "react-router";
 
 import { SessionHandler } from "@server/session";
 
@@ -11,8 +10,10 @@ import { DialogOpen } from "@app/components/dialog-open";
 import { DialogProxyVote } from "@app/components/dialog-proxy-vote";
 import { DialogSyncForm } from "@app/components/dialog-sync-form";
 import { FormVote } from "@app/components/form-vote";
-import { HeaderVote } from "@app/components/header-vote";
 import { HeaderBack } from "@app/components/header-back";
+import { HeaderVote } from "@app/components/header-vote";
+
+import type { Route } from "./+types/vote.$id";
 
 export async function loader({ request, params, context }: Route.LoaderArgs) {
   const userId = context.user?.id;

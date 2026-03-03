@@ -4,10 +4,11 @@ import { useRouteLoaderData } from "react-router";
 import type { loader } from "@app/root";
 
 import { useDialogEvent } from "@app/hooks/use-dialog-event";
+
 import { DialogBasic } from "@app/components/dialog-basic";
-import { DialogOpen } from "@app/components/dialog-open";
-import { DialogJoinRoom } from "@app/components/dialog-join-room";
 import { DialogCreateRoom } from "@app/components/dialog-create-room";
+import { DialogJoinRoom } from "@app/components/dialog-join-room";
+import { DialogOpen } from "@app/components/dialog-open";
 
 export function DialogSignedOut() {
   const data = useRouteLoaderData<typeof loader>("root");

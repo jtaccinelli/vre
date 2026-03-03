@@ -1,11 +1,12 @@
 import { Suspense } from "react";
 import { Await, useLoaderData } from "react-router";
-import type { Route } from "./+types";
 
 import { HeaderHome } from "@app/components/header-list";
 import { ListPlaylists } from "@app/components/list-playlists";
-import { Section } from "@app/components/section";
 import { Placeholder } from "@app/components/placeholder";
+import { Section } from "@app/components/section";
+
+import type { Route } from "./+types";
 
 export async function loader({ context }: Route.LoaderArgs) {
   async function playlistPromise() {

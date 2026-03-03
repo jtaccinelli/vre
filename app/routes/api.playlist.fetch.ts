@@ -1,5 +1,6 @@
-import type { Route } from "./+types/api.playlist.fetch";
 import { isString } from "@app/lib/predicates";
+
+import type { Route } from "./+types/api.playlist.fetch";
 
 const FALLBACK_VALUE = {
   playlist: undefined,

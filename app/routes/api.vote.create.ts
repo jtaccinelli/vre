@@ -1,8 +1,9 @@
 import { redirect } from "react-router";
-import type { Route } from "./+types/api.vote.create";
 
 import { isNotFile, isString } from "@app/lib/predicates";
 import { error } from "@app/lib/routes";
+
+import type { Route } from "./+types/api.vote.create";
 
 export async function action({ context, request }: Route.ActionArgs) {
   const userId = context?.user?.id;

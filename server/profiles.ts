@@ -1,5 +1,5 @@
-import type { DrizzleD1Database } from "drizzle-orm/d1";
 import { eq, inArray } from "drizzle-orm";
+import type { DrizzleD1Database } from "drizzle-orm/d1";
 
 import * as schema from "@server/schema";
 import { user, userRoom, type UserSchema } from "@server/schema";

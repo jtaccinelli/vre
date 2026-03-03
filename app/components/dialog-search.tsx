@@ -1,3 +1,4 @@
+import { MagnifyingGlass, X } from "@phosphor-icons/react";
 import {
   type ChangeEvent,
   type ReactNode,
@@ -5,11 +6,11 @@ import {
   useMemo,
   useState,
 } from "react";
-import { MagnifyingGlass, X } from "@phosphor-icons/react";
+
+import { DIALOG_EVENTS } from "@app/lib/events";
 
 import { useDialogEvent } from "@app/hooks/use-dialog-event";
 import { useDocumentEvent } from "@app/hooks/use-document-event";
-import { DIALOG_EVENTS } from "@app/lib/events";
 
 import { Dialog } from "@app/components/dialog";
 import { Placeholder } from "@app/components/placeholder";

@@ -7,17 +7,19 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "react-router";
-import type { Route } from "./+types/root";
-
-import "@app/styles/index.css";
 
 import { SessionHandler } from "@server/session";
 
+import "@app/styles/index.css";
+
 import { useLocalStorage } from "@app/hooks/use-local-storage";
-import { DialogSignedOut } from "@app/components/dialog-signed-out";
+
 import { DialogRefreshSession } from "@app/components/dialog-refresh-session";
+import { DialogSignedOut } from "@app/components/dialog-signed-out";
 import { Favicon } from "@app/components/favicon";
 import { HeaderRoom } from "@app/components/header-room";
+
+import type { Route } from "./+types/root";
 
 export function meta() {
   return [

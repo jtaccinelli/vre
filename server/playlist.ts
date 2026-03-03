@@ -1,4 +1,4 @@
-import { SpotifyHandler } from "./spotify";
+import { SpotifyHandler } from "@server/spotify";
 
 export class PlaylistHandler {
   kv: KVNamespace;

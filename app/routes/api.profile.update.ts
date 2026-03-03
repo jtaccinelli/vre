@@ -1,8 +1,9 @@
 import { redirect } from "react-router";
-import type { Route } from "./+types/api.profile.update";
 
 import { isString } from "@app/lib/predicates";
 import { error } from "@app/lib/routes";
+
+import type { Route } from "./+types/api.profile.update";
 
 export async function action({ request, context }: Route.ActionArgs) {
   if (!context.user) throw redirect("/");

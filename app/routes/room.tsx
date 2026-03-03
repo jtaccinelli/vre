@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { redirect, useFetcher, useLoaderData } from "react-router";
-import type { Route } from "./+types/room";
 
-import { SessionHandler } from "@server/session";
 import type { UserSchema } from "@server/schema";
+import { SessionHandler } from "@server/session";
 
 import { useDialogEvent } from "@app/hooks/use-dialog-event";
-import { HeaderBack } from "@app/components/header-back";
-import { FieldText } from "@app/components/field-text";
+
+import { DialogEditProfile } from "@app/components/dialog-edit-profile";
 import { FieldCredentials } from "@app/components/field-credentials";
+import { FieldText } from "@app/components/field-text";
 import { FormActions } from "@app/components/form-actions";
 import { FormSubmit } from "@app/components/form-submit";
-import { Section } from "@app/components/section";
+import { HeaderBack } from "@app/components/header-back";
 import { ListProfiles } from "@app/components/list-profiles";
-import { DialogEditProfile } from "@app/components/dialog-edit-profile";
+import { Section } from "@app/components/section";
+
+import type { Route } from "./+types/room";
 
 export async function loader({ context }: Route.LoaderArgs) {
   if (!context.user) throw redirect("/");
