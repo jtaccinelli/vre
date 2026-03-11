@@ -106,9 +106,7 @@ Exported types: `RoomSchema`, `FormSchema`, `VoteSchema`, `UserSchema` (via `Inf
 
 ## Code style
 
-- **Imports** — always use aliased paths (`@app/components/...`, `@app/hooks/...`, etc.). Never use relative paths (e.g. `./foo`, `../foo`) except for React Router generated types (`./+types/...`) which must stay relative.
-- **Event handlers** — never inline arrow functions directly on props (e.g. no `onChange={(e) => setState(e)}`). If a named function reference is already available (e.g. `updateRoom.leave`), pass it directly. If a new handler is needed, define it as a named function outside the JSX return (e.g. `handleSubmit`, `handleFindRoom`) with a name that includes a verb describing the action being captured.
-- **Optional types** — always use `?` syntax for possibly-undefined values (e.g. `room?: Room`), never `Room | undefined`.
-- **Boolean props** — always name boolean props as `is` or `has` statements (e.g. `isClosable`, `hasVoted`, `isOpen`). Never use bare adjectives or nouns (e.g. no `closable`, `open`, `voted`).
-- **Tailwind classes** — never construct class names dynamically with template literals (e.g. no `` `btn-${variant}` ``); Tailwind's JIT compiler requires full class strings in source. Use a lookup object instead, keeping any shared prefix in the static className (e.g. `btn` stays in the JSX, only `btn-primary`/`btn-secondary` go in the lookup).
-- **Conditional classes** — always use `clsx` to concatenate conditional class strings. Never use template literals for conditional classes.
+@~/.claude/docs/style-react.md
+@~/.claude/docs/style-tailwind.md
+@~/.claude/docs/style-react-router.md
+@~/.claude/docs/style-cloudflare.md

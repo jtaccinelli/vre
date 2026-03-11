@@ -6,9 +6,6 @@ import { error } from "@app/lib/routes";
 import type { Route } from "./+types/api.vote.create";
 
 export async function action({ context, request }: Route.ActionArgs) {
-  const userId = context?.user?.id;
-  if (!userId) throw redirect("/");
-
   const form = await request.formData();
 
   const playlistId = form.get("playlist-id");
@@ -16,7 +13,7 @@ export async function action({ context, request }: Route.ActionArgs) {
   const trackIds = form.get("track-ids");
   const honourableMentions = form.get("honourable-mentions");
   const shameVotes = form.get("shame-votes");
-  const voterId = form.get("voter-id") ?? userId;
+  const voterId = form.get("voter-id");
 
   const hasValidData =
     isString(playlistId) &&
