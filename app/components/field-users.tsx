@@ -9,9 +9,10 @@ import { Pill } from "@app/components/pill";
 type Props = {
   users: UserSchema[];
   max?: number;
+  tracksByUser?: Record<string, Track[]>;
 };
 
-export function FieldUsers({ users, max = 1 }: Props) {
+export function FieldUsers({ users, max = 1, tracksByUser }: Props) {
   const [selectedUsers, setSelectedUsers] = useState<UserSchema[]>([]);
 
   const isAtSelectedMax = useMemo(() => {
@@ -61,6 +62,7 @@ export function FieldUsers({ users, max = 1 }: Props) {
           user={item}
           isSelected={isSelected}
           onClick={handleToggleTrack(item)}
+          tracks={tracksByUser?.[item.id]}
         />
       );
     },

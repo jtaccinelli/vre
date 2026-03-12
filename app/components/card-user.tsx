@@ -6,9 +6,10 @@ type Props = {
   user: UserSchema;
   isSelected: boolean;
   onClick: () => void;
+  tracks?: Track[];
 };
 
-export function CardUser({ user, isSelected, onClick }: Props) {
+export function CardUser({ user, isSelected, onClick, tracks }: Props) {
   return (
     <div
       data-ui={isSelected && "selected"}
@@ -26,6 +27,11 @@ export function CardUser({ user, isSelected, onClick }: Props) {
         className="flex min-w-0 grow flex-col justify-center px-3 py-2 text-left hover:cursor-pointer"
       >
         <p className="label">{user.name}</p>
+        {!tracks?.length ? null : (
+          <p className="mt-1 text-sm text-gray-400 group-ui-selected:text-gray-500">
+            {tracks.map((track) => track.name).join(", ")}
+          </p>
+        )}
       </button>
     </div>
   );

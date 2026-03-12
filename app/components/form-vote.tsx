@@ -33,6 +33,18 @@ export function FormVote({ users, playlist, form, voter, hasVoted }: Props) {
     return users.filter((user) => (userId ? user.id !== userId : true));
   }, [users]);
 
+  const tracksByUser = useMemo(() => {
+    const map: Record<string, Track[]> = {};
+    for (const item of playlist.tracks.items) {
+      const userId = item.added_by.id;
+      const track = item.track;
+      if (!track) continue;
+      if (!map[userId]) map[userId] = [];
+      map[userId].push(track);
+    }
+    return map;
+  }, [playlist]);
+
   return (
     <fetcher.Form
       className="flex flex-col divide-y divide-gray-800"
@@ -42,7 +54,7 @@ export function FormVote({ users, playlist, form, voter, hasVoted }: Props) {
       <input type="hidden" name="playlist-id" value={playlist.id} />
       <input type="hidden" name="voter-id" value={voter?.id} />
       <FieldTracks tracks={filteredTracks} max={form.trackVoteCount ?? 3} />
-      <FieldUsers users={filteredUsers} max={form.contributorVoteCount ?? 1} />
+      <FieldUsers users={filteredUsers} max={form.contributorVoteCount ?? 1} tracksByUser={tracksByUser} />
       {!form.enableHonourableMentions ? null : (
         <FieldTextarea
           name="honourable-mentions"
